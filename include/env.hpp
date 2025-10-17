@@ -25,15 +25,16 @@
 #include <alphabet.hpp>
 #include <nlohmann/json.hpp>
 
-// Устанавливаем область видимости
-using namespace std;
-// Активируем пространство имён json
-using json = nlohmann::json;
+
 
 /**
  * anyks пространство имён
  */
 namespace anyks {
+
+    // Активируем пространство имён json
+using json = nlohmann::json;
+
 	/**
 	 * Env Класс модуля работы с переменными окружения
 	 */

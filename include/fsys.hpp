@@ -36,9 +36,6 @@
  */
 #include <alphabet.hpp>
 
-// Устанавливаем область видимости
-using namespace std;
-
 /**
  * anyks пространство имён
  */

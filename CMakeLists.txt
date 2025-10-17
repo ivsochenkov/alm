@@ -15,7 +15,7 @@ set(PROJECT_COPYRIGHT "Copyright (c) ${CURRENT_YEAR} ${PROJECT_VENDOR_LONG}")
 # Тип сборки
 # cmake -DCMAKE_BUILD_TYPE=YES ..
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Debug)
+    set(CMAKE_BUILD_TYPE Release)
 endif()
 message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}\n")
 
@@ -65,13 +65,13 @@ endif()
 
 if (${ARCHITECTURE} MATCHES "aarch64" OR ${ARCHITECTURE} MATCHES "arm*")
     set(CMAKE_CXX_FLAGS_RELEASE "-O3 -pipe -DNDEBUG")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -fno-permissive -Wno-pedantic -Wno-narrowing -Wno-deprecated-declarations ${TON_PARAMS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-permissive -Wno-pedantic -Wno-narrowing -Wno-deprecated-declarations ${TON_PARAMS}")
 else()
     set(CMAKE_CXX_FLAGS_RELEASE "-O3 -pipe -mrdrnd -march=core2 -DNDEBUG")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -fno-permissive -Wno-pedantic -Wno-narrowing -Wno-deprecated-declarations ${TON_PARAMS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-permissive -Wno-pedantic -Wno-narrowing -Wno-deprecated-declarations ${TON_PARAMS}")
 endif()
 
-set(CMAKE_CXX_FLAGS_DEBUG "-O0 -DDEBUG_MODE ${DEBUGGER}")
+set(CMAKE_CXX_FLAGS_DEBUG "-O0 -DDEBUG -DDEBUG_MODE ${DEBUGGER}")
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     message(STATUS "C Flags: ${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG}")
@@ -82,10 +82,10 @@ else()
 endif()
 
 # Добавляем модули cmake
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+#list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # Выполняем поиск нужных библиотек
-find_package(Zlib REQUIRED)
+find_package(ZLIB REQUIRED)
 find_package(Python REQUIRED)
 find_package(OpenSSL REQUIRED)
 
@@ -98,7 +98,7 @@ else()
 endif()
 
 # Провекра ZLib
-if (Zlib_FOUND)
+if (ZLIB_FOUND)
     message(STATUS "ZLib lib found: " ${ZLIB_LIBRARY})
     message(STATUS "ZLib include dir found: " ${ZLIB_INCLUDE_DIR})
 else()
@@ -200,30 +200,12 @@ if (ENABLE_CONSOLE_APP)
     set_target_properties(${ALM_APP_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
 endif()
 
-# Устанавливаем адрес установки, запрет установки в /usr/local
-if("${CMAKE_INSTALL_PREFIX}" STREQUAL "/usr/local" OR "${CMAKE_INSTALL_PREFIX}" STREQUAL "/usr/local/")
-    set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}")
-endif()
+include(GNUInstallDirs)
 
 # Устанавливаем хидеры
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/app" DESTINATION "${CMAKE_INSTALL_PREFIX}/include/${CMAKE_PROJECT_NAME}" FILES_MATCHING PATTERN "*.hpp")
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include" DESTINATION "${CMAKE_INSTALL_PREFIX}/include/${CMAKE_PROJECT_NAME}" FILES_MATCHING PATTERN "*.hpp")
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/app" DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}/${CMAKE_PROJECT_NAME}" FILES_MATCHING PATTERN "*.hpp")
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include" DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}/${CMAKE_PROJECT_NAME}" FILES_MATCHING PATTERN "*.hpp")
 # Устанавливаем библиотеку
-install(TARGETS ${ALM_LIB_NAME} DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
+install(TARGETS ${ALM_LIB_NAME} DESTINATION "${CMAKE_INSTALL_FULL_LIBDIR}")
 # Устанавливаем исполнительные файлы
-install(TARGETS ${ALM_APP_NAME} DESTINATION "${CMAKE_INSTALL_PREFIX}/bin/${CMAKE_PROJECT_NAME}")
-
-# Устанавливаем хидеры сторонних библиотек
-install(DIRECTORY "${ZLIB_INCLUDE_DIR}" DESTINATION "${CMAKE_INSTALL_PREFIX}/include" FILES_MATCHING PATTERN "*.h")
-install(DIRECTORY "${PYTHON_INCLUDE_DIR}" DESTINATION "${CMAKE_INSTALL_PREFIX}/include" FILES_MATCHING PATTERN "*.h")
-install(DIRECTORY "${OPENSSL_INCLUDE_DIR}/openssl" DESTINATION "${CMAKE_INSTALL_PREFIX}/include" FILES_MATCHING PATTERN "*.h")
-
-# Устанавливаем заголовочные файлы зависимостей
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/contrib/include" DESTINATION "${CMAKE_INSTALL_PREFIX}" FILES_MATCHING PATTERN "*.h")
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/contrib/include" DESTINATION "${CMAKE_INSTALL_PREFIX}" FILES_MATCHING PATTERN "*.hh")
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/contrib/include" DESTINATION "${CMAKE_INSTALL_PREFIX}" FILES_MATCHING PATTERN "*.hpp")
-
-# Устанавливаем стороние библиотеки
-install(FILES ${ZLIB_LIBRARY} DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
-install(FILES ${PYTHON_LIBRARY} DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
-install(FILES ${OPENSSL_LIBRARIES} DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
+install(TARGETS ${ALM_APP_NAME} DESTINATION "${CMAKE_INSTALL_FULL_BINDIR}")

@@ -3,3 +3,6 @@ build/
 third_party/
 *.icloud
 .DS_Store
+.vscode
+*.json
+*.code-workspace

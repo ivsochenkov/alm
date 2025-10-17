@@ -21,7 +21,6 @@
 #include <algorithm>
 #include <sys/types.h>
 
-using namespace std;
 
 /**
  * anyks пространство имен
@@ -30,13 +29,13 @@ namespace anyks {
 	/**
 	 * Word2 Класс слова в словаре
 	 */
-	typedef class Word2 : public wstring {
+	typedef class Word2 : public std::wstring {
 		private:
 			// Строка в обычных байтах
-			mutable string current = "";
+			mutable std::string current = "";
 		public:
 			// Строка не найдена
-			static const size_t npos = -1;
+			static const std::size_t npos = -1;
 		private:
 			/**
 			 * isUpCase Метод проверки на верхний регистр
@@ -53,13 +52,14 @@ namespace anyks {
 			 * @param  str строка utf-8 для конвертирования
 			 * @return     обычная строка
 			 */
-			const string str(const wstring & str) const noexcept {
+			std::string str(const std::wstring & str) const noexcept 
+            {
 				// Результат работы функции
-				string result = "";
+				std::string result = "";
 				// Если строка передана
 				if(!str.empty()){
 					// Объявляем конвертер
-					wstring_convert <codecvt_utf8 <wchar_t>> conv;
+					std::wstring_convert <std::codecvt_utf8 <wchar_t> > conv;
 					// Выполняем конвертирование в utf-8 строку
 					result = conv.to_bytes(str);
 				}
@@ -71,13 +71,13 @@ namespace anyks {
 			 * @param  str строка для конвертирования
 			 * @return     строка в utf-8
 			 */
-			const wstring wstr(const string & str) const noexcept {
+			std::wstring wstr(const std::string & str) const noexcept {
 				// Результат работы функции
-				wstring result = L"";
+				std::wstring result = L"";
 				// Если строка передана
 				if(!str.empty()){
 					// Объявляем конвертер
-					wstring_convert <codecvt_utf8 <wchar_t>> conv;
+					std::wstring_convert <std::codecvt_utf8 <wchar_t>> conv;
 					// Выполняем конвертирование в utf-8 строку
 					result = conv.from_bytes(str);
 				}
@@ -89,11 +89,12 @@ namespace anyks {
 			 * @param  str строка для приведения к нижнему регистру
 			 * @return     строка в нижнем регистре
 			 */
-			const wstring & lower(const wstring & str) const noexcept {
+			const std::wstring & lower(const std::wstring & str) const noexcept {
 				// Получаем временную строку
-				wstring * tmp = const_cast <wstring *> (&str);
+				std::wstring * tmp = const_cast <std::wstring *> (&str);
 				// Переходим по всем символам
-				for(auto & c : * tmp) c = towlower(c);
+				for(auto & c : * tmp) 
+                    c = std::towlower(c);
 				// Выводим результат
 				return str;
 			}
@@ -102,11 +103,12 @@ namespace anyks {
 			 * @param  str строка для приведения к верхнему регистру
 			 * @return     строка в верхнем регистре
 			 */
-			const wstring & upper(const wstring & str) const noexcept {
+			const std::wstring & upper(const std::wstring & str) const noexcept {
 				// Получаем временную строку
-				wstring * tmp = const_cast <wstring *> (&str);
+				std::wstring * tmp = const_cast <std::wstring *> (&str);
 				// Переходим по всем символам
-				for(auto & c : * tmp) c = towupper(c);
+				for(auto & c : * tmp) 
+                    c = towupper(c);
 				// Выводим результат
 				return str;
 			}
@@ -118,7 +120,7 @@ namespace anyks {
 				// Очищаем текущее слово
 				this->current.clear();
 				// Очищаем полученную строку
-				reinterpret_cast <wstring *> (this)->clear();
+				reinterpret_cast <std::wstring *> (this)->clear();
 			}
 		public:
 			/**
@@ -163,7 +165,7 @@ namespace anyks {
 			 * @param  str строка для сравнения
 			 * @return     результат сравнения
 			 */
-			const int compare(const string & str) const noexcept {
+			const int compare(const std::string & str) const noexcept {
 				// Выводим результат
 				return this->str().compare(str);
 			}
@@ -172,7 +174,7 @@ namespace anyks {
 			 * @param  str строка для сравнения
 			 * @return     результат сравнения
 			 */
-			const int compare(const wstring & str) const noexcept {
+			const int compare(const std::wstring & str) const noexcept {
 				// Выводим результат
 				return this->wstr().compare(str);
 			}
@@ -183,7 +185,8 @@ namespace anyks {
 			 * @param  s   указатель на символы в памяти
 			 * @return     результат сравнения
 			 */
-			const int compare(size_t pos, size_t len, const char * s) const noexcept {
+			const int compare(std::size_t pos, std::size_t len, const char * s) 
+            const noexcept {
 				// Выводим результат
 				return this->str().compare(pos, len, s);
 			}
@@ -194,7 +197,8 @@ namespace anyks {
 			 * @param  s   указатель на символы в памяти
 			 * @return     результат сравнения
 			 */
-			const int compare(size_t pos, size_t len, const wchar_t * s) const noexcept {
+			const int compare(std::size_t pos, std::size_t len, const wchar_t * s) 
+            const noexcept {
 				// Выводим результат
 				return this->wstr().compare(pos, len, s);
 			}
@@ -205,7 +209,8 @@ namespace anyks {
 			 * @param  str строка для сравнения
 			 * @return     результат сравнения
 			 */
-			const int compare(size_t pos, size_t len, const string & str) const noexcept {
+			const int compare(std::size_t pos, std::size_t len, const std::string & str) 
+            const noexcept {
 				// Выводим результат
 				return this->str().compare(pos, len, str);
 			}
@@ -216,7 +221,8 @@ namespace anyks {
 			 * @param  str строка для сравнения
 			 * @return     результат сравнения
 			 */
-			const int compare(size_t pos, size_t len, const wstring & str) const noexcept {
+			const int compare(std::size_t pos, std::size_t len, const std::wstring & str)
+            const noexcept {
 				// Выводим результат
 				return this->wstr().compare(pos, len, str);
 			}
@@ -228,7 +234,8 @@ namespace anyks {
 			 * @param  n   количество символов
 			 * @return     результат сравнения
 			 */
-			const int compare(size_t pos, size_t len, const char * s, size_t n) const noexcept {
+			const int compare(std::size_t pos, std::size_t len, const char * s, std::size_t n) 
+            const noexcept {
 				// Выводим результат
 				return this->str().compare(pos, len, s, n);
 			}
@@ -240,7 +247,8 @@ namespace anyks {
 			 * @param  n   количество символов
 			 * @return     результат сравнения
 			 */
-			const int compare(size_t pos, size_t len, const wchar_t * s, size_t n) const noexcept {
+			const int compare(std::size_t pos, std::size_t len, const wchar_t * s, size_t n) 
+            const noexcept {
 				// Выводим результат
 				return this->wstr().compare(pos, len, s, n);
 			}
@@ -253,7 +261,9 @@ namespace anyks {
 			 * @param  sublen длина подстроки для сравнения
 			 * @return        результат сравнения
 			 */
-			const int compare(size_t pos, size_t len, const string & str, size_t subpos, size_t sublen) const noexcept {
+			const int compare(std::size_t pos, std::size_t len, const std::string & str
+                , std::size_t subpos, std::size_t sublen
+            ) const noexcept {
 				// Выводим результат
 				return this->str().compare(pos, len, str, subpos, sublen);
 			}
@@ -266,7 +276,9 @@ namespace anyks {
 			 * @param  sublen длина подстроки для сравнения
 			 * @return        результат сравнения
 			 */
-			const int compare(size_t pos, size_t len, const wstring & str, size_t subpos, size_t sublen) const noexcept {
+			const int compare(std::size_t pos, std::size_t len
+                , const std::wstring & str, std::size_t subpos, std::size_t sublen
+            ) const noexcept {
 				// Выводим результат
 				return this->wstr().compare(pos, len, str, subpos, sublen);
 			}
@@ -278,9 +290,9 @@ namespace anyks {
 			 */
 			Word2 & append(const Word2 & word) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = word.wstr();
+				const std::wstring & wstr = word.wstr();
 				// Добавляем к строке переданную строку
-				reinterpret_cast <wstring *> (this)->append(wstr);
+				reinterpret_cast <std::wstring *> (this)->append(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -293,7 +305,7 @@ namespace anyks {
 				// Получаем временную строку
 				const wstring & wstr = this->wstr(s);
 				// Добавляем к строке переданную строку
-				reinterpret_cast <wstring *> (this)->append(wstr);
+				reinterpret_cast <std::wstring *> (this)->append(wstr);
 				// Выводим результат
 				return (* this);
 			}

@@ -30,15 +30,16 @@
 #include <alphabet.hpp>
 #include <nlohmann/json.hpp>
 
-// Устанавливаем область видимости
-using namespace std;
-// Активируем пространство имён json
-using json = nlohmann::json;
 
 /**
  * anyks пространство имён
  */
 namespace anyks {
+
+// Активируем пространство имён json
+using json = nlohmann::json;
+
+
 	// Токены n-грамм
 	enum class token_t : u_short {
 		num = 2,       // токен арабского или римского числа <num>

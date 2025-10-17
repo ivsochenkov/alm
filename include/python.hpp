@@ -26,8 +26,6 @@
 #include <alphabet.hpp>
 #include <tokenizer.hpp>
 
-using namespace std;
-
 /**
  * anyks пространство имён
  */

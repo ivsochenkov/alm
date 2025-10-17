@@ -32,8 +32,6 @@
 #include <tokenizer.hpp>
 #include <app/alm.hpp>
 
-// Устанавливаем область видимости
-using namespace std;
 
 /**
  * anyks пространство имён

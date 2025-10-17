@@ -1,0 +1,44 @@
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1751949589,
+        "narHash": "sha256-mgFxAPLWw0Kq+C8P3dRrZrOYEQXOtKuYVlo9xvPntt8=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "9b008d60392981ad674e04016d25619281550a9d",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "rev": "9b008d60392981ad674e04016d25619281550a9d",
+        "type": "indirect"
+      }
+    },
+    "root": {
+      "inputs": {
+        "textapp-pkgs": "textapp-pkgs"
+      }
+    },
+    "textapp-pkgs": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1759678331,
+        "narHash": "sha256-W1vSXXgrpTr1ae3LK7mQcF9Bx+SQmOZUxtfFXC/MCdk=",
+        "ref": "refs/heads/master",
+        "rev": "26e6d386af812b3200c084ec1a32d7fdb9253939",
+        "revCount": 231,
+        "type": "git",
+        "url": "ssh://git@tsa04.isa.ru/textapp/textapp-pkgs"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@tsa04.isa.ru/textapp/textapp-pkgs"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

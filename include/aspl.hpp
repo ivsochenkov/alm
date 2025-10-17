@@ -37,9 +37,6 @@
 #define MOD_GZIP_ZLIB_BSIZE 8096
 #define MOD_GZIP_ZLIB_WINDOWSIZE 15
 
-// Объявляем пространство имен
-using namespace std;
-
 /*
  * anyks пространство имён
  */

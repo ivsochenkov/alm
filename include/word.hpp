@@ -21,8 +21,6 @@
 #include <algorithm>
 #include <sys/types.h>
 
-using namespace std;
-
 /**
  * anyks пространство имен
  */

@@ -21,9 +21,6 @@
 #include <sys/types.h>
 #include <sys/ioctl.h>
 
-// Устанавливаем область видимости
-using namespace std;
-
 /**
  * anyks пространство имён
  */

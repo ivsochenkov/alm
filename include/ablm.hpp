@@ -28,8 +28,6 @@
 #include <alphabet.hpp>
 #include <tokenizer.hpp>
 
-// Устанавливаем область видимости
-using namespace std;
 // Активируем пространство имён json
 using json = nlohmann::json;
 

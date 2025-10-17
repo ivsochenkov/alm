@@ -37,8 +37,6 @@
 #include <word.hpp>
 #include <app/alm.hpp>
 
-using namespace std;
-
 /**
  * anyks пространство имён
  */

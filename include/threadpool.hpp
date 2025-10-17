@@ -22,8 +22,6 @@
 #include <functional>
 #include <condition_variable>
 
-// Устанавливаем область видимости
-using namespace std;
 
 /**
  * anyks пространство имён

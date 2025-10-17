@@ -25,9 +25,6 @@
 #include <cityhash/city.h>
 #include <bigint/BigIntegerLibrary.hh>
 
-// Устанавливаем область видимости
-using namespace std;
-
 /**
  * anyks пространство имён
  */

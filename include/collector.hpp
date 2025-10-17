@@ -26,8 +26,6 @@
 #include <progress.hpp>
 #include <threadpool.hpp>
 
-using namespace std;
-
 /**
  * anyks пространство имён
  */
