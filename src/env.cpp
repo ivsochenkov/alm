@@ -13,7 +13,7 @@
  * @param  key переменная окружения
  * @return     значение переменной
  */
-const string anyks::Env::env(const string & key) const noexcept {
+const std::string anyks::Env::env(const std::string & key) const noexcept {
 	// Результат работы функции
 	string result = "";
 	// Если значение переменной передано
@@ -32,7 +32,7 @@ const string anyks::Env::env(const string & key) const noexcept {
  * getJson Метод получения конфигурационных данных в формате JSON
  * @return конфигурационные данные
  */
-const json anyks::Env::getJson() const noexcept {
+const nlohmann::json anyks::Env::getJson() const noexcept {
 	// Результат работы функции
 	json result;
 	// Если данные заполнены
@@ -81,7 +81,7 @@ const u_short anyks::Env::count() const noexcept {
  * @param  name название переменной окружения
  * @return      значение переменной окружения
  */
-const char * anyks::Env::get(const string & name) const noexcept {
+const char * anyks::Env::get(const std::string & name) const noexcept {
 	// Результат работы функции
 	const char * result = nullptr;
 	// Если название переменной передано
@@ -108,7 +108,7 @@ const char * anyks::Env::get(const string & name) const noexcept {
  * @param key ключ - название переменной для проверки
  * @param val значение переменной для проверки (если требуется)
  */
-const bool anyks::Env::is(const string & key, const string & val) const noexcept {
+const bool anyks::Env::is(const std::string & key, const std::string & val) const noexcept {
 	// Результат работы функции
 	bool result = false;
 	// Если ключ передан
@@ -253,7 +253,8 @@ void anyks::Env::read(const char * args[], const u_short count) noexcept {
 		// Очищаем значение
 		val.clear();
 		// Считываем строку из буфера stdin
-		if(!isatty(STDIN_FILENO) || (this->aread && this->env(this->text).empty())) std::getline(cin, val);
+		if(!isatty(STDIN_FILENO) || (this->aread && this->env(this->text).empty())) 
+            std::getline(std::cin, val);
 		// Добавляем полученные данные в список переменных
 		if(!val.empty()) this->data.emplace(this->text, move(val));
 	}
@@ -262,7 +263,7 @@ void anyks::Env::read(const char * args[], const u_short count) noexcept {
  * Env Конструктор
  * @param prefix префикс переменной окружения
  */
-anyks::Env::Env(const string & prefix) noexcept {
+anyks::Env::Env(const std::string & prefix) noexcept {
 	// Если префикс передан, устанавливаем его
 	if(!prefix.empty()) this->prefixEnv(prefix);
 }
@@ -279,7 +280,7 @@ anyks::Env::Env(const alphabet_t * alphabet) noexcept {
  * @param prefix префикс переменной окружения
  * @param text   название переменной для извлечения текстовой информации из потока (если параметром не передана)
  */
-anyks::Env::Env(const string & prefix, const string & text) noexcept {
+anyks::Env::Env(const std::string & prefix, const std::string & text) noexcept {
 	// Если текст передан, устанавливаем его
 	if(!text.empty()) this->textEnv(text);
 	// Если префикс передан, устанавливаем его
@@ -290,7 +291,7 @@ anyks::Env::Env(const string & prefix, const string & text) noexcept {
  * @param prefix   префикс переменной окружения
  * @param alphabet объект алфавита
  */
-anyks::Env::Env(const string & prefix, const alphabet_t * alphabet) noexcept {
+anyks::Env::Env(const std::string & prefix, const alphabet_t * alphabet) noexcept {
 	// Устанавливаем переданный алфавит
 	this->setAlphabet(alphabet);
 	// Если префикс передан, устанавливаем его
@@ -302,7 +303,7 @@ anyks::Env::Env(const string & prefix, const alphabet_t * alphabet) noexcept {
  * @param text     название переменной для извлечения текстовой информации из потока (если параметром не передана)
  * @param alphabet объект алфавита
  */
-anyks::Env::Env(const string & prefix, const string & text, const alphabet_t * alphabet) noexcept {
+anyks::Env::Env(const string & prefix, const std::string & text, const alphabet_t * alphabet) noexcept {
 	// Устанавливаем переданный алфавит
 	this->setAlphabet(alphabet);
 	// Если текст передан, устанавливаем его

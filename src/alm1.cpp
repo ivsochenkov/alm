@@ -71,7 +71,7 @@ const double anyks::Alm1::backoff(const vector <size_t> & seq) const noexcept {
  * @param seq последовательность для извлечения веса
  * @return    вес последовательноси и n-грамма для которой она получена
  */
-const pair <u_short, double> anyks::Alm1::weight(const vector <size_t> & seq) const noexcept {
+const std::pair <u_short, double> anyks::Alm1::weight(const vector <size_t> & seq) const noexcept {
 	// Результат работы функции
 	pair <u_short, double> result = {0, 0.0};
 	// Если контекст передан
@@ -99,7 +99,7 @@ const pair <u_short, double> anyks::Alm1::weight(const vector <size_t> & seq) co
 		// Если последовательность существует, получаем её вес
 		if(isFull && (obj->weight != this->zero))
 			// Формируем полученный вес n-граммы
-			result = make_pair((u_short) tmp.size(), obj->weight);
+			result = std::make_pair((u_short) tmp.size(), obj->weight);
 		// Иначе продолжаем дальше
 		else result = this->weight(tmp);
 	}
@@ -111,7 +111,7 @@ const pair <u_short, double> anyks::Alm1::weight(const vector <size_t> & seq) co
  * @param seq список слов последовательности
  * @return    частота и обратная частота n-граммы
  */
-const pair <double, double> anyks::Alm1::frequency(const vector <size_t> & seq) const noexcept {
+const std::pair <double, double> anyks::Alm1::frequency(const vector <size_t> & seq) const noexcept {
 	// Результат работы функции
 	pair <double, double> result = {this->zero, this->zero};
 	// Если список последовательностей передан
@@ -129,7 +129,7 @@ const pair <double, double> anyks::Alm1::frequency(const vector <size_t> & seq) 
 				// Получаем блок структуры
 				obj = &it->second;
 				// Если мы дошли до конца
-				if(i == (seq.size() - 1)) result = make_pair(obj->weight, obj->backoff);
+				if(i == (seq.size() - 1)) result = std::make_pair(obj->weight, obj->backoff);
 			// Выходим из цикла
 			} else break;
 			// Если количество n-грамм достигло предела, выходим
@@ -226,9 +226,9 @@ const anyks::Alm::ppl_t anyks::Alm1::perplexity(const vector <size_t> & seq) con
 		// Количество переданных последовательностей
 		const size_t count = seq.size();
 		// Текст данных отладки собранных при расчёте
-		map <size_t, pair <string, string>> debugMessages;
+		std::map <size_t, std::pair <std::string, std::string>> debugMessages;
 		// Временная последовательность
-		vector <size_t> tmp;
+		std::vector <size_t> tmp;
 		// Определяем смещение в последовательности
 		size_t offset1 = 0, offset2 = (count > size_t(this->size) ? this->size : count);
 		// Проверяем разрешено ли неизвестное слово
@@ -259,7 +259,7 @@ const anyks::Alm::ppl_t anyks::Alm1::perplexity(const vector <size_t> & seq) con
 					// Избавляемся от логорифма
 					prob = pow(10, weight);
 					// Устанавливаем граммность
-					numGram = (to_string(gram) + "gram");
+					numGram = (std::to_string(gram) + "gram");
 				}
 				// Формируем информационное сообщение
 				result.first = this->alphabet->format(
@@ -587,7 +587,7 @@ const bool anyks::Alm1::check(const vector <size_t> & seq, const u_short step) c
  * @param step размер шага проверки последовательности
  * @return     результат проверки
  */
-const pair <bool, size_t> anyks::Alm1::exist(const vector <size_t> & seq, const u_short step) const noexcept {
+const std::pair <bool, std::size_t> anyks::Alm1::exist(const std::vector <std::size_t> & seq, const u_short step) const noexcept {
 	// Результат работы функции
 	pair <bool, size_t> result = {false, 0};
 	// Если последовательность передана
@@ -680,7 +680,7 @@ const pair <bool, size_t> anyks::Alm1::exist(const vector <size_t> & seq, const 
  * @param accurate режим точной проверки
  * @return         результат проверки
  */
-const pair <bool, size_t> anyks::Alm1::check(const vector <size_t> & seq, const bool accurate) const noexcept {
+const std::pair <bool, std::size_t> anyks::Alm1::check(const std::vector <std::size_t> & seq, const bool accurate) const noexcept {
 	// Результат работы функции
 	pair <bool, size_t> result = {false, 0};
 	// Если последовательность передана
@@ -1194,7 +1194,7 @@ void anyks::Alm1::find(const wstring & text, function <void (const wstring &)> c
 		// Собранная n-грамма для проверки
 		vector <wstring> words = {L"<s>"};
 		// Кэш списка собранных n-грамм
-		unordered_set <wstring> cache = {};
+		std::unordered_set <wstring> cache = {};
 		/**
 		 * callbackFn Функция вывода результата
 		 * @param words список слов для вывода результата
@@ -1409,7 +1409,7 @@ void anyks::Alm1::find(const wstring & text, function <void (const wstring &)> c
  * @param nwrd флаг разрешающий вывод системных токенов
  * @return     собранный текстовый контекст
  */
-const wstring anyks::Alm1::context(const vector <size_t> & seq, const bool nwrd) const noexcept {
+const std::wstring anyks::Alm1::context(const std::vector <std::size_t> & seq, const bool nwrd) const noexcept {
 	// Результат работы функции
 	wstring result = L"";
 	// Если последовательность передана

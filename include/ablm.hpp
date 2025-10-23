@@ -76,7 +76,7 @@ namespace anyks {
 			// Метаданные словаря
 			meta_t meta;
 			// Флаги параметров
-			bitset <10> flags;
+			std::bitset <10> flags;
 			// Адрес файла словаря
 			string filename = "";
 		private:

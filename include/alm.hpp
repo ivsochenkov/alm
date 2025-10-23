@@ -12,7 +12,7 @@
 /**
  * Стандартная библиотека
  */
-#include <map>
+
 #include <set>
 #include <list>
 #include <mutex>
@@ -31,13 +31,15 @@
 /**
  * Наши модули
  */
+#include <app/alm.hpp>
 #include <fsys.hpp>
 #include <word.hpp>
 #include <python.hpp>
 #include <alphabet.hpp>
 #include <tokenizer.hpp>
 #include <threadpool.hpp>
-#include <app/alm.hpp>
+#include <idw.hpp>
+
 
 /**
  * anyks пространство имён
@@ -63,7 +65,7 @@ namespace anyks {
 				/*
 				 * Название токена
 				 */
-				word_t name;
+				Word name;
 				/*
 				 * Функция проверки
 				 */
@@ -133,10 +135,10 @@ namespace anyks {
 			// Флаг запрещающий очистку объект питона
 			bool notCleanPython = false;
 			// Количество потоков для работы
-			size_t threads = thread::hardware_concurrency();
+			size_t threads = std::thread::hardware_concurrency();
 		private:
 			// Флаги параметров
-			bitset <4> options;
+			std::bitset <4> options;
 			// Список плохих слов
 			std::set <size_t> badwords;
 			// Список хороших слов
@@ -148,12 +150,12 @@ namespace anyks {
 			// Список пользовательских токенов
 			std::map <size_t, utoken_t> utokens;
 			// Список скриптов python
-			std::map <u_short, pair <string, size_t>> scripts;
+			std::map <u_short, std::pair <string, size_t>> scripts;
 		private:
 			// Создаем тредпул
 			mutable tpool_t tpool;
 			// Мютекс блокировки потока
-			mutable recursive_mutex locker;
+			mutable std::recursive_mutex locker;
 			// Словарь всех слов в системе
 			mutable std::map <size_t, word_t> vocab;
 		private:
@@ -1046,7 +1048,7 @@ namespace anyks {
 				Ngram() : uppers(0), weight(log(0)), backoff(0.0) {}
 			} ngram_t;
 			// Создаём тип данных структуры Лес, для данных arpa
-			typedef std::map <u_short, std::map <size_t, ngram_t>> arpa_t;
+			typedef std::unordered_map <u_short, std::map <size_t, ngram_t>> arpa_t;
 			// Словарь языковой модели
 			mutable arpa_t arpa;
 		private:

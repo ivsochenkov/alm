@@ -21,6 +21,8 @@
 #include <algorithm>
 #include <sys/types.h>
 
+#include <app/alm.hpp>
+
 /**
  * anyks пространство имен
  */
@@ -142,14 +144,14 @@ namespace anyks {
 	/**
 	 * Word Класс слова в словаре
 	 */
-	typedef class Word : public wstring {
+	class Word : public std::wstring {
 		private:
 			// Список позиций букв в верхнем регистре
 			size_t uppers = 0;
 			// Метаданные слова
 			size_t dc = 0, oc = 0;
 			// Строка в обычных байтах
-			mutable string current = "";
+			mutable std::string current = "";
 		public:
 			// Строка не найдена
 			static const size_t npos = -1;
@@ -217,7 +219,7 @@ namespace anyks {
 				// Если строка передана
 				if(!str.empty()){
 					// Объявляем конвертер
-					wstring_convert <codecvt_utf8 <wchar_t>> conv;
+					std::wstring_convert <std::codecvt_utf8 <wchar_t>> conv;
 					// Выполняем конвертирование в utf-8 строку
 					result = conv.to_bytes(str);
 				}
@@ -235,7 +237,7 @@ namespace anyks {
 				// Если строка передана
 				if(!str.empty()){
 					// Объявляем конвертер
-					wstring_convert <codecvt_utf8 <wchar_t>> conv;
+					std::wstring_convert <std::codecvt_utf8 <wchar_t> > conv;
 					// Выполняем конвертирование в utf-8 строку
 					result = conv.from_bytes(str);
 				}
@@ -3304,7 +3306,10 @@ namespace anyks {
 				// Очищаем все данные
 				this->clear();
 			}
-	} word_t;
+	} ;
+
+    typedef Word word_t;
+
 };
 
 #endif // __ANYKS_WORD__

@@ -20,16 +20,17 @@
 #include <functional>
 #include <pwd.h>
 #include <grp.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <dirent.h>
 #include <sys/mman.h>
 #include <sys/file.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-// Если это clang v10 или выше
-#if defined(__ANYKS_EXPERIMENTAL__)
+
 #include <filesystem>
-#endif
+
+#include <limits>
+
 
 /**
  * Наши модули
@@ -52,7 +53,7 @@ namespace anyks {
 		 * mkdir Функция рекурсивного создания каталогов
 		 * @param path адрес каталогов
 		 */
-		static void mkdir(const string & path) noexcept {
+		static void mkdir(const std::string & path) noexcept {
 			// Если путь передан
 			if(!path.empty()){
 				// Буфер с названием каталога
@@ -85,9 +86,10 @@ namespace anyks {
 		 * file Функция извлечения названия и расширения файла
 		 * @param filename адрес файла для извлечения его параметров
 		 */
-		static const pair <string, string> file(const string & filename) noexcept {
+		static const std::pair <std::string, std::string> file(const std::string & filename) noexcept 
+        {
 			// Результат работы функции
-			pair <string, string> result;
+			std::pair <std::string, std::string> result;
 			// Если файл передан
 			if(!filename.empty()){
 				// Позиция разделителя каталога
@@ -114,7 +116,7 @@ namespace anyks {
 		 * @param  path путь до каталога
 		 * @return      количество дочерних элементов
 		 */
-		static const int rmdir(const string & path) noexcept {
+		static const int rmdir(const std::string & path) noexcept {
 			// Результат работы функции
 			int result = -1;
 			// Если путь передан
@@ -240,7 +242,7 @@ namespace anyks {
 		 * @param  name адрес сокета
 		 * @return      результат проверки
 		 */
-		static const bool issock(const string & name) noexcept {
+		static const bool issock(const std::string & name) noexcept {
 			// Выводим результат
 			return (istype(name) == type_t::socket);
 		}
@@ -249,13 +251,13 @@ namespace anyks {
 		 * @param filename адрес файла для проверки
 		 * @return         размер файла в файловой системе
 		 */
-		static const uintmax_t fsize(const string & filename) noexcept {
+		static const std::uintmax_t fsize(const std::string & filename) noexcept {
 			// Результат работы функции
-			uintmax_t result = 0;
+			std::uintmax_t result = 0;
 			// Если адрес файла передан верный
 			if(!filename.empty() && isfile(filename)){
 				// Открываем файл на чтение
-				ifstream file(filename, ios::in);
+				std::ifstream file(filename, std::ios::in);
 				// Если файл открыт
 				if(file.is_open()){
 					// Перемещаем указатель в конец файла
@@ -343,7 +345,7 @@ namespace anyks {
 		 * @param ext  расширение файла по которому идет фильтрация
 		 * @return     количество файлов в каталоге
 		 */
-		static const uintmax_t fcount(const string & path, const string & ext) noexcept {
+		static const uintmax_t fcount(const std::string & path, const std::string & ext) noexcept {
 			// Результат работы функции
 			uintmax_t result = 0;
 			// Если адрес каталога и расширение файлов переданы
@@ -485,7 +487,9 @@ namespace anyks {
 		 * @param filename адрес файла для чтения
 		 * @param callback функция обратного вызова
 		 */
-		static void rfile(const string & filename, function <void (const string &, const uintmax_t)> callback) noexcept {
+		static void rfile(const string & filename
+            , std::function <void (const std::string &, const uintmax_t)> callback
+        ) noexcept {
 			// Если адрес файла передан
 			if(!filename.empty()){
 				// Если файл существует
@@ -497,11 +501,11 @@ namespace anyks {
 					// Если файл не открыт
 					if((fd = open(filename.c_str(), O_RDONLY)) < 0)
 						// Выводим сообщение об ошибке
-						cerr << "error: the file name: \"" << filename << "\" is broken" << endl;
+						std::cerr << "error: the file name: \"" << filename << "\" is broken" << endl;
 					// Если файл открыт удачно
 					else if(fstat(fd, &info) < 0)
 						// Выводим сообщение об ошибке
-						cerr << "error: the file name: \"" << filename << "\" is unknown size" << endl;
+						std::cerr << "error: the file name: \"" << filename << "\" is unknown size" << endl;
 					// Иначе продолжаем
 					else {
 						// Буфер входящих данных
@@ -509,7 +513,7 @@ namespace anyks {
 						// Выполняем отображение файла в памяти
 						if((buffer = mmap(0, info.st_size, PROT_READ, MAP_SHARED, fd, 0)) == MAP_FAILED)
 							// Выводим сообщение что прочитать файл не удалось
-							cerr << "error: the file name: \"" << filename << "\" is not read" << endl;
+							std::cerr << "error: the file name: \"" << filename << "\" is not read" << std::endl;
 						// Если файл прочитан удачно
 						else if(buffer != nullptr) {
 							// Значение текущей и предыдущей буквы
@@ -543,7 +547,7 @@ namespace anyks {
 					// Если файл открыт, закрываем его
 					if(fd > -1) close(fd);
 				// Выводим сообщение об ошибке
-				} else cerr << "error: the file name: \"" << filename << "\" is not found" << endl;
+				} else std::cerr << "error: the file name: \"" << filename << "\" is not found" << endl;
 			}
 		}
 		/**
@@ -551,13 +555,15 @@ namespace anyks {
 		 * @param filename адрес файла для чтения
 		 * @param callback функция обратного вызова
 		 */
-		static void rfile2(const string & filename, function <void (const string &, const uintmax_t)> callback) noexcept {
+		static void rfile2(const string & filename
+            , std::function <void (const std::string &, const uintmax_t)> callback
+        ) noexcept {
 			// Если адрес файла передан
 			if(!filename.empty()){
 				// Если файл существует
 				if(isfile(filename)){
 					// Открываем файл на чтение
-					ifstream file(filename, ios::in);
+					std::ifstream file(filename, ios::in);
 					// Если файл открыт
 					if(file.is_open()){
 						// Перемещаем указатель в конец файла
@@ -567,7 +573,7 @@ namespace anyks {
 						// Возвращаем указатель обратно
 						file.seekg(0, file.beg);
 						// Устанавливаем размер буфера
-						vector <char> buffer(size);
+						std::vector <char> buffer(size);
 						// Выполняем чтение данных из файла
 						file.read(buffer.data(), size);
 						// Устанавливаем буфер
@@ -603,13 +609,13 @@ namespace anyks {
 							// Очищаем буфер данных
 							buffer.clear();
 							// Освобождаем выделенную память
-							vector <char> ().swap(buffer);
+							std::vector <char> ().swap(buffer);
 						}
 						// Закрываем файл
 						file.close();
 					}
 				// Выводим сообщение об ошибке
-				} else cerr << "error: the file name: \"" << filename << "\" is not found" << endl;
+				} else std::cerr << "error: the file name: \"" << filename << "\" is not found" << endl;
 			}
 		}
 // Если это clang v10 или выше
@@ -671,7 +677,7 @@ namespace anyks {
 					 * @param путь до каталога
 					 * @param расширение файла по которому идет фильтрация
 					 */
-					function <void (const string &, const string &)> readFn;
+					std::function <void (const std::string &, const std::string &)> readFn;
 					/**
 					 * readFn Функция запроса файлов в каталоге
 					 * @param path путь до каталога
@@ -721,7 +727,7 @@ namespace anyks {
 				// Сообщаем что каталог пустой
 				} else callback("", 0);
 			// Выводим сообщение об ошибке
-			} else cerr << "error: the path name: \"" << path << "\" is not found" << endl;
+			} else std::cerr << "error: the path name: \"" << path << "\" is not found" << endl;
 		}
 #endif
 		/**
@@ -730,11 +736,14 @@ namespace anyks {
 		 * @param ext      расширение файла по которому идет фильтрация
 		 * @param callback функция обратного вызова
 		 */
-		static void rfdir(const string & path, const string & ext, function <void (const string &, const string &, const uintmax_t, const uintmax_t)> callback) noexcept {
+		static void rfdir(const string & path, const string & ext
+            , std::function <void (const std::string &, const std::string &
+                , const uintmax_t, const uintmax_t)> callback
+            ) noexcept {
 			// Если адрес каталога и расширение файлов переданы
 			if(!path.empty() && !ext.empty() && isdir(path)){
 				// Переходим по всему списку файлов в каталоге
-				rdir(path, ext, [&](const string & filename, const uintmax_t dirSize) noexcept {
+				rdir(path, ext, [&](const std::string & filename, const uintmax_t dirSize) noexcept {
 					// Выполняем считывание всех строк текста
 					rfile2(filename, [&](const string & str, const uintmax_t fileSize) noexcept {
 						// Если текст получен
@@ -742,7 +751,7 @@ namespace anyks {
 					});
 				});
 			// Выводим сообщение об ошибке
-			} else cerr << "error: the path name: \"" << path << "\" is not found" << endl;
+			} else std::cerr << "error: the path name: \"" << path << "\" is not found" << endl;
 		}
 	} fsys_t;
 };

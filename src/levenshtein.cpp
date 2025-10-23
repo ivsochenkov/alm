@@ -36,16 +36,16 @@ const size_t anyks::LEV::minimum(const size_t x, const size_t y, const size_t z)
  * @param  text    исходный текст
  * @return         дистанция
  */
-const size_t anyks::LEV::mulct(const string & pattern, const string & text) const noexcept {
+const size_t anyks::LEV::mulct(const std::string & pattern, const std::string & text) const noexcept {
 	// Результат работы функции
 	size_t result = 0;
 	// Если шаблон для сравнения и исходный текст переданы
 	if(!pattern.empty() && !text.empty()){
 		// Объявляем конвертер
-		wstring_convert <codecvt_utf8 <wchar_t>> conv;
+		std::wstring_convert <std::codecvt_utf8 <wchar_t>> conv;
 		// Конвертируем строки
-		const wstring & txt = conv.from_bytes(text);
-		const wstring & ptr = conv.from_bytes(pattern);
+		const std::wstring & txt = conv.from_bytes(text);
+		const std::wstring & ptr = conv.from_bytes(pattern);
 		// Выводим результат
 		result = this->mulct(ptr, txt);
 	}
@@ -58,7 +58,7 @@ const size_t anyks::LEV::mulct(const string & pattern, const string & text) cons
  * @param  text    исходный текст
  * @return         дистанция
  */
-const size_t anyks::LEV::mulct(const wstring & pattern, const wstring & text) const noexcept {
+const size_t anyks::LEV::mulct(const std::wstring & pattern, const std::wstring & text) const noexcept {
 	// Результат работы функции
 	size_t result = 0;
 	// Если шаблон для сравнения и исходный текст переданы
@@ -98,16 +98,16 @@ const size_t anyks::LEV::mulct(const wstring & pattern, const wstring & text) co
  * @param  text    исходный текст
  * @return         дистанция
  */
-const size_t anyks::LEV::damerau(const string & pattern, const string & text) const noexcept {
+const size_t anyks::LEV::damerau(const string & pattern, const std::string & text) const noexcept {
 	// Результат работы функции
 	size_t result = 0;
 	// Если шаблон для сравнения и исходный текст переданы
 	if(!pattern.empty() && !text.empty()){
 		// Объявляем конвертер
-		wstring_convert <codecvt_utf8 <wchar_t>> conv;
+		std::wstring_convert <std::codecvt_utf8 <wchar_t>> conv;
 		// Конвертируем строки
-		const wstring & txt = conv.from_bytes(text);
-		const wstring & ptr = conv.from_bytes(pattern);
+		const std::wstring & txt = conv.from_bytes(text);
+		const std::wstring & ptr = conv.from_bytes(pattern);
 		// Выводим результат
 		result = this->damerau(ptr, txt);
 	}
@@ -120,7 +120,7 @@ const size_t anyks::LEV::damerau(const string & pattern, const string & text) co
  * @param  text    исходный текст
  * @return         дистанция
  */
-const size_t anyks::LEV::damerau(const wstring & pattern, const wstring & text) const noexcept {
+const size_t anyks::LEV::damerau(const std::wstring & pattern, const std::wstring & text) const noexcept {
 	// Результат работы функции
 	size_t result = 0;
 	// Если шаблон для сравнения и исходный текст переданы
@@ -160,16 +160,16 @@ const size_t anyks::LEV::damerau(const wstring & pattern, const wstring & text) 
  * @param  text    исходный текст
  * @return         дистанция
  */
-const size_t anyks::LEV::distance(const string & pattern, const string & text) const noexcept {
+const size_t anyks::LEV::distance(const std::string & pattern, const std::string & text) const noexcept {
 	// Результат работы функции
 	size_t result = 0;
 	// Если шаблон для сравнения и исходный текст переданы
 	if(!pattern.empty() && !text.empty()){
 		// Объявляем конвертер
-		wstring_convert <codecvt_utf8 <wchar_t>> conv;
+		std::wstring_convert <std::codecvt_utf8 <wchar_t>> conv;
 		// Конвертируем строки
-		const wstring & txt = conv.from_bytes(text);
-		const wstring & ptr = conv.from_bytes(pattern);
+		const std::wstring & txt = conv.from_bytes(text);
+		const std::wstring & ptr = conv.from_bytes(pattern);
 		// Выводим результат
 		result = this->distance(ptr, txt);
 	}
@@ -182,7 +182,7 @@ const size_t anyks::LEV::distance(const string & pattern, const string & text) c
  * @param  text    исходный текст
  * @return         дистанция
  */
-const size_t anyks::LEV::distance(const wstring & pattern, const wstring & text) const noexcept {
+const size_t anyks::LEV::distance(const std::wstring & pattern, const std::wstring & text) const noexcept {
 	// Результат работы функции
 	size_t result = 0;
 	// Если шаблон для сравнения и исходный текст переданы
@@ -223,16 +223,16 @@ const size_t anyks::LEV::distance(const wstring & pattern, const wstring & text)
  * @param  stl    размер подстроки при сравнении двух слов (от 1 до минимального размера слова)
  * @return        коэффициент Танимото
  */
-const double anyks::LEV::tanimoto(const string & first, const string & second, const size_t stl) const noexcept {
+const double anyks::LEV::tanimoto(const std::string & first, const std::string & second, const std::size_t stl) const noexcept {
 	// Результат работы функции
 	double result = 0.0;
 	// Если первое и второе слово переданы
 	if(!first.empty() && !second.empty()){
 		// Объявляем конвертер
-		wstring_convert <codecvt_utf8 <wchar_t>> conv;
+		std::wstring_convert <std::codecvt_utf8 <wchar_t>> conv;
 		// Конвертируем строки
-		const wstring & text1 = conv.from_bytes(first);
-		const wstring & text2 = conv.from_bytes(second);
+		const std::wstring & text1 = conv.from_bytes(first);
+		const std::wstring & text2 = conv.from_bytes(second);
 		// Выводим расчет
 		result = this->tanimoto(text1, text2, stl);
 	}
@@ -246,7 +246,7 @@ const double anyks::LEV::tanimoto(const string & first, const string & second, c
  * @param  stl    размер подстроки при сравнении двух слов (от 1 до минимального размера слова)
  * @return        коэффициент Танимото
  */
-const double anyks::LEV::tanimoto(const wstring & first, const wstring & second, const size_t stl) const noexcept {
+const double anyks::LEV::tanimoto(const std::wstring & first, const std::wstring & second, const std::size_t stl) const noexcept {
 	// Результат работы функции
 	double result = 0.0;
 	// Если первое и второе слово переданы
@@ -254,15 +254,15 @@ const double anyks::LEV::tanimoto(const wstring & first, const wstring & second,
 		// Количество эквивалентных подстрок
 		double esubCount = 0.0;
 		// Подстроки для расчёта схожести
-		wstring subFirst = L"", subSecond = L"";
+		std::wstring subFirst = L"", subSecond = L"";
 		// Получаем размер подстроки
-		const size_t subToken = ((stl > 2) && (stl < second.length()) ? stl : 2);
+		const std::size_t subToken = ((stl > 2) && (stl < second.length()) ? stl : 2);
 		// Получаем размер первой подстроки
-		const size_t firstToken = ((first.length() - subToken) + 1);
+		const std::size_t firstToken = ((first.length() - subToken) + 1);
 		// Получаем размер второй подстроки
 		const size_t secondToken = ((second.length() - subToken) + 1);
 		// Выделяем динамически память
-		vector <bool> tokens(secondToken);
+		std::vector <bool> tokens(secondToken);
 		// Переходим по всем буквам первого слова
 		for(size_t i = 0; i < firstToken; ++i){
 			// Получаем подстроку первого слова
@@ -298,12 +298,12 @@ const double anyks::LEV::tanimoto(const wstring & first, const wstring & second,
  * @param  weighter функции сравнения весов
  * @return          вес сравниваемого слова
  */
-const double anyks::LEV::weighted(const string & first, const string & second, const weighter_t * weighter) const noexcept {
+const double anyks::LEV::weighted(const std::string & first, const std::string & second, const weighter_t * weighter) const noexcept {
 	// Объявляем конвертер
-	wstring_convert <codecvt_utf8 <wchar_t>> conv;
+	std::wstring_convert <codecvt_utf8 <wchar_t>> conv;
 	// Конвертируем строки
-	const wstring & ftxt = conv.from_bytes(first);
-	const wstring & stxt = conv.from_bytes(second);
+	const std::wstring & ftxt = conv.from_bytes(first);
+	const std::wstring & stxt = conv.from_bytes(second);
 	// Выводим результат
 	return this->weighted(ftxt, stxt, weighter);
 }
@@ -314,7 +314,7 @@ const double anyks::LEV::weighted(const string & first, const string & second, c
  * @param  weighter функции сравнения весов
  * @return          вес сравниваемого слова
  */
-const double anyks::LEV::weighted(const wstring & first, const wstring & second, const weighter_t * weighter) const noexcept {
+const double anyks::LEV::weighted(const std::wstring & first, const std::wstring & second, const weighter_t * weighter) const noexcept {
 	/**
 	 * calc Функция расчета весов
 	 * @param  first    первое слово
@@ -322,7 +322,7 @@ const double anyks::LEV::weighted(const wstring & first, const wstring & second,
 	 * @param  weighter функции сравнения весов
 	 * @return          вес сравниваемого слова
 	 */
-	auto calc = [this](const wstring & first, const wstring & second, const weighter_t * weighter = nullptr) noexcept {
+	auto calc = [this](const std::wstring & first, const std::wstring & second, const weighter_t * weighter = nullptr) noexcept {
 		// Результат работы функции
 		double result = 0.0;
 		// Если данные переданы
@@ -343,7 +343,7 @@ const double anyks::LEV::weighted(const wstring & first, const wstring & second,
 				return result;
 			}
 			// Выделяем память для массива
-			vector <double> column((slen + 1) * sizeof(double));
+			std::vector <double> column((slen + 1) * sizeof(double));
 			// Зануляем первый элемент
 			column.at(0) = 0.0;
 			// Заполняем символы в таблице для второго слова
@@ -421,16 +421,16 @@ const double anyks::LEV::weighted(const wstring & first, const wstring & second,
  * @param gap      размер разрыва
  * @return         количество очков
  */
-const int anyks::LEV::needlemanWunsch(const string & first, const string & second, const int match, const int mismatch, const int gap) const noexcept {
+const int anyks::LEV::needlemanWunsch(const std::string & first, const std::string & second, const int match, const int mismatch, const int gap) const noexcept {
 	// Результат работы функции
 	int result = -1000000;
 	// Если слова переданы
 	if(!first.empty() && !second.empty()){
 		// Объявляем конвертер
-		wstring_convert <codecvt_utf8 <wchar_t>> conv;
+		std::wstring_convert <codecvt_utf8 <wchar_t>> conv;
 		// Конвертируем строки
-		const wstring & txt1 = conv.from_bytes(first);
-		const wstring & txt2 = conv.from_bytes(second);
+		const std::wstring & txt1 = conv.from_bytes(first);
+		const std::wstring & txt2 = conv.from_bytes(second);
 		// Выводим результат
 		result = this->needlemanWunsch(txt1, txt2, match, mismatch, gap);
 	}
@@ -446,7 +446,7 @@ const int anyks::LEV::needlemanWunsch(const string & first, const string & secon
  * @param gap      размер разрыва
  * @return         количество очков
  */
-const int anyks::LEV::needlemanWunsch(const wstring & first, const wstring & second, const int match, const int mismatch, const int gap) const noexcept {
+const int anyks::LEV::needlemanWunsch(const std::wstring & first, const std::wstring & second, const int match, const int mismatch, const int gap) const noexcept {
 	// Результат работы функции
 	int result = -1000000;
 	// Если слова переданы
@@ -455,9 +455,9 @@ const int anyks::LEV::needlemanWunsch(const wstring & first, const wstring & sec
 		const size_t flen = first.length();
 		const size_t slen = second.length();
 		// Текущий список
-		vector <int> current(slen + 1);
+		std::vector <int> current(slen + 1);
 		// Петлевой список
-		vector <int> lookback(slen + 1);
+		std::vector <int> lookback(slen + 1);
 		// Заполняем текущий список
 		for(size_t j = 0; j < (slen + 1); j++){
 			// Заполняем список
@@ -477,7 +477,7 @@ const int anyks::LEV::needlemanWunsch(const wstring & first, const wstring & sec
 				// Выполняем сравнение символов
 				if(first[i - 1] == second[j - 1]) current[j] = (lookback[j - 1] + match);
 				// Если символы не соответствуют
-				else current[j] = max(lookback[j - 1] + mismatch, max(lookback[j] + gap, current[j - 1] + gap));
+				else current[j] = std::max(lookback[j - 1] + mismatch, std::max(lookback[j] + gap, current[j - 1] + gap));
 			}
 		}
 		// Запоминаем подсчитанные очки

@@ -52,7 +52,7 @@ namespace anyks {
 			// Флаг режима отладки
 			bool debug = false;
 			// Список скриптов
-			map <size_t, script_t> scripts;
+			std::map <size_t, script_t> scripts;
 			// Генератор идентификаторов
 			const tokenizer_t * tokenizer = nullptr;
 		public:

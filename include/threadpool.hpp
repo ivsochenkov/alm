@@ -33,21 +33,21 @@ namespace anyks {
 	typedef class ThreadPool {
 		private:
 			// Сингнал остановки работы пула потоков
-			bool stop = false;
+			bool volatile stop = false;
 			// Количество потоков
 			size_t threads = 1;
 		private:
 			// Тип очереди задач
-			typedef queue <function <void()>> TaskQueue_t;
+			typedef std::queue <std::function <void()>> TaskQueue_t;
 		private:
 			// Очередь задач на исполнение
 			TaskQueue_t tasks;
 			// Мьютекс для разграничения доступа к очереди задач
-			mutable mutex queue_mutex;
+			mutable std::mutex queue_mutex;
 			// Рабочие потоки для обработки задач
-			vector <std::thread> workers;
+			std::vector <std::thread> workers;
 			// Условная переменная, контролирующая исполнение задачи
-			condition_variable condition;
+			std::condition_variable condition;
 		private:
 			/**
 			 * work Метод обработки очереди задач в одном потоке
@@ -60,7 +60,7 @@ namespace anyks {
 					// Ожидаем своей задачи в очереди потоков
 					{
 						// Выполняем блокировку уникальным мютексом
-						unique_lock <mutex> lock(this->queue_mutex);
+						std::unique_lock <std::mutex> lock(this->queue_mutex);
 						// Если это не остановка приложения и список задач пустой, ожидаем добавления нового задания
 						this->condition.wait(lock, [this]{return this->stop || !this->tasks.empty();});
 						// Если это остановка приложения и список задач пустой, выходим
@@ -83,14 +83,14 @@ namespace anyks {
 					// Останавливаем работу потоков
 					this->stop = true;
 					// Создаем уникальный мютекс
-					unique_lock <mutex> lock(this->queue_mutex);
+					std::unique_lock <std::mutex> lock(this->queue_mutex);
 				}
 				// Создаем пустой список задач
 				TaskQueue_t empty;
 				// Сообщаем всем что мы завершаем работу
 				this->condition.notify_all();
 				// Ожидаем завершение работы каждого воркера
-				for(thread & worker: this->workers) worker.join();
+				for(std::thread & worker: this->workers) worker.join();
 				// Очищаем список потоков
 				this->workers.clear();
 				// Очищаем список задач
@@ -110,7 +110,7 @@ namespace anyks {
 					// Добавляем в список воркеров, новую задачу
 					for(size_t i = 0; i < this->threads; ++i){
 						// Добавляем новую задачу
-						this->workers.emplace_back(bind(&ThreadPool::work, this));
+						this->workers.emplace_back(std::bind(&ThreadPool::work, this));
 					}
 				}
 			}
@@ -120,7 +120,7 @@ namespace anyks {
 			 */
 			const size_t getTaskQueueSize() const noexcept {
 				// Выполняем блокировку уникальным мютексом
-				unique_lock <mutex> lock(this->queue_mutex);
+				std::unique_lock <std::mutex> lock(this->queue_mutex);
 				// Выводим количество заданий
 				return this->tasks.size();
 			}
@@ -149,16 +149,16 @@ namespace anyks {
 			 * @param func функция для обработки
 			 * @param args аргументы для передачи в функцию
 			 */
-			auto push(Func && func, Args && ... args) noexcept -> future <typename result_of <Func(Args...)>::type> {
+			auto push(Func && func, Args && ... args) noexcept -> std::future <typename std::result_of <Func(Args...)>::type> {
 				// Устанавливаем тип возвращаемого значения
-				using return_type = typename result_of <Func(Args...)>::type;
+				using return_type = typename std::result_of <Func(Args...)>::type;
 				// Добавляем задачу в очередь для последующего исполнения
-				auto task = make_shared <packaged_task <return_type()>> (bind(forward <Func>(func), forward <Args> (args)...));
+				auto task = std::make_shared <std::packaged_task <return_type()>> (std::bind(std::forward <Func>(func), std::forward <Args> (args)...));
 				// Создаем шаблон асинхронных операций
-				future <return_type> res = task->get_future();
+				std::future <return_type> res = task->get_future();
 				{
 					// Выполняем блокировку уникальным мютексом
-					unique_lock <mutex> lock(this->queue_mutex);
+					std::unique_lock <std::mutex> lock(this->queue_mutex);
 					// Если это не остановка работы
 					if(!this->stop) this->tasks.emplace([task](){(* task)();});
 				}

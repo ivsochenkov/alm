@@ -6,6 +6,9 @@
  *  site:     https://anyks.com
  */
 
+#ifndef ALM_ALM_HPP_INCLUDED
+#define ALM_ALM_HPP_INCLUDED
+
 // Название языковой модели
 #define ANYKS_LM_NAME "alm"
 // Версия приложения
@@ -38,3 +41,45 @@
 #define BUFFER_CHUNK 0x19C00
 // Размер бинарного буфера языковой модели
 #define BUFFER_SIZE 0x6400000
+
+#include <functional>
+#include <iostream>
+#include <vector>
+#include <list>
+#include <string>
+#include <limits>
+#include <map>
+#include <unordered_map>
+#include <cmath>
+
+namespace anyks 
+{
+    using std::function;
+    
+    using std::cerr;
+    using std::endl;
+    using std::ios;
+
+    using std::vector;
+    using std::list;
+    using std::string;
+    using std::wstring;
+    using std::pair;
+
+    using std::numeric_limits;
+
+    using std::map;
+    using std::multimap;
+    using std::unordered_map;
+
+    using std::to_string;
+    using std::isnormal;
+    using std::max;
+    using std::min;
+    using std::isfinite;
+    using std::make_pair;
+    
+
+}
+
+#endif // ALM_ALM_HPP_INCLUDED

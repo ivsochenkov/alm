@@ -67,14 +67,14 @@ namespace anyks {
 			wstring letters = L"";
 		private:
 			// Списки доменных зон интернета
-			set <wstring> general, national, user;
+			std::set <wstring> general, national, user;
 			// Основные регулярные выражения модуля
-			wregex expressEmail, expressDomain, expressIP;
+			std::wregex expressEmail, expressDomain, expressIP;
 		public:
 			/**
 			 * getZones Метод извлечения списка пользовательских зон интернета
 			 */
-			const set <wstring> & getZones() const noexcept;
+			const std::set <wstring> & getZones() const noexcept;
 			/**
 			 * parse Метод парсинга URI строки
 			 * @param text текст для парсинга
@@ -100,7 +100,7 @@ namespace anyks {
 			 * setZones Метод установки списка пользовательских зон
 			 * @param zones список доменных зон интернета
 			 */
-			void setZones(const set <wstring> & zones) noexcept;
+			void setZones(const std::set <wstring> & zones) noexcept;
 			/**
 			 * Uri Конструктор
 			 * @param letters список букв алфавита

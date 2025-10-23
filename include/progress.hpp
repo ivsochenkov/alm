@@ -21,6 +21,8 @@
 #include <sys/types.h>
 #include <sys/ioctl.h>
 
+#include <alm.hpp>
+
 /**
  * anyks пространство имён
  */

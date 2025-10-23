@@ -62,7 +62,7 @@ namespace anyks {
 			friend class NaturalDiscount;
 		public:
 			// Упрощаем тип функции для получения слова
-			typedef function <const word_t * (const size_t)> words_t;
+			typedef std::function <const word_t * (const size_t)> words_t;
 		private:
 			// Максимальная длина n-граммы
 			static constexpr u_short MAXSIZE = 9;
@@ -157,7 +157,7 @@ namespace anyks {
 			mutable u_short gram = 1;
 		private:
 			// Флаги параметров
-			bitset <6> options;
+			std::bitset <6> options;
 			// Словарь языковой модели
 			mutable data_t data;
 			// Параметры расчёта
@@ -165,7 +165,7 @@ namespace anyks {
 			// Список удалённых слов
 			mutable std::set <size_t> delwords;
 			// Блок шагов (список дочерних грамм для текущей n-граммы)
-			mutable std::map <u_short, list <data_t *>> ngrams;
+			mutable std::map <u_short, std::list <data_t *>> ngrams;
 		private:
 			// Функция извлечения слова по его идентификатору
 			words_t getWord = nullptr;
@@ -203,7 +203,7 @@ namespace anyks {
 			 * @param  oc  встречаемость граммы
 			 * @return     регистр слова
 			 */
-			const pair_t uppers(const std::map <size_t, size_t> & ups, const size_t oc = 0) const noexcept;
+			const pair_t uppers(const std::map <size_t, size_t> & ups, const std::size_t oc = 0) const noexcept;
 		protected:
 			/**
 			 * isUnk Метод проверки неизвестного слова
@@ -246,7 +246,7 @@ namespace anyks {
 			 * @param  seq последовательность для проверки
 			 * @return     результат проверки
 			 */
-			const bool isContext(const vector <size_t> & seq) const noexcept;
+			const bool isContext(const std::vector <size_t> & seq) const noexcept;
 			/**
 			 * backoffs Метод для расчёта частот отката
 			 * @param gram  размер n-граммы для работы
@@ -283,7 +283,7 @@ namespace anyks {
 			 * @param gram размер n-граммы список грамм которой нужно извлечь
 			 * @return     указатель на список запрашиваемых n-грамм
 			 */
-			list <data_t *> * get(const u_short gram) const noexcept;
+			std::list <data_t *> * get(const u_short gram) const noexcept;
 		protected:
 			/**
 			 * contextFn Метод получения контекста
@@ -319,19 +319,21 @@ namespace anyks {
 			 * Метод получения регистров слов
 			 * @param uppers список регистров слова
 			 */
-			void uniUppers(multimap <size_t, size_t> & uppers) const noexcept;
+			void uniUppers(std::multimap <size_t, size_t> & uppers) const noexcept;
 			/**
 			 * sequence Метод извлечения правильной последовательности, игнорирования <unk> токена
 			 * @param seq      последовательность для обработки
 			 * @param callback функция обратного вызова
 			 */
-			void sequence(const vector <seq_t> & seq, function <void (const vector <seq_t> &, const seq_t &)> callback) const noexcept;
+			void sequence(const std::vector <seq_t> & seq
+                    , std::function <void (const std::vector <seq_t> &, const seq_t &)> callback) const noexcept;
 			/**
 			 * sequence Метод извлечения правильной последовательности, игнорирования <unk> токена
 			 * @param seq      последовательность для обработки
 			 * @param callback функция обратного вызова
 			 */
-			void sequence(const vector <pair_t> & seq, function <void (const vector <pair_t> &, const size_t)> callback) const noexcept;
+			void sequence(const std::vector <pair_t> & seq, std::function <
+                void (const std::vector <pair_t> &, const size_t)> callback) const noexcept;
 		private:
 			/**
 			 * nodiscount Метод проверки на необходимость расчёта скидки
@@ -389,13 +391,13 @@ namespace anyks {
 			 * @param seq    список идентификаторов слов которые нужно добавить
 			 * @param weight вес n-граммы из файла arpa
 			 */
-			const bool emplace(const vector <pair_t> & seq, const double weight) const noexcept;
+			const bool emplace(const std::vector <pair_t> & seq, const double weight) const noexcept;
 			/**
 			 * rep Метод замны одной последовательности на другую
 			 * @param seq1 последовательность которую нужно заменить
 			 * @param seq2 последовательность на которую нужно зменить
 			 */
-			const bool replace(const vector <size_t> & seq1, const vector <pair_t> & seq2) const noexcept;
+			const bool replace(const std::vector <size_t> & seq1, const std::vector <pair_t> & seq2) const noexcept;
 		public:
 			/**
 			 * count Количество грамм для указанного размера n-граммы
@@ -445,106 +447,110 @@ namespace anyks {
 			 * del Метод удаления последовательности
 			 * @param seq последовательность слов для удаления
 			 */
-			void del(const vector <size_t> & seq) const noexcept;
+			void del(const std::vector <size_t> & seq) const noexcept;
 			/**
 			 * inc Метод увеличения последовательности в словаре
 			 * @param seq   список идентификаторов слов которые нужно увеличить
 			 * @param value значение на которое нужно увеличить вес n-граммы
 			 */
-			void inc(const vector <pair_t> & seq, const double value) const noexcept;
+			void inc(const std::vector <pair_t> & seq, const double value) const noexcept;
 			/**
 			 * addBin Метод добавления бинарных данных в словарь
 			 * @param buffer буфер с бинарными данными
 			 * @param idd    идентификатор документа в котором получена n-грамма
 			 */
-			void addBin(const vector <char> & buffer, const size_t idd = 0) const noexcept;
+			void addBin(const std::vector <char> & buffer, const size_t idd = 0) const noexcept;
 			/**
 			 * setBin Метод установки бинарных данных в словарь
 			 * @param buffer буфер с бинарными данными
 			 * @param arpa   нужно добавить только данные arpa
 			 */
-			void setBin(const vector <char> & buffer, const bool arpa = false) const noexcept;
+			void setBin(const std::vector <char> & buffer, const bool arpa = false) const noexcept;
 			/**
 			 * arpa Метод извлечения данных arpa
 			 * @param gram     размер n-граммы для извлечения
 			 * @param callback функция обратного вызова
 			 */
-			void arpa(const u_short gram, function <void (const string &)> callback) const noexcept;
+			void arpa(const u_short gram, std::function <void (const string &)> callback) const noexcept;
 			/**
 			 * grams Метод извлечения данных n-грамм в текстовом виде
 			 * @param gram     размер n-граммы для извлечения
 			 * @param callback функция обратного вызова
 			 */
-			void grams(const u_short gram, function <void (const string &)> callback) const noexcept;
+			void grams(const u_short gram, std::function <void (const std::string &)> callback) const noexcept;
 			/**
 			 * getBin Метод извлечения данных arpa в бинарном виде
 			 * @param arpa     флаг извлечения только arpa
 			 * @param callback функция обратного вызова
 			 */
-			void getBin(const bool arpa, function <void (const vector <char> &, const u_short)> callback) const noexcept;
+			void getBin(const bool arpa, std::function <void (const std::vector <char> &, const u_short)> callback) const noexcept;
 			/**
 			 * map Метод извлечения карты последовательностей в виде CSV
 			 * @param callback функция обратного вызова
 			 * @param delim    разделитель последовательностей
 			 */
-			void map(function <void (const string &, const u_short)> callback, const string & delim = "|") const noexcept;
+			void map(std::function <void (const std::string &, const u_short)> callback, const std::string & delim = "|") const noexcept;
 		public:
 			/**
 			 * set Метод установки последовательности в словарь
 			 * @param seq последовательность слов для установки
 			 */
-			void set(const vector <seq_t> & seq) const noexcept;
+			void set(const std::vector <seq_t> & seq) const noexcept;
 			/**
 			 * set Метод установки последовательности в словарь
 			 * @param seq список идентификаторов слов которые нужно добавить
 			 * @param oc  встречаемость последовательности
 			 * @param dc  количество документов где встретилась последовательность
 			 */
-			void set(const vector <pair_t> & seq, const size_t oc, const size_t dc) const noexcept;
+			void set(const std::vector <pair_t> & seq, const std::size_t oc, const std::size_t dc) const noexcept;
 			/**
 			 * set Метод установки последовательности в словарь
 			 * @param seq     список идентификаторов слов которые нужно добавить
 			 * @param weight  вес n-граммы из файла arpa
 			 * @param backoff обратная частота документа из файла arpa
 			 */
-			void set(const vector <pair_t> & seq, const double weight, const double backoff) const noexcept;
+			void set(const std::vector <pair_t> & seq, const double weight, const double backoff) const noexcept;
 		public:
 			/**
 			 * add Метод добавления последовательности в словарь
 			 * @param seq список идентификаторов слов которые нужно добавить
 			 * @param idd идентификатор документа в котором получена n-грамма
 			 */
-			void add(const vector <pair_t> & seq, const size_t idd = 0) const noexcept;
+			void add(const std::vector <pair_t> & seq, const size_t idd = 0) const noexcept;
 			/**
 			 * add Метод добавления последовательности в словарь
 			 * @param seq  последовательность слов для установки
 			 * @param idd  идентификатор документа в котором получена n-грамма
 			 * @param rest необходимо сделать переоценку встречаемости (необходимо если объединяются две карты с разными размерами n-грамм)
 			 */
-			void add(const vector <seq_t> & seq, const size_t idd = 0, const bool rest = false) const noexcept;
+			void add(const std::vector <seq_t> & seq, const size_t idd = 0, const bool rest = false) const noexcept;
 		public:
 			/**
 			 * sweep Метод удаления низкочастотных n-грамм arpa
 			 * @param status статус расчёта
 			 */
-			void sweep(function <void (const u_short)> status = nullptr) const noexcept;
+			void sweep(std::function <void (const u_short)> status = nullptr) const noexcept;
 			/**
 			 * trian Метод расчёта частот n-грамм
 			 * @param status статус расчёта
 			 */
-			void train(function <void (const u_short)> status = nullptr) const noexcept;
+			void train(std::function <void (const u_short)> status = nullptr) const noexcept;
 			/**
 			 * repair Метод ремонта уже расчитанной ранее языковой модели
 			 * @param status статус расчёта
 			 */
-			void repair(function <void (const u_short)> status = nullptr) const noexcept;
+			void repair(std::function <void (const u_short)> status = nullptr) const noexcept;
 			/**
 			 * prune Метод прунинга языковой модели
 			 * @param threshold порог частоты прунинга
 			 * @param mingram   значение минимальной n-граммы за которую нельзя прунить
 			 * @param status    функция вывода статуса обучения
 			 */
-			void prune(const double threshold = 0.003, const u_short mingram = 0, function <void (const u_short)> status = nullptr) const noexcept;
+			void prune(const double threshold = 0.003
+                , const u_short mingram = 0
+                , std::function <void (const u_short)> status = nullptr
+            ) const noexcept;
+
 		public:
 			/**
 			 * mixForward Метод интерполяции нескольких моделей в прямом направлении
@@ -552,21 +558,28 @@ namespace anyks {
 			 * @param lambda вес первой модели при интерполяции
 			 * @param status статус расчёта
 			 */
-			void mixForward(const Arpa * lm, const double lambda = 0.5, function <void (const u_short)> status = nullptr) noexcept;
+			void mixForward(const Arpa * lm, const double lambda = 0.5
+                , std::function <void (const u_short)> status = nullptr
+            ) noexcept;
 			/**
 			 * mixBackward Метод интерполяции нескольких моделей в обратном направлении
 			 * @param lm     данные языковой модели для объединения
 			 * @param lambda вес первой модели при интерполяции
 			 * @param status статус расчёта
 			 */
-			void mixBackward(const Arpa * lm, const double lambda = 0.5, function <void (const u_short)> status = nullptr) noexcept;
+			void mixBackward(const Arpa * lm, const double lambda = 0.5
+                , std::function <void (const u_short)> status = nullptr
+            ) noexcept;
 			/**
 			 * mixLoglinear Метод интерполяции нескольких моделей алгоритмом Баеса
 			 * @param lms     список данных языковых моделей для объединения
 			 * @param lambdas список весов моделей при интерполяции
 			 * @param status  статус расчёта
 			 */
-			void mixLoglinear(const vector <const Arpa *> & lms, const vector <double> & lambdas, function <void (const u_short)> status = nullptr) noexcept;
+			void mixLoglinear(const std::vector <const Arpa *> & lms
+                , const std::vector <double> & lambdas
+                , std::function <void (const u_short)> status = nullptr
+            ) noexcept;
 			/**
 			 * mixBayes Метод интерполяции нескольких моделей алгоритмом Баеса
 			 * @param lms     список данных языковых моделей для объединения
@@ -575,7 +588,12 @@ namespace anyks {
 			 * @param scale   логарифмическая шкала вероятности
 			 * @param status  статус расчёта
 			 */
-			void mixBayes(const vector <const Arpa *> & lms, const vector <double> & lambdas, const size_t length, const double scale = 0.0, function <void (const u_short)> status = nullptr) noexcept;
+			void mixBayes(const std::vector <const Arpa *> & lms
+                , const std::vector <double> & lambdas
+                , const std::size_t length, const double scale = 0.0
+                , std::function <void (const u_short)> status = nullptr
+            ) noexcept;
+
 		public:
 			/**
 			 * Arpa Конструктор
@@ -608,11 +626,11 @@ namespace anyks {
 	class GoodTuring : public Arpa {
 		private:
 			// Размер минимальной встречаемости
-			mutable unordered_map <u_short, size_t> minCountTuring;
+			mutable std::unordered_map <u_short, std::size_t> minCountTuring;
 			// Размер максимальной встречаемости
-			mutable unordered_map <u_short, size_t> maxCountTuring;
+			mutable std::unordered_map <u_short, std::size_t> maxCountTuring;
 			// Кэш коэффициентов дисконтирования
-			mutable unordered_map <u_short, vector <double>> discountCoeffs;
+			mutable std::unordered_map <u_short, std::vector <double> > discountCoeffs;
 		private:
 			/**
 			 * init Метод инициализации первоначальных данных
@@ -661,7 +679,7 @@ namespace anyks {
 	class ConstDiscount : public Arpa {
 		private:
 			// Значение дисконтирования
-			mutable unordered_map <u_short, double> cdiscount;
+			mutable std::unordered_map <u_short, double> cdiscount;
 		private:
 			/**
 			 * nodiscount Метод проверки на необходимость расчёта скидки
@@ -753,7 +771,7 @@ namespace anyks {
 	class AddSmooth : public Arpa {
 		private:
 			// Значение дельты
-			mutable unordered_map <u_short, double> delta;
+			mutable std::unordered_map <u_short, double> delta;
 		private:
 			/**
 			 * nodiscount Метод проверки на необходимость расчёта скидки
@@ -848,11 +866,11 @@ namespace anyks {
 			friend class ModKneserNey;
 		private:
 			// Количество уже изменённых младших заказов
-			mutable unordered_map <u_short, bool> modified;
+			mutable std::unordered_map <u_short, bool> modified;
 			// Необходимость изменения счёта, после вычисления
-			mutable unordered_map <u_short, bool> prepares;
+			mutable std::unordered_map <u_short, bool> prepares;
 			// Значение скидки
-			mutable unordered_map <u_short, double> discounting;
+			mutable std::unordered_map <u_short, double> discounting;
 		private:
 			/**
 			 * init Метод инициализации первоначальных данных
@@ -925,9 +943,9 @@ namespace anyks {
 	class ModKneserNey : public KneserNey {
 		private:
 			// Прибавочное значение скидки
-			mutable unordered_map <u_short, double> discountplus;
+			mutable std::unordered_map <u_short, double> discountplus;
 			// Дополнительное значение скидки
-			mutable unordered_map <u_short, double> modDiscounting;
+			mutable std::unordered_map <u_short, double> modDiscounting;
 		private:
 			/**
 			 * init Метод инициализации первоначальных данных

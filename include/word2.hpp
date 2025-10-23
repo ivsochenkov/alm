@@ -292,7 +292,7 @@ namespace anyks {
 				// Получаем временную строку
 				const std::wstring & wstr = word.wstr();
 				// Добавляем к строке переданную строку
-				reinterpret_cast <std::wstring *> (this)->append(wstr);
+				static_cast <std::wstring *> (this)->append(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -303,9 +303,9 @@ namespace anyks {
 			 */
 			Word2 & append(const char * s) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = this->wstr(s);
+				const std::wstring & wstr = this->wstr(s);
 				// Добавляем к строке переданную строку
-				reinterpret_cast <std::wstring *> (this)->append(wstr);
+				static_cast <std::wstring *> (this)->append(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -316,9 +316,9 @@ namespace anyks {
 			 */
 			Word2 & append(const wchar_t * s) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = wstring(s);
+				const std::wstring & wstr = std::wstring(s);
 				// Добавляем к строке переданную строку
-				reinterpret_cast <wstring *> (this)->append(wstr);
+				static_cast <std::wstring *> (this)->append(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -330,9 +330,9 @@ namespace anyks {
 			 */
 			Word2 & append(size_t n, char c) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = this->wstr(string(n, c));
+				const std::wstring & wstr = this->wstr(std::string(n, c));
 				// Добавляем к строке переданную строку
-				reinterpret_cast <wstring *> (this)->append(wstr);
+				static_cast <std::wstring *> (this)->append(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -344,9 +344,9 @@ namespace anyks {
 			 */
 			Word2 & append(size_t n, wchar_t c) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = wstring(n, c);
+				const std::wstring & wstr = std::wstring(n, c);
 				// Добавляем к строке переданную строку
-				reinterpret_cast <wstring *> (this)->append(wstr);
+				static_cast <std::wstring *> (this)->append(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -354,11 +354,11 @@ namespace anyks {
 			 * append Метод добавления строки
 			 * @param str строка для добавления
 			 */
-			Word2 & append(const string & str) noexcept {
+			Word2 & append(const std::string & str) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = this->wstr(str);
+				const std::wstring & wstr = this->wstr(str);
 				// Добавляем к строке переданную строку
-				reinterpret_cast <wstring *> (this)->append(wstr);
+				static_cast <std::wstring *> (this)->append(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -367,9 +367,9 @@ namespace anyks {
 			 * @param str строка для добавления
 			 * @return    получившаяся строка
 			 */
-			Word2 & append(const wstring & str) noexcept {
+			Word2 & append(const std::wstring & str) noexcept {
 				// Добавляем к строке переданную строку
-				reinterpret_cast <wstring *> (this)->append(str);
+				static_cast <std::wstring *> (this)->append(str);
 				// Выводим результат
 				return (* this);
 			}
@@ -381,9 +381,9 @@ namespace anyks {
 			 */
 			Word2 & append(const char * s, size_t n) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = this->wstr(string(s, n));
+				const std::wstring & wstr = this->wstr(std::string(s, n));
 				// Добавляем к строке переданную строку
-				reinterpret_cast <wstring *> (this)->append(wstr);
+				static_cast <std::wstring *> (this)->append(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -395,9 +395,9 @@ namespace anyks {
 			 */
 			Word2 & append(const wchar_t * s, size_t n) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = wstring(s, n);
+				const std::wstring & wstr = std::wstring(s, n);
 				// Добавляем к строке переданную строку
-				reinterpret_cast <wstring *> (this)->append(wstr);
+				static_cast <std::wstring *> (this)->append(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -407,11 +407,11 @@ namespace anyks {
 			 * @param subpos начальная позиция
 			 * @param sublen длина строки
 			 */
-			Word2 & append(const string & str, size_t subpos, size_t sublen) noexcept {
+			Word2 & append(const std::string & str, size_t subpos, size_t sublen) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = this->wstr(string(str, subpos, sublen));
+				const std::wstring & wstr = this->wstr(std::string(str, subpos, sublen));
 				// Добавляем к строке переданную строку
-				reinterpret_cast <wstring *> (this)->append(wstr);
+				static_cast <std::wstring *> (this)->append(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -422,11 +422,11 @@ namespace anyks {
 			 * @param sublen длина строки
 			 * @return       получившаяся строка
 			 */
-			Word2 & append(const wstring & str, size_t subpos, size_t sublen) noexcept {
+			Word2 & append(const std::wstring & str, size_t subpos, size_t sublen) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = wstring(str, subpos, sublen);
+				const std::wstring & wstr = std::wstring(str, subpos, sublen);
 				// Добавляем к строке переданную строку
-				reinterpret_cast <wstring *> (this)->append(wstr);
+				static_cast <std::wstring *> (this)->append(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -453,9 +453,9 @@ namespace anyks {
 			 */
 			Word2 & assign(const char * s) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = this->wstr(s);
+				const std::wstring & wstr = this->wstr(s);
 				// Устанавливаем полученную строку
-				reinterpret_cast <wstring *> (this)->assign(wstr);
+				static_cast <std::wstring *> (this)->assign(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -466,9 +466,9 @@ namespace anyks {
 			 */
 			Word2 & assign(const wchar_t * s) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = wstring(s);
+				const std::wstring & wstr = std::wstring(s);
 				// Устанавливаем полученную строку
-				reinterpret_cast <wstring *> (this)->assign(wstr);
+				reinterpret_cast <std::wstring *> (this)->assign(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -478,7 +478,7 @@ namespace anyks {
 			 */
 			Word2 & assign(const Word2 & word) noexcept {
 				// Устанавливаем полученную строку
-				reinterpret_cast <wstring *> (this)->assign(word.wstr());
+				reinterpret_cast <std::wstring *> (this)->assign(word.wstr());
 				// Выводим результат
 				return (* this);
 			}
@@ -490,9 +490,9 @@ namespace anyks {
 			 */
 			Word2 & assign(size_t n, char c) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = this->wstr(string(n, c));
+				const std::wstring & wstr = this->wstr(std::string(n, c));
 				// Устанавливаем полученную строку
-				reinterpret_cast <wstring *> (this)->assign(wstr);
+				static_cast <std::wstring *> (this)->assign(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -504,9 +504,9 @@ namespace anyks {
 			 */
 			Word2 & assign(size_t n, wchar_t c) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = wstring(n, c);
+				const std::wstring & wstr = std::wstring(n, c);
 				// Устанавливаем полученную строку
-				reinterpret_cast <wstring *> (this)->assign(wstr);
+				static_cast <std::wstring *> (this)->assign(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -515,11 +515,11 @@ namespace anyks {
 			 * @param word строка для замены
 			 * @param      получившаяся строка
 			 */
-			Word2 & assign(const string & str) noexcept {
+			Word2 & assign(const std::string & str) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = this->wstr(str);
+				const std::wstring & wstr = this->wstr(str);
 				// Устанавливаем полученную строку
-				reinterpret_cast <wstring *> (this)->assign(wstr);
+				static_cast <std::wstring *> (this)->assign(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -528,9 +528,9 @@ namespace anyks {
 			 * @param word строка для замены
 			 * @param      получившаяся строка
 			 */
-			Word2 & assign(const wstring & str) noexcept {
+			Word2 & assign(const std::wstring & str) noexcept {
 				// Устанавливаем полученную строку
-				reinterpret_cast <wstring *> (this)->assign(str);
+				static_cast <std::wstring *> (this)->assign(str);
 				// Выводим результат
 				return (* this);
 			}
@@ -542,9 +542,9 @@ namespace anyks {
 			 */
 			Word2 & assign(const char * s, size_t n) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = this->wstr(string(s, n));
+				const std::wstring & wstr = this->wstr(std::string(s, n));
 				// Устанавливаем полученную строку
-				reinterpret_cast <wstring *> (this)->assign(wstr);
+				static_cast <std::wstring *> (this)->assign(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -556,9 +556,9 @@ namespace anyks {
 			 */
 			Word2 & assign(const wchar_t * s, size_t n) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = wstring(s, n);
+				const std::wstring & wstr = std::wstring(s, n);
 				// Устанавливаем полученную строку
-				reinterpret_cast <wstring *> (this)->assign(wstr);
+				reinterpret_cast <std::wstring *> (this)->assign(wstr);
 				// Выводим результат
 				return (* this);
 			}
@@ -569,11 +569,11 @@ namespace anyks {
 			 * @param  sublen количество символов для замены
 			 * @return        получившаяся строка
 			 */
-			Word2 & assign(const string & str, size_t subpos, size_t sublen) noexcept {
+			Word2 & assign(const std::string & str, size_t subpos, size_t sublen) noexcept {
 				// Получаем временную строку
-				const wstring & wstr = this->wstr(string(str, subpos, sublen));
+				const std::wstring & wstr = this->wstr(std::string(str, subpos, sublen));
 				// Устанавливаем полученную строку
-				reinterpret_cast <wstring *> (this)->assign(wstr);
+				static_cast <std::wstring *> (this)->assign(wstr);
 				// Выводим результат
 				return (* this);
 			}

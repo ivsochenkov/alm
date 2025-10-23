@@ -66,14 +66,14 @@ namespace anyks {
 			 * @param  text    исходный текст
 			 * @return         дистанция
 			 */
-			const size_t mulct(const string & pattern, const string & text) const noexcept;
+			const size_t mulct(const std::string & pattern, const std::string & text) const noexcept;
 			/**
 			 * mulct Определение количества штрафов на основе Дамерау-Левенштейна
 			 * @param  pattern шаблон с которым идет сравнение
 			 * @param  text    исходный текст
 			 * @return         дистанция
 			 */
-			const size_t mulct(const wstring & pattern, const wstring & text) const noexcept;
+			const size_t mulct(const std::wstring & pattern, const std::wstring & text) const noexcept;
 		public:
 			/**
 			 * damerau Определение дистанции Дамерау-Левенштейна в фразах
@@ -81,14 +81,14 @@ namespace anyks {
 			 * @param  text    исходный текст
 			 * @return         дистанция
 			 */
-			const size_t damerau(const string & pattern, const string & text) const noexcept;
+			const size_t damerau(const std::string & pattern, const std::string & text) const noexcept;
 			/**
 			 * damerau Определение дистанции Дамерау-Левенштейна в фразах
 			 * @param  pattern шаблон с которым идет сравнение
 			 * @param  text    исходный текст
 			 * @return         дистанция
 			 */
-			const size_t damerau(const wstring & pattern, const wstring & text) const noexcept;
+			const size_t damerau(const std::wstring & pattern, const std::wstring & text) const noexcept;
 		public:
 			/**
 			 * distance Определение дистанции в фразах
@@ -96,14 +96,14 @@ namespace anyks {
 			 * @param  text    исходный текст
 			 * @return         дистанция
 			 */
-			const size_t distance(const string & pattern, const string & text) const noexcept;
+			const size_t distance(const std::string & pattern, const std::string & text) const noexcept;
 			/**
 			 * distance Определение дистанции в фразах
 			 * @param  pattern шаблон с которым идет сравнение
 			 * @param  text    исходный текст
 			 * @return         дистанция
 			 */
-			const size_t distance(const wstring & pattern, const wstring & text) const noexcept;
+			const size_t distance(const std::wstring & pattern, const std::wstring & text) const noexcept;
 		public:
 			/**
 			 * tanimoto Метод определения коэффициента Жаккара (частное — коэф. Танимото)
@@ -112,7 +112,7 @@ namespace anyks {
 			 * @param  stl    размер подстроки при сравнении двух слов (от 1 до минимального размера слова)
 			 * @return        коэффициент Танимото
 			 */
-			const double tanimoto(const string & first, const string & second, const size_t stl = 2) const noexcept;
+			const double tanimoto(const std::string & first, const std::string & second, const std::size_t stl = 2) const noexcept;
 			/**
 			 * tanimoto Метод определения коэффициента Жаккара (частное — коэф. Танимото)
 			 * @param  first  первое слово
@@ -120,7 +120,7 @@ namespace anyks {
 			 * @param  stl    размер подстроки при сравнении двух слов (от 1 до минимального размера слова)
 			 * @return        коэффициент Танимото
 			 */
-			const double tanimoto(const wstring & first, const wstring & second, const size_t stl = 2) const noexcept;
+			const double tanimoto(const std::wstring & first, const std::wstring & second, const std::size_t stl = 2) const noexcept;
 		public:
 			/**
 			 * weighted Метод определения веса сравниваемого слова
@@ -129,7 +129,7 @@ namespace anyks {
 			 * @param  weighter функции сравнения весов
 			 * @return          вес сравниваемого слова
 			 */
-			const double weighted(const string & first, const string & second, const weighter_t * weighter = nullptr) const noexcept;
+			const double weighted(const std::string & first, const std::string & second, const weighter_t * weighter = nullptr) const noexcept;
 			/**
 			 * weighted Метод определения веса сравниваемого слова
 			 * @param  first    первое слово
@@ -137,7 +137,7 @@ namespace anyks {
 			 * @param  weighter функции сравнения весов
 			 * @return          вес сравниваемого слова
 			 */
-			const double weighted(const wstring & first, const wstring & second, const weighter_t * weighter = nullptr) const noexcept;
+			const double weighted(const std::wstring & first, const std::wstring & second, const weighter_t * weighter = nullptr) const noexcept;
 		public:
 			/**
 			 * needlemanWunsch Метод натяжения слов
@@ -148,7 +148,7 @@ namespace anyks {
 			 * @param gap      размер разрыва
 			 * @return         количество очков
 			 */
-			const int needlemanWunsch(const string & first, const string & second, const int match = 1, const int mismatch = -1, const int gap = -2) const noexcept;
+			const int needlemanWunsch(const std::string & first, const std::string & second, const int match = 1, const int mismatch = -1, const int gap = -2) const noexcept;
 			/**
 			 * needlemanWunsch Метод натяжения слов
 			 * @param first    первое слово
@@ -158,7 +158,7 @@ namespace anyks {
 			 * @param gap      размер разрыва
 			 * @return         количество очков
 			 */
-			const int needlemanWunsch(const wstring & first, const wstring & second, const int match = 1, const int mismatch = -1, const int gap = -2) const noexcept;
+			const int needlemanWunsch(const std::wstring & first, const std::wstring & second, const int match = 1, const int mismatch = -1, const int gap = -2) const noexcept;
 	} lev_t;
 };
 

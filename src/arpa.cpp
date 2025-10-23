@@ -7,6 +7,7 @@
  */
 
 #include <arpa.hpp>
+#include <map>
 
 /**
  * use Метод получения текущего размеры n-граммы
@@ -52,7 +53,7 @@ const size_t anyks::Arpa::midw(const data_t * context) const noexcept {
  */
 const anyks::pair_t anyks::Arpa::uppers(const data_t * context) const noexcept {
 	// Результат работы функции
-	pair_t result = make_pair(0, 0);
+	pair_t result = std::make_pair(0, 0);
 	// Если контекст передан
 	if(context != nullptr) result = this->uppers(context->uppers, context->oc);
 	// Выводим результат
@@ -66,7 +67,7 @@ const anyks::pair_t anyks::Arpa::uppers(const data_t * context) const noexcept {
  */
 const anyks::pair_t anyks::Arpa::uppers(const std::map <size_t, size_t> & ups, const size_t oc) const noexcept {
 	// Результат работы функции
-	pair_t result = make_pair(0, 0);
+	pair_t result = std::make_pair(0, 0);
 	// Если результат не пустой
 	if(!ups.empty()){
 		// Ищем результат с наибольшим весом
@@ -84,7 +85,7 @@ const anyks::pair_t anyks::Arpa::uppers(const std::map <size_t, size_t> & ups, c
 			}
 		}
 		// Если слово в верхнем регистре встретилось меньше 50% раз, снимаем регистр
-		if((oc > 0) && ((result.second / double(oc) * 100.0) < 50.0)) result = make_pair(0, 0);
+		if((oc > 0) && ((result.second / double(oc) * 100.0) < 50.0)) result = std::make_pair(0, 0);
 	}
 	// Выводим результат
 	return result;
@@ -121,8 +122,8 @@ const bool anyks::Arpa::isWord(const data_t * ngram) const noexcept {
 		result = (
 			(this->delwords.count(ngram->idw) < 1) &&
 			(ngram->weight != 0.0) &&
-			!isnan(ngram->weight) &&
-			((ngram->weight == this->zero) || !isinf(ngram->weight))
+			!std::isnan(ngram->weight) &&
+			((ngram->weight == this->zero) || !std::isinf(ngram->weight))
 		);
 	}
 	// Выводим результат
@@ -457,7 +458,7 @@ const bool anyks::Arpa::compute(data_t * ngram, const u_short gram, double & num
  * @param gram размер n-граммы список грамм которой нужно извлечь
  * @return     указатель на список запрашиваемых n-грамм
  */
-list <anyks::Arpa::data_t *> * anyks::Arpa::get(const u_short gram) const noexcept {
+std::list <anyks::Arpa::data_t *> * anyks::Arpa::get(const u_short gram) const noexcept {
 	// Результат работы функции
 	list <data_t *> * result = nullptr;
 	/**
@@ -528,7 +529,7 @@ list <anyks::Arpa::data_t *> * anyks::Arpa::get(const u_short gram) const noexce
  * @param context контекст n-граммы
  * @return        текст контекста n-граммы
  */
-const string anyks::Arpa::context(const data_t * context) const noexcept {
+const std::string anyks::Arpa::context(const data_t * context) const noexcept {
 	// Результат работы функции
 	string result = "";
 	// Если контекстпередан
@@ -565,7 +566,7 @@ const string anyks::Arpa::context(const data_t * context) const noexcept {
  * @param ups регистры слова
  * @return    слово соответствующее идентификатору
  */
-const string anyks::Arpa::word(const size_t idw, const size_t ups) const noexcept {
+const std::string anyks::Arpa::word(const size_t idw, const size_t ups) const noexcept {
 	// Результат работы функции
 	string result = "";
 	// Определяем тип записи
@@ -684,7 +685,7 @@ void anyks::Arpa::distribute(const double mass) const noexcept {
 		 * распределяем все веса юниграмм так,
 		 * чтобы их сумма была примерно равна 1.0
 		 */
-		} else if(isnormal(mass)) {
+		} else if(std::isnormal(mass)) {
 			// Выводим сообщение ошибки
 			if(debug) this->alphabet->log("distributing %4.8f left-over probability mass over all %4.8f words", alphabet_t::log_t::warning, this->logfile, mass, numWords);
 			// Получаем множитель
@@ -817,7 +818,7 @@ void anyks::Arpa::fixupProbs(const u_short gram) const noexcept {
  * Метод получения регистров слов
  * @param uppers список регистров слова
  */
-void anyks::Arpa::uniUppers(multimap <size_t, size_t> & uppers) const noexcept {
+void anyks::Arpa::uniUppers(std::multimap <size_t, size_t> & uppers) const noexcept {
 	// Список полученных N-грамм
 	list <data_t *> * ngrams = nullptr;
 	// Переходим по всем граммам корпуса
@@ -964,7 +965,7 @@ const double anyks::Arpa::lowerWeight(const size_t total, const size_t observed,
  * stamp Метод вывода штампа файла
  * @return строка с данными штампа
  */
-const string anyks::Arpa::stamp() const noexcept {
+const std::string anyks::Arpa::stamp() const noexcept {
 	// Создаем буфер для хранения даты
 	char date[80];
 	// Заполняем его нулями
@@ -1525,7 +1526,7 @@ const size_t anyks::Arpa::count(const u_short gram, const bool real) const noexc
 	// Если это юниграмма
 	if(!real && (gram == 1)){
 		// Список регистров слова
-		multimap <size_t, size_t> uppers;
+		std::multimap <size_t, size_t> uppers;
 		// Получаем список регистров слова
 		this->uniUppers(uppers);
 		// Переходим по всему списку юниграмм
@@ -1860,13 +1861,13 @@ void anyks::Arpa::arpa(const u_short gram, function <void (const string &)> call
 					// Если это -Infinity или псевдо-ноль
 					if((value.second.weight == this->zero) || (value.second.weight == this->pseudoZero))
 						// Устанавливаем вес равный псевдо-нулю
-						weight = to_string(this->pseudoZero);
+						weight = std::to_string(this->pseudoZero);
 					// Если это нормальный вес
-					else weight = to_string(value.second.weight);
+					else weight = std::to_string(value.second.weight);
 					// Если слово имеет частоту отката
 					if((gram < this->size) && ((value.second.backoff != this->zero) && this->isWords(&value.second))){
 						// Получаем обратную частоту модели
-						backoff = (isnormal(value.second.backoff) && (fabs(value.second.backoff) > 0.000001) ? to_string(value.second.backoff) : "0");
+						backoff = (std::isnormal(value.second.backoff) && (fabs(value.second.backoff) > 0.000001) ? std::to_string(value.second.backoff) : "0");
 					// Иначе очищаем обратную частоту документа
 					} else backoff.clear();
 					// Если регистры слова существуют

@@ -44,7 +44,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Устанавливаем опции компилятора
-set(CMAKE_CXX_COMPILER_ID "clang++")
+#set(CMAKE_CXX_COMPILER_ID "clang++")
 message(STATUS "Using C compiler: ${CMAKE_C_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 message(STATUS "Using C++ compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}\n")
 
@@ -55,20 +55,12 @@ string(TIMESTAMP CURRENT_TIME "%d.%m.%Y %H:%M:%S")
 # Опции компилятора
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 
-if (${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-    set(TON_PARAMS "-Wno-cpp -Wno-deprecated")
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-    set(TON_PARAMS "-Wno-cpp -Wno-deprecated")
-else()
-    set(TON_PARAMS "-Wno-unknown-attributes")
-endif()
-
 if (${ARCHITECTURE} MATCHES "aarch64" OR ${ARCHITECTURE} MATCHES "arm*")
     set(CMAKE_CXX_FLAGS_RELEASE "-O3 -pipe -DNDEBUG")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-permissive -Wno-pedantic -Wno-narrowing -Wno-deprecated-declarations ${TON_PARAMS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ")
 else()
     set(CMAKE_CXX_FLAGS_RELEASE "-O3 -pipe -mrdrnd -march=core2 -DNDEBUG")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-permissive -Wno-pedantic -Wno-narrowing -Wno-deprecated-declarations ${TON_PARAMS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ")
 endif()
 
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -DDEBUG -DDEBUG_MODE ${DEBUGGER}")
@@ -86,8 +78,10 @@ endif()
 
 # Выполняем поиск нужных библиотек
 find_package(ZLIB REQUIRED)
-find_package(Python REQUIRED)
-find_package(OpenSSL REQUIRED)
+find_package(Python REQUIRED COMPONENTS Development)
+find_package(OpenSSL REQUIRED) 
+
+find_package(nlohmann_json REQUIRED CONFIG) 
 
 # Провекра OpenSSL
 if (OpenSSL_FOUND)
@@ -107,19 +101,21 @@ endif()
 
 # Провекра Python
 if (Python_FOUND)
-    message(STATUS "Python lib found: " ${PYTHON_LIBRARY})
-    message(STATUS "Python include dir found: " ${PYTHON_INCLUDE_DIR})
+    message(STATUS "Python lib found: " ${Python_LIBRARIES})
+    message(STATUS "Python include dir found: " ${Python_INCLUDE_DIRS})
 else()
     message(FATAL_ERROR "Python not found")
 endif()
 
 # Выполняем подключение хидеров
-include_directories(${ZLIB_INCLUDE_DIR})
-include_directories(${PYTHON_INCLUDE_DIR})
-include_directories(${OPENSSL_INCLUDE_DIR})
+include_directories(${ZLIB_INCLUDE_DIRS})
+include_directories(${Python_INCLUDE_DIRS})
+include_directories(${OpenSSL_INCLUDE_DIRS})
 include_directories(${CMAKE_SOURCE_DIR}/)
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/contrib/include)
+
+include_directories(${OpenSSL_INCLUDE_DIRS})
 
 # Выполняем подключение исходников
 set(SOURCE_FILES
@@ -151,6 +147,8 @@ set(ALM_APP_NAME ${PROJECT_NAME}_bin)
 
 # Делаем либу
 add_library(${ALM_LIB_NAME} STATIC ${SOURCE_FILES})
+
+target_link_libraries(${ALM_LIB_NAME}  nlohmann_json::nlohmann_json)
 
 # Если установлен флаг ENABLE_CONSOLE_APP собираем консольное приложение
 if (ENABLE_CONSOLE_APP)

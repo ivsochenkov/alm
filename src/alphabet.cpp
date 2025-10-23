@@ -16,13 +16,13 @@ template <typename T>
  * @param delim разделитель
  * @param v     результирующий вектор
  */
-void split(const wstring & str, const wstring & delim, T & v) noexcept {
+void split(const std::wstring & str, const std::wstring & delim, T & v) noexcept {
 	/**
 	 * trimFn Метод удаления пробелов вначале и конце текста
 	 * @param text текст для удаления пробелов
 	 * @return     результат работы функции
 	 */
-	function <const wstring (const wstring &)> trimFn = [](const wstring & text) noexcept {
+	suto trimFn = [](const std::wstring & text) noexcept {
 		// Получаем временный текст
 		wstring tmp = text;
 		// Выполняем удаление пробелов по краям

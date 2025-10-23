@@ -11,7 +11,7 @@
 /**
  * getZones Метод извлечения списка пользовательских зон интернета
  */
-const set <wstring> & anyks::Uri::getZones() const noexcept {
+const std::set <std::wstring> & anyks::Uri::getZones() const noexcept {
 	// Выводим список пользовательских зон интернета
 	return this->user;
 }
@@ -42,9 +42,9 @@ const anyks::Uri::data_t anyks::Uri::parse(const wstring & text) noexcept {
 			// Если текст передан
 			if(!text.empty()){
 				// Результат работы регулярного выражения
-				wsmatch match;
+				std::wsmatch match;
 				// Выполняем проверку электронной почты
-				regex_search(text, match, this->expressEmail);
+				std::regex_search(text, match, this->expressEmail);
 				// Если результат найден
 				if(!match.empty() && (match.size() >= 5)){
 					// Запоминаем тип параметра
@@ -72,9 +72,9 @@ const anyks::Uri::data_t anyks::Uri::parse(const wstring & text) noexcept {
 			// Если текст передан
 			if(!text.empty()){
 				// Результат работы регулярного выражения
-				wsmatch match;
+				std::wsmatch match;
 				// Выполняем проверку адреса сайта
-				regex_search(text, match, this->expressDomain);
+				std::regex_search(text, match, this->expressDomain);
 				// Если результат найден
 				if(!match.empty() && (match.size() >= 7)){
 					// Запоминаем тип параметра
@@ -124,9 +124,9 @@ const anyks::Uri::data_t anyks::Uri::parse(const wstring & text) noexcept {
 			// Если текст передан
 			if(!text.empty()){
 				// Результат работы регулярного выражения
-				wsmatch match;
+				std::wsmatch match;
 				// Выполняем проверку
-				regex_search(text, match, this->expressIP);
+				std::regex_search(text, match, this->expressIP);
 				// Если результат найден
 				if(!match.empty() && (match.size() >= 5)){
 					// Запоминаем uri адрес
@@ -180,13 +180,13 @@ const anyks::Uri::data_t anyks::Uri::parse(const wstring & text) noexcept {
 				// Выполняем поиск ip адресов
 				data_t ip = ipFn(text);
 				// Если результат получен
-				if(ip.type != types_t::null) result = move(ip);
+				if(ip.type != types_t::null) result = std::move(ip);
 				// Если же ip адре не получен то возвращаем данные домена
-				else result = move(domain);
+				else result = std::move(domain);
 			// Иначе запоминаем результат
-			} else result = move(domain);
+			} else result = std::move(domain);
 		// Иначе запоминаем результат
-		} else result = move(email);
+		} else result = std::move(email);
 	}
 	// Выводим результат
 	return result;
@@ -212,7 +212,7 @@ void anyks::Uri::setLetters(const wstring & letters) noexcept {
 		// Устанавливаем буквы алфавита
 		this->letters = letters;
 		// Устанавливаем регулярное выражение для проверки электронной почты
-		this->expressEmail = wregex(
+		this->expressEmail = std::wregex(
 			wstring(L"((?:([\\w\\-")
 			+ this->letters
 			+ wstring(L"]+)\\@)(\\[(?:\\:\\:ffff\\:\\d{1,3}(?:\\.\\d{1,3}){3}|(?:[a-f\\d]{1,4}(?:(?:\\:[a-f\\d]{1,4})|\\:){1,6}\\:[a-f\\d]{1,4})|(?:[a-f\\d]{1,4}(?:(?:\\:[a-f\\d]{1,4}){7}|(?:\\:[a-f\\d]{1,4}){1,6}\\:\\:|\\:\\:)|\\:\\:))\\]|(?:\\d{1,3}(?:\\.\\d{1,3}){3})|(?:(?:xn\\-\\-[\\w\\d]+\\.){0,100}(?:xn\\-\\-[\\w\\d]+)|(?:[\\w\\-")
@@ -222,10 +222,10 @@ void anyks::Uri::setLetters(const wstring & letters) noexcept {
 			+ wstring(L"]+)\\.(xn\\-\\-[\\w\\d]+|[a-z")
 			+ this->letters
 			+ wstring(L"]+)))"),
-			wregex::ECMAScript | wregex::icase
+			std::wregex::ECMAScript | std::wregex::icase
 		);
 		// Устанавливаем правило регулярного выражения
-		this->expressDomain = wregex(
+		this->expressDomain = std::wregex(
 			wstring(L"(?:(http[s]?)\\:\\/\\/)?(\\[(?:\\:\\:ffff\\:\\d{1,3}(?:\\.\\d{1,3}){3}|(?:[a-f\\d]{1,4}(?:(?:\\:[a-f\\d]{1,4})|\\:){1,6}\\:[a-f\\d]{1,4})|(?:[a-f\\d]{1,4}(?:(?:\\:[a-f\\d]{1,4}){7}|(?:\\:[a-f\\d]{1,4}){1,6}\\:\\:|\\:\\:)|\\:\\:))\\]|(?:\\d{1,3}(?:\\.\\d{1,3}){3})|(?:(?:xn\\-\\-[\\w\\d]+\\.){0,100}(?:xn\\-\\-[\\w\\d]+)|(?:[\\w\\-")
 			+ this->letters
 			+ wstring(L"]+\\.){0,100}[\\w\\-")
@@ -233,10 +233,10 @@ void anyks::Uri::setLetters(const wstring & letters) noexcept {
 			+ wstring(L"]+)\\.(xn\\-\\-[\\w\\d]+|[a-z")
 			+ this->letters
 			+ wstring(L"]+))(?:\\:(\\d+))?((?:\\/[\\w\\-]+){0,100}(?:$|\\/|\\.[\\w]+)|\\/)?(\\?(?:[\\w\\-\\.\\~\\:\\#\\[\\]\\@\\!\\$\\&\\'\\(\\)\\*\\+\\,\\;\\=]+)?)?"),
-			wregex::ECMAScript | wregex::icase
+			std::wregex::ECMAScript | std::wregex::icase
 		);
 		// Устанавливаем правило регулярного выражения
-		this->expressIP = wregex(
+		this->expressIP =std:: wregex(
 			// Если это сеть
 			L"(?:((?:\\d{1,3}(?:\\.\\d{1,3}){3}|(?:[a-f\\d]{1,4}(?:(?:\\:[a-f\\d]{1,4})|\\:){1,6}\\:[a-f\\d]{1,4})|(?:[a-f\\d]{1,4}(?:(?:\\:[a-f\\d]{1,4}){7}|(?:\\:[a-f\\d]{1,4}){1,6}[\\:]{2}|[\\:]{2})|[\\:]{2}))\\/(?:\\d{1,3}(?:\\.\\d{1,3}){3}|\\d+))|"
 			// Определение мак адреса
@@ -245,7 +245,7 @@ void anyks::Uri::setLetters(const wstring & letters) noexcept {
 			L"(?:(?:http[s]?\\:[\\/]{2})?(?:\\[?([\\:]{2}ffff\\:\\d{1,3}(?:\\.\\d{1,3}){3}|(?:[a-f\\d]{1,4}(?:(?:\\:[a-f\\d]{1,4})|\\:){1,6}\\:[a-f\\d]{1,4})|(?:[a-f\\d]{1,4}(?:(?:\\:[a-f\\d]{1,4}){7}|(?:\\:[a-f\\d]{1,4}){1,6}[\\:]{2}|[\\:]{2})|[\\:]{2}))\\]?)(?:\\:\\d+)?\\/?)|"
 			// Определение ip4 адреса
 			L"(?:(?:http[s]?\\:[\\/]{2})?(\\d{1,3}(?:\\.\\d{1,3}){3})(?:\\:\\d+)?\\/?))",
-			wregex::ECMAScript | wregex::icase
+			std::wregex::ECMAScript | std::wregex::icase
 		);
 	}
 }
@@ -253,7 +253,7 @@ void anyks::Uri::setLetters(const wstring & letters) noexcept {
  * setZones Метод установки списка пользовательских зон
  * @param zones список доменных зон интернета
  */
-void anyks::Uri::setZones(const set <wstring> & zones) noexcept {
+void anyks::Uri::setZones(const std::set <std::wstring> & zones) noexcept {
 	// Если список зон не пустой
 	if(!zones.empty()) this->user = zones;
 }
@@ -262,7 +262,7 @@ void anyks::Uri::setZones(const set <wstring> & zones) noexcept {
  * @param letters список букв алфавита
  * @param text    текст для парсинга
  */
-anyks::Uri::Uri(const wstring & letters, const wstring & text) noexcept {
+anyks::Uri::Uri(const std::wstring & letters, const std::wstring & text) noexcept {
 	// Создаем список национальных доменов
 	this->national.emplace(L"ac");
 	this->national.emplace(L"ad");

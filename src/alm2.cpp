@@ -8,6 +8,8 @@
 
 #include <alm.hpp>
 
+#include <map>
+
 /**
  * exist Метод проверки существования последовательности
  * @param seq список слов последовательности
@@ -65,7 +67,7 @@ const double anyks::Alm2::backoff(const vector <size_t> & seq) const noexcept {
  * @param seq последовательность для извлечения веса
  * @return    вес последовательноси и n-грамма для которой она получена
  */
-const pair <u_short, double> anyks::Alm2::weight(const vector <size_t> & seq) const noexcept {
+const std::pair <u_short, double> anyks::Alm2::weight(const vector <size_t> & seq) const noexcept {
 	// Результат работы функции
 	pair <u_short, double> result = {0, 0.0};
 	// Если контекст передан
@@ -85,7 +87,7 @@ const pair <u_short, double> anyks::Alm2::weight(const vector <size_t> & seq) co
 			// Если последовательность существует
 			if((jt != it->second.end()) && (jt->second.weight != this->zero)){
 				// Формируем полученный вес n-граммы
-				result = make_pair(size, jt->second.weight);
+				result = std::make_pair(size, jt->second.weight);
 			// Иначе продолжаем дальше
 			} else result = this->weight(tmp);
 		}
@@ -98,7 +100,7 @@ const pair <u_short, double> anyks::Alm2::weight(const vector <size_t> & seq) co
  * @param seq список слов последовательности
  * @return    частота и обратная частота n-граммы
  */
-const pair <double, double> anyks::Alm2::frequency(const vector <size_t> & seq) const noexcept {
+const std::pair <double, double> anyks::Alm2::frequency(const vector <size_t> & seq) const noexcept {
 	// Результат работы функции
 	pair <double, double> result = {this->zero, this->zero};
 	// Если список последовательностей передан
@@ -116,7 +118,7 @@ const pair <double, double> anyks::Alm2::frequency(const vector <size_t> & seq) 
 			// Если последовательность существует
 			if(jt != it->second.end()){
 				// Формируем полученный вес n-граммы
-				result = make_pair(jt->second.weight, jt->second.backoff);
+				result = std::make_pair(jt->second.weight, jt->second.backoff);
 			}
 		}
 	}
@@ -149,7 +151,7 @@ void anyks::Alm2::set(const vector <alm_t::seq_t> & seq) const noexcept {
 			// Устанавливаем основную частоту последовательности
 			ngram.weight = ((data->weight == 0.0) || (fabs(round(data->weight)) >= 99.0) ? this->zero : data->weight);
 			// Если такого размера последовательности не существует, добавляем его
-			auto ret = this->arpa.emplace(i + 1, map <size_t, ngram_t> ());
+			auto ret = this->arpa.emplace(i + 1, std::map <size_t, ngram_t> ());
 			// Добавляем последовательность в словарь последовательностей
 			ret.first->second.emplace((i > 0 ? this->tokenizer->ids(tmp) : tmp.front()), ngram);
 		}
@@ -162,7 +164,7 @@ void anyks::Alm2::set(const vector <alm_t::seq_t> & seq) const noexcept {
  * @param weight  вес n-граммы из файла arpa
  * @param backoff обратная частота документа из файла arpa
  */
-void anyks::Alm2::set(const vector <size_t> & seq, const size_t uppers, const double weight, const double backoff) const noexcept {
+void anyks::Alm2::set(const std::vector <size_t> & seq, const std::size_t uppers, const double weight, const double backoff) const noexcept {
 	// Если список последовательностей передан
 	if(!seq.empty() && (this->size > 0)){
 		// Параметры N-граммы
@@ -176,7 +178,7 @@ void anyks::Alm2::set(const vector <size_t> & seq, const size_t uppers, const do
 		// Получаем размер последовательности
 		const u_short size = seq.size();
 		// Если такого размера последовательности не существует, добавляем его
-		auto ret = this->arpa.emplace(size, map <size_t, ngram_t> ());
+		auto ret = this->arpa.emplace(size, std::map <size_t, ngram_t> ());
 		// Добавляем последовательность в словарь последовательностей
 		ret.first->second.emplace((size > 1 ? this->tokenizer->ids(seq) : seq.front()), ngram);
 	}
@@ -208,7 +210,7 @@ const anyks::Alm::ppl_t anyks::Alm2::perplexity(const vector <size_t> & seq) con
 		// Количество переданных последовательностей
 		const size_t count = seq.size();
 		// Текст данных отладки собранных при расчёте
-		map <size_t, pair <string, string>> debugMessages;
+		std::map <size_t, std::pair <std::string, std::string>> debugMessages;
 		// Определяем смещение в последовательности
 		size_t offset1 = 0, offset2 = (count > size_t(this->size) ? this->size : count);
 		// Проверяем разрешено ли неизвестное слово
@@ -239,7 +241,7 @@ const anyks::Alm::ppl_t anyks::Alm2::perplexity(const vector <size_t> & seq) con
 					// Избавляемся от логорифма
 					prob = pow(10, weight);
 					// Устанавливаем граммность
-					numGram = (to_string(gram) + "gram");
+					numGram = (std::to_string(gram) + "gram");
 				}
 				// Формируем информационное сообщение
 				result.first = this->alphabet->format(
@@ -257,7 +259,7 @@ const anyks::Alm::ppl_t anyks::Alm2::perplexity(const vector <size_t> & seq) con
 				// Блокируем поток
 				this->locker.lock();
 				// Добавляем в список отладки
-				debugMessages.emplace(pos, move(result));
+				debugMessages.emplace(pos, std::move(result));
 				// Разблокируем поток
 				this->locker.unlock();
 			}
@@ -557,7 +559,7 @@ const bool anyks::Alm2::check(const vector <size_t> & seq, const u_short step) c
  * @param step размер шага проверки последовательности
  * @return     результат проверки
  */
-const pair <bool, size_t> anyks::Alm2::exist(const vector <size_t> & seq, const u_short step) const noexcept {
+const std::pair <bool, std::size_t> anyks::Alm2::exist(const vector <size_t> & seq, const u_short step) const noexcept {
 	// Результат работы функции
 	pair <bool, size_t> result = {false, 0};
 	// Если последовательность передана
@@ -656,7 +658,7 @@ const pair <bool, size_t> anyks::Alm2::exist(const vector <size_t> & seq, const 
  * @param accurate режим точной проверки
  * @return         результат проверки
  */
-const pair <bool, size_t> anyks::Alm2::check(const vector <size_t> & seq, const bool accurate) const noexcept {
+const std::pair <bool, size_t> anyks::Alm2::check(const vector <size_t> & seq, const bool accurate) const noexcept {
 	// Результат работы функции
 	pair <bool, size_t> result = {false, 0};
 	// Если последовательность передана
@@ -781,7 +783,7 @@ void anyks::Alm2::setBin(const vector <char> & buffer) const noexcept {
  * setBin2 Метод установки бинарных данных в словарь
  * @param buffer буфер с бинарными данными
  */
-void anyks::Alm2::setBin2(const vector <char> & buffer) const noexcept {
+void anyks::Alm2::setBin2(const std::vector <char> & buffer) const noexcept {
 	// Если буфер передан
 	if(!buffer.empty()){
 		// Параметры N-граммы
@@ -799,7 +801,7 @@ void anyks::Alm2::setBin2(const vector <char> & buffer) const noexcept {
 		// Если размер N-грамм получен
 		if(size > 0){
 			// Если такого размера последовательности не существует, добавляем его
-			auto ret = this->arpa.emplace(size, map <size_t, ngram_t> ());
+			auto ret = this->arpa.emplace(size, std::map <size_t, ngram_t> ());
 			// Извлекаем количество N-грамм
 			memcpy(&count, data + offset, sizeof(count));
 			// Увеличиваем смещение
@@ -1089,11 +1091,11 @@ void anyks::Alm2::find(const wstring & text, function <void (const wstring &)> c
 		// Идентификатор конца предложения
 		const size_t fid = (size_t) token_t::finish;
 		// Список последовательностей для обучения
-		vector <size_t> seq = {sid};
+		std::vector <size_t> seq = {sid};
 		// Собранная n-грамма для проверки
-		vector <wstring> words = {L"<s>"};
+		std::vector <wstring> words = {L"<s>"};
 		// Кэш списка собранных n-грамм
-		unordered_set <wstring> cache = {};
+		std::unordered_set <std::wstring> cache = {};
 		/**
 		 * callbackFn Функция вывода результата
 		 * @param words список слов для вывода результата
@@ -1304,7 +1306,7 @@ void anyks::Alm2::find(const wstring & text, function <void (const wstring &)> c
  * @param nwrd флаг разрешающий вывод системных токенов
  * @return     собранный текстовый контекст
  */
-const wstring anyks::Alm2::context(const vector <size_t> & seq, const bool nwrd) const noexcept {
+const std::wstring anyks::Alm2::context(const vector <size_t> & seq, const bool nwrd) const noexcept {
 	// Результат работы функции
 	wstring result = L"";
 	// Если последовательность передана

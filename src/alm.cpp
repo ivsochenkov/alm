@@ -48,7 +48,7 @@ const double anyks::Alm::backoff(const vector <size_t> & seq) const noexcept {
  * @param seq последовательность для извлечения веса
  * @return    вес последовательноси и n-грамма для которой она получена
  */
-const pair <u_short, double> anyks::Alm::weight(const vector <size_t> & seq) const noexcept {
+const std::pair <u_short, double> anyks::Alm::weight(const std::vector <size_t> & seq) const noexcept {
 	// Блокируем варнинг
 	(void) seq;
 	// Выводим результат
@@ -59,7 +59,7 @@ const pair <u_short, double> anyks::Alm::weight(const vector <size_t> & seq) con
  * @param seq список слов последовательности
  * @return    частота и обратная частота n-граммы
  */
-const pair <double, double> anyks::Alm::frequency(const vector <size_t> & seq) const noexcept {
+const std::pair <double, double> anyks::Alm::frequency(const std::vector <size_t> & seq) const noexcept {
 	// Блокируем варнинг
 	(void) seq;
 	// Выводим результат
@@ -117,7 +117,7 @@ void anyks::Alm::clearShielding(const string & word, const string & front, const
  * @param oovs    список неизвестных слов используемых при расчётах
  * @return        значение перплексии полученное при расчётах
  */
-const pair <double, double> anyks::Alm::pplCalculate(const double logprob, const size_t words, const size_t oovs) const noexcept {
+const std::pair <double, double> anyks::Alm::pplCalculate(const double logprob, const size_t words, const size_t oovs) const noexcept {
 	// Результат работы функции
 	pair <double, double> result = {this->zero, this->zero};
 	// Если вес переданный верный
@@ -153,7 +153,7 @@ const anyks::Alm::ppl_t anyks::Alm::perplexity(const wstring & text) const noexc
 	// Если текст передан
 	if(!text.empty()){
 		// Список собранных OOV слов
-		unordered_map <wstring, size_t> oovs;
+		std::unordered_map <std::wstring, std::size_t> oovs;
 		// Идентификатор неизвестного слова
 		const size_t uid = (size_t) token_t::unk;
 		// Идентификатор начала предложения
@@ -678,9 +678,9 @@ const bool anyks::Alm::check(const vector <size_t> & seq, const u_short step) co
  * @param accurate режим точной проверки
  * @return         результат проверки
  */
-const pair <bool, size_t> anyks::Alm::check(const string & text, const bool accurate) const noexcept {
+const std::pair <bool, std::size_t> anyks::Alm::check(const std::string & text, const bool accurate) const noexcept {
 	// Результат работы функции
-	pair <bool, size_t> result = {false, 0};
+	std::pair <bool, std::size_t> result = {false, 0};
 	// Если слово передано
 	if(!text.empty()) result = this->check(this->alphabet->convert(text), accurate);
 	// Выводим результат
@@ -692,9 +692,9 @@ const pair <bool, size_t> anyks::Alm::check(const string & text, const bool accu
  * @param accurate режим точной проверки
  * @return         результат проверки
  */
-const pair <bool, size_t> anyks::Alm::check(const wstring & text, const bool accurate) const noexcept {
+const std::pair <bool, std::size_t> anyks::Alm::check(const std::wstring & text, const bool accurate) const noexcept {
 	// Результат работы функции
-	pair <bool, size_t> result = {false, 0};
+	std::pair <bool, size_t> result = {false, 0};
 	// Если слово передано
 	if(!text.empty()){
 		// Список последовательностей для обучения
@@ -799,9 +799,9 @@ const pair <bool, size_t> anyks::Alm::check(const wstring & text, const bool acc
  * @param accurate режим точной проверки
  * @return         результат проверки
  */
-const pair <bool, size_t> anyks::Alm::check(const vector <string> & seq, const bool accurate) const noexcept {
+const std::pair <bool, size_t> anyks::Alm::check(const std::vector <string> & seq, const bool accurate) const noexcept {
 	// Результат работы функции
-	pair <bool, size_t> result;
+	std::pair <bool, std::size_t> result;
 	// Если последовательность получена
 	if(!seq.empty()){
 		// Список последовательности для проверки
@@ -823,7 +823,7 @@ const pair <bool, size_t> anyks::Alm::check(const vector <string> & seq, const b
  * @param accurate режим точной проверки
  * @return         результат проверки
  */
-const pair <bool, size_t> anyks::Alm::check(const vector <wstring> & seq, const bool accurate) const noexcept {
+const std::pair <bool, size_t> anyks::Alm::check(const std::vector <wstring> & seq, const bool accurate) const noexcept {
 	// Результат работы функции
 	pair <bool, size_t> result;
 	// Если последовательность получена
@@ -847,7 +847,7 @@ const pair <bool, size_t> anyks::Alm::check(const vector <wstring> & seq, const 
  * @param accurate режим точной проверки
  * @return         результат проверки
  */
-const pair <bool, size_t> anyks::Alm::check(const vector <size_t> & seq, const bool accurate) const noexcept {
+const std::pair <bool, size_t> anyks::Alm::check(const std::vector <size_t> & seq, const bool accurate) const noexcept {
 	// Блокируем варнинг
 	(void) seq;
 	(void) accurate;
@@ -860,7 +860,7 @@ const pair <bool, size_t> anyks::Alm::check(const vector <size_t> & seq, const b
  * @param step размер шага проверки последовательности
  * @return     результат проверки
  */
-const pair <bool, size_t> anyks::Alm::exist(const string & text, const u_short step) const noexcept {
+const std::pair <bool, std::size_t> anyks::Alm::exist(const std::string & text, const u_short step) const noexcept {
 	// Результат работы функции
 	pair <bool, size_t> result = {false, 0};
 	// Если слово передано
@@ -874,7 +874,7 @@ const pair <bool, size_t> anyks::Alm::exist(const string & text, const u_short s
  * @param step размер шага проверки последовательности
  * @return     результат проверки
  */
-const pair <bool, size_t> anyks::Alm::exist(const wstring & text, const u_short step) const noexcept {
+const std::pair <bool, std::size_t> anyks::Alm::exist(const std::wstring & text, const u_short step) const noexcept {
 	// Результат работы функции
 	pair <bool, size_t> result = {false, 0};
 	// Если слово передано
@@ -981,7 +981,7 @@ const pair <bool, size_t> anyks::Alm::exist(const wstring & text, const u_short 
  * @param step размер шага проверки последовательности
  * @return     результат проверки
  */
-const pair <bool, size_t> anyks::Alm::exist(const vector <string> & seq, const u_short step) const noexcept {
+const std::pair <bool, size_t> anyks::Alm::exist(const std::vector <string> & seq, const u_short step) const noexcept {
 	// Результат работы функции
 	pair <bool, size_t> result = {false, 0};
 	// Если последовательность получена
@@ -1005,7 +1005,7 @@ const pair <bool, size_t> anyks::Alm::exist(const vector <string> & seq, const u
  * @param step размер шага проверки последовательности
  * @return     результат проверки
  */
-const pair <bool, size_t> anyks::Alm::exist(const vector <wstring> & seq, const u_short step) const noexcept {
+const std::pair <bool, size_t> anyks::Alm::exist(const std::vector <wstring> & seq, const u_short step) const noexcept {
 	// Результат работы функции
 	pair <bool, size_t> result = {false, 0};
 	// Если последовательность получена
@@ -1029,7 +1029,7 @@ const pair <bool, size_t> anyks::Alm::exist(const vector <wstring> & seq, const 
  * @param step размер шага проверки последовательности
  * @return     результат проверки
  */
-const pair <bool, size_t> anyks::Alm::exist(const vector <size_t> & seq, const u_short step) const noexcept {
+const std::pair <bool, size_t> anyks::Alm::exist(const std::vector <size_t> & seq, const u_short step) const noexcept {
 	// Блокируем варнинг
 	(void) seq;
 	(void) step;
@@ -1041,7 +1041,7 @@ const pair <bool, size_t> anyks::Alm::exist(const vector <size_t> & seq, const u
  * @param text текст для исправления регистров
  * @return     текст с исправленными регистрами слов
  */
-const string anyks::Alm::fixUppers(const string & text) const noexcept {
+const std::string anyks::Alm::fixUppers(const std::string & text) const noexcept {
 	// Результат работы функции
 	string result = "";
 	// Если текст передан
@@ -1054,7 +1054,7 @@ const string anyks::Alm::fixUppers(const string & text) const noexcept {
  * @param text текст для исправления регистров
  * @return     текст с исправленными регистрами слов
  */
-const wstring anyks::Alm::fixUppers(const wstring & text) const noexcept {
+const std::wstring anyks::Alm::fixUppers(const wstring & text) const noexcept {
 	// Результат работы функции
 	wstring result = L"";
 	// Если текст передан
@@ -1375,7 +1375,7 @@ void anyks::Alm::initPython(){
 				}
 			}
 		// Если происходит ошибка то игнорируем её
-		} catch(const bad_alloc &) {
+		} catch(const std::bad_alloc &) {
 			// Выводим сообщение об ошибке, если режим отладки включён
 			if(this->isOption(options_t::debug)) this->alphabet->log("%s", alphabet_t::log_t::error, this->logfile, "bad alloc for init python scripts");
 			// Выходим из приложения
@@ -1485,7 +1485,7 @@ void anyks::Alm::setUserToken(const string & name) noexcept {
 				// Добавляем в пользовательский токен наши параметры
 				userToken.name = move(word);
 				// Добавляем в список токенов, наш токен
-				this->utokens.emplace(userToken.idw, move(userToken));
+				this->utokens.emplace(userToken.idw, std::move(userToken));
 			}
 		}
 	}
@@ -1547,7 +1547,7 @@ void anyks::Alm::unsetOption(const options_t option) noexcept {
  */
 void anyks::Alm::setThreads(const size_t threads) noexcept {
 	// Устанавливаем новое количество потоков
-	this->threads = (threads > 0 ? threads : thread::hardware_concurrency());
+	this->threads = (threads > 0 ? threads : std::thread::hardware_concurrency());
 }
 /**
  * setWordScript Метод установки скрипта обработки слов
@@ -1824,7 +1824,7 @@ void anyks::Alm::getUppers(const vector <size_t> & seq, vector <size_t> & upps) 
  * @param nwrd флаг разрешающий вывод системных токенов
  * @return     собранный текстовый контекст
  */
-const wstring anyks::Alm::context(const vector <size_t> & seq, const bool nwrd) const noexcept {
+const std::wstring anyks::Alm::context(const std::vector <size_t> & seq, const bool nwrd) const noexcept {
 	// Блокируем варнинг
 	(void) seq;
 	(void) nwrd;
@@ -2730,7 +2730,7 @@ const size_t anyks::Alm::getIdw(const wstring & word, const bool check) const no
  * getUnknown Метод извлечения неизвестного слова
  * @return установленное неизвестное слово
  */
-const string & anyks::Alm::getUnknown() const noexcept {
+const std::string & anyks::Alm::getUnknown() const noexcept {
 	// Результат работы функции
 	static const string result = "";
 	// Если неизвестное слово установлено
@@ -2747,7 +2747,7 @@ const string & anyks::Alm::getUnknown() const noexcept {
  * getWordScript Метод извлечения скрипта обработки слов
  * @return адрес скрипта python обработки слов
  */
-const string & anyks::Alm::getWordScript() const noexcept {
+const std::string & anyks::Alm::getWordScript() const noexcept {
 	// Результат работы функции
 	static const string result = "";
 	// Если скрипты установлены
@@ -2764,7 +2764,7 @@ const string & anyks::Alm::getWordScript() const noexcept {
  * getUserTokenScript Метод извлечения скрипта обработки пользовательских токенов
  * @return адрес скрипта python обработки пользовательских токенов
  */
-const string & anyks::Alm::getUserTokenScript() const noexcept {
+const std::string & anyks::Alm::getUserTokenScript() const noexcept {
 	// Результат работы функции
 	static const string result = "";
 	// Если скрипты установлены
@@ -2782,7 +2782,7 @@ const string & anyks::Alm::getUserTokenScript() const noexcept {
  * @param idw идентификатор пользовательского токена
  * @return    пользовательский токен соответствующий идентификатору
  */
-const string anyks::Alm::getUserTokenWord(const size_t idw) const noexcept {
+const std::string anyks::Alm::getUserTokenWord(const size_t idw) const noexcept {
 	// Результат работы функции
 	string result = "";
 	// Если идентификатор передан
@@ -2910,15 +2910,15 @@ const std::set <anyks::token_t> & anyks::Alm::getTokensDisable() const noexcept 
  * getUserTokens Метод извлечения списка пользовательских токенов
  * @return список пользовательских токенов
  */
-const vector <string> & anyks::Alm::getUserTokens() const noexcept {
+const std::vector <std::string> & anyks::Alm::getUserTokens() const noexcept {
 	// Результат работы функции
-	static const vector <string> result;
+	static const std::vector <string> result;
 	// Если пользовательские токены есть
 	if(!this->utokens.empty()){
 		// Переходим по всем пользовательским токенам
 		for(auto & token : this->utokens){
 			// Добавляем в список токен слова
-			const_cast <vector <string> *> (&result)->push_back(this->getUserTokenWord(token.first));
+			const_cast <std::vector <std::string> *> (&result)->push_back(this->getUserTokenWord(token.first));
 		}
 	}
 	// Выводим результат
@@ -2929,13 +2929,13 @@ const vector <string> & anyks::Alm::getUserTokens() const noexcept {
  * @param text текст для расчёта
  * @return     количество найденных n-грамм
  */
-const size_t anyks::Alm::grams(const string & text) const noexcept {
+const std::size_t anyks::Alm::grams(const std::string & text) const noexcept {
 	// Результат работы функции
 	size_t result = 0;
 	// Если текст передан
 	if(!text.empty()){
 		// Список полученных слов
-		vector <wstring> words;
+		std::vector <std::wstring> words;
 		// Выполняем сплит текста
 		this->alphabet->split(text, " ", words);
 		// Если список слов получен
@@ -2943,7 +2943,7 @@ const size_t anyks::Alm::grams(const string & text) const noexcept {
 			// Идентификатор слова
 			size_t idw = 0;
 			// Последовательность n-грамм
-			vector <size_t> seq;
+			std::vector <std::size_t> seq;
 			// Переходим по всему списку слов и формируем последовательность
 			for(auto & word : words){
 				// Получаем идентификатор слова
@@ -2963,7 +2963,7 @@ const size_t anyks::Alm::grams(const string & text) const noexcept {
  * @param seq список последовательностей
  * @return    количество найденных n-грамм
  */
-const size_t anyks::Alm::grams(const vector <size_t> & seq) const noexcept {
+const std::size_t anyks::Alm::grams(const std::vector <std::size_t> & seq) const noexcept {
 	// Результат работы функции
 	size_t result = 0;
 	// Если последовательность передана

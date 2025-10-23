@@ -50,7 +50,7 @@ using json = nlohmann::json;
 			// Переменная окружения
 			mutable string variable;
 			// Список полученных переменных окружения
-			unordered_map <string, string> data;
+			std::unordered_map <std::string, std::string> data;
 		private:
 			// Объект алфавита
 			const alphabet_t * alphabet = nullptr;

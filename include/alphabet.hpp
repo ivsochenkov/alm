@@ -41,24 +41,28 @@
  * anyks пространство имён
  */
 namespace anyks {
+
+    using std::string;
+    using std::wstring;
+
 	/**
 	 * Alphabet Класс для работы с алфавитом
 	 */
-	typedef class Alphabet {
+	class Alphabet {
 		private:
 			/**
 			 * Nums структура параметров чисел
 			 */
 			typedef struct Nums {
 				// Названия римских цифр
-				const set <wchar_t> roman = {L'm', L'd', L'c', L'l', L'x', L'i', L'v'};
+				const std::set <wchar_t> roman = {L'm', L'd', L'c', L'l', L'x', L'i', L'v'};
 				// Список арабских цифр
-				const set <wchar_t> arabs = {L'0', L'1', L'2', L'3', L'4', L'5', L'6', L'7', L'8', L'9'};
+				const std::set <wchar_t> arabs = {L'0', L'1', L'2', L'3', L'4', L'5', L'6', L'7', L'8', L'9'};
 				// Шаблоны римских форматов
-				const vector <wstring> i = {L"", L"I", L"II", L"III", L"IV", L"V", L"VI", L"VII", L"VIII", L"IX"};
-				const vector <wstring> x = {L"", L"X", L"XX", L"XXX", L"XL", L"L", L"LX", L"LXX", L"LXXX", L"XC"};
-				const vector <wstring> c = {L"", L"C", L"CC", L"CCC", L"CD", L"D", L"DC", L"DCC", L"DCCC", L"CM"};
-				const vector <wstring> m = {L"", L"M", L"MM", L"MMM", L"MMMM"};
+				const std::vector <std::wstring> i = {L"", L"I", L"II", L"III", L"IV", L"V", L"VI", L"VII", L"VIII", L"IX"};
+				const std::vector <std::wstring> x = {L"", L"X", L"XX", L"XXX", L"XL", L"L", L"LX", L"LXX", L"LXXX", L"XC"};
+				const std::vector <std::wstring> c = {L"", L"C", L"CC", L"CCC", L"CD", L"D", L"DC", L"DCC", L"DCCC", L"CM"};
+				const std::vector <std::wstring> m = {L"", L"M", L"MM", L"MMM", L"MMMM"};
 			} nums_t;
 		private:
 			// Латинский тип алфавита
@@ -68,7 +72,7 @@ namespace anyks {
 			// Устанавливаем локаль по умолчанию
 			std::locale locale{ALPHABET_LOCALE};
 			// Алфавит словаря
-			wstring alphabet = L"abcdefghijklmnopqrstuvwxyz";
+			std::wstring alphabet = L"abcdefghijklmnopqrstuvwxyz";
 		private:
 			// Числовые параметры
 			const nums_t numsSymbols;
@@ -179,43 +183,43 @@ namespace anyks {
 			 * get Метод получения алфавита языка
 			 * @return алфавит языка
 			 */
-			const string get() const noexcept;
+			const std::string get() const noexcept;
 			/**
 			 * get Метод получения алфавита языка
 			 * @return алфавит языка
 			 */
-			const wstring & wget() const noexcept;
+			const std::wstring & wget() const noexcept;
 			/**
 			 * trim Метод удаления пробелов вначале и конце текста
 			 * @param  text текст для удаления пробелов
 			 * @return      результат работы функции
 			 */
-			const string trim(const string & text) const noexcept;
+			const std::string trim(const std::string & text) const noexcept;
 			/**
 			 * toLower Метод перевода русских букв в нижний регистр
 			 * @param str строка для перевода
 			 * @return    строка в нижнем регистре
 			 */
-			const string toLower(const string & str) const noexcept;
+			const std::string toLower(const std::string & str) const noexcept;
 			/**
 			 * toUpper Метод перевода русских букв в верхний регистр
 			 * @param str строка для перевода
 			 * @return    строка в верхнем регистре
 			 */
-			const string toUpper(const string & str) const noexcept;
+			const std::string toUpper(const std::string & str) const noexcept;
 			/**
 			 * convert Метод конвертирования строки utf-8 в строку
 			 * @param  str строка utf-8 для конвертирования
 			 * @return     обычная строка
 			 */
-			const string convert(const wstring & str) const noexcept;
+			const string convert(const std::wstring & str) const noexcept;
 			/**
 			 * format Метод реализации функции формирования форматированной строки
 			 * @param format формат строки вывода
 			 * @param args   передаваемые аргументы
 			 * @return       сформированная строка
 			 */
-			const string format(const char * format, ...) const noexcept;
+			const std::string format(const char * format, ...) const noexcept;
 		public:
 			/**
 			 * toLower Метод перевода русских букв в нижний регистр
@@ -247,55 +251,55 @@ namespace anyks {
 			 * @param  text текст для удаления пробелов
 			 * @return      результат работы функции
 			 */
-			const wstring trim(const wstring & text) const noexcept;
+			const std::wstring trim(const std::wstring & text) const noexcept;
 			/**
 			 * convert Метод конвертирования строки в строку utf-8
 			 * @param  str строка для конвертирования
 			 * @return     строка в utf-8
 			 */
-			const wstring convert(const string & str) const noexcept;
+			const wstring convert(const std::string & str) const noexcept;
 			/**
 			 * toLower Метод перевода русских букв в нижний регистр
 			 * @param str строка для перевода
 			 * @return    строка в нижнем регистре
 			 */
-			const wstring toLower(const wstring & str) const noexcept;
+			const std::wstring toLower(const std::wstring & str) const noexcept;
 			/**
 			 * toUpper Метод перевода русских букв в верхний регистр
 			 * @param str строка для перевода
 			 * @return    строка в верхнем регистре
 			 */
-			const wstring toUpper(const wstring & str) const noexcept;
+			const std::wstring toUpper(const std::wstring & str) const noexcept;
 			/**
 			 * arabic2Roman Метод перевода арабских чисел в римские
 			 * @param  number арабское число от 1 до 4999
 			 * @return        римское число
 			 */
-			const wstring arabic2Roman(const u_int number) const noexcept;
+			const std::wstring arabic2Roman(const u_int number) const noexcept;
 			/**
 			 * arabic2Roman Метод перевода арабских чисел в римские
 			 * @param  word арабское число от 1 до 4999
 			 * @return      римское число
 			 */
-			const wstring arabic2Roman(const wstring & word) const noexcept;
+			const std::wstring arabic2Roman(const wstring & word) const noexcept;
 			/**
 			 * delPunctInWord Метод очистки текста от всех знаков препинаний
 			 * @param word слово для очистки
 			 * @return     текст без запрещенных символов
 			 */
-			const wstring delPunctInWord(const wstring & word) const noexcept;
+			const std::wstring delPunctInWord(const wstring & word) const noexcept;
 			/**
 			 * delBrokenInWord Метод очистки текста от всех символов кроме разрешенных
 			 * @param word слово для очистки
 			 * @return     текст без запрещенных символов
 			 */
-			const wstring delBrokenInWord(const wstring & word) const noexcept;
+			const std::wstring delBrokenInWord(const std::wstring & word) const noexcept;
 			/**
 			 * delHyphenInWord Метод удаления дефиса из слова
 			 * @param word слово в котором нужно удалить дефис
 			 * @return     слово без дефиса
 			 */
-			const wstring delHyphenInWord(const wstring & word) const noexcept;
+			const std::wstring delHyphenInWord(const std::wstring & word) const noexcept;
 			/**
 			 * replace Метод замены в тексте слово на другое слово
 			 * @param  text текст в котором нужно произвести замену
@@ -303,40 +307,40 @@ namespace anyks {
 			 * @param  alt  слово на которое нужно произвести замену
 			 * @return      результирующий текст
 			 */
-			const wstring replace(const wstring & text, const wstring & word, const wstring & alt = L"") const noexcept;
+			const wstring replace(const std::wstring & text, const std::wstring & word, const std::wstring & alt = L"") const noexcept;
 		public:
 			/**
 			 * errors Метод подсчета максимально-возможного количества ошибок в слове
 			 * @param  word слово для расчёта
 			 * @return      результат расчёта
 			 */
-			const u_short errors(const wstring & word) const noexcept;
+			const u_short errors(const std::wstring & word) const noexcept;
 			/**
 			 * roman2Arabic Метод перевода римских цифр в арабские
 			 * @param  word римское число
 			 * @return      арабское число
 			 */
-			const u_short roman2Arabic(const wstring & word) const noexcept;
+			const u_short roman2Arabic(const std::wstring & word) const noexcept;
 		public:
 			/**
 			 * count Метод получения количества букв в словаре
 			 * @return количество букв в словаре
 			 */
-			const size_t count() const noexcept;
+			const std::size_t count() const noexcept;
 			/**
 			 * setCase Метод запоминания регистра слова
 			 * @param pos позиция для установки регистра
 			 * @param cur текущее значение регистра в бинарном виде
 			 * @return    позиция верхнего регистра в бинарном виде
 			 */
-			const size_t setCase(const size_t pos, const size_t cur = 0) const noexcept;
+			const std::size_t setCase(const std::size_t pos, const std::size_t cur = 0) const noexcept;
 			/**
 			 * countLetter Метод подсчета количества указанной буквы в слове
 			 * @param word   слово в котором нужно подсчитать букву
 			 * @param letter букву которую нужно подсчитать
 			 * @return       результат подсчёта
 			 */
-			const size_t countLetter(const wstring & word, const wchar_t letter) const noexcept;
+			const std::size_t countLetter(const std::wstring & word, const wchar_t letter) const noexcept;
 		public:
 			/**
 			 * isAllowApostrophe Метод проверки разрешения апострофа
@@ -348,7 +352,7 @@ namespace anyks {
 			 * @param word слово для проверки
 			 * @return     результат проверки
 			 */
-			const bool isUrl(const wstring & word) const noexcept;
+			const bool isUrl(const std::wstring & word) const noexcept;
 			/**
 			 * isMath Метод определения математических операий
 			 * @param letter буква для проверки
@@ -360,7 +364,7 @@ namespace anyks {
 			 * @param word слово для проверки
 			 * @return     результат проверки
 			 */
-			const bool isAbbr(const wstring & word) const noexcept;
+			const bool isAbbr(const std::wstring & word) const noexcept;
 			/**
 			 * isUpper Метод проверки символ на верхний регистр
 			 * @param letter буква для проверки
@@ -402,13 +406,13 @@ namespace anyks {
 			 * @param  word слово для проверки
 			 * @return      результат проверки
 			 */
-			const bool isNumber(const string & word) const noexcept;
+			const bool isNumber(const std::string & word) const noexcept;
 			/**
 			 * isNumber Метод проверки является ли слово числом
 			 * @param  word слово для проверки
 			 * @return      результат проверки
 			 */
-			const bool isNumber(const wstring & word) const noexcept;
+			const bool isNumber(const std::wstring & word) const noexcept;
 			/**
 			 * isLetter Метод проверки на разрешённую букву
 			 * @param  letter буква для проверки
@@ -420,25 +424,25 @@ namespace anyks {
 			 * @param  word слово для проверки
 			 * @return      результат проверки
 			 */
-			const bool isDecimal(const string & word) const noexcept;
+			const bool isDecimal(const std::string & word) const noexcept;
 			/**
 			 * isDecimal Метод проверки является ли слово дробным числом
 			 * @param  word слово для проверки
 			 * @return      результат проверки
 			 */
-			const bool isDecimal(const wstring & word) const noexcept;
+			const bool isDecimal(const std::wstring & word) const noexcept;
 			/**
 			 * isANumber Метод проверки является ли косвенно слово числом
 			 * @param  word слово для проверки
 			 * @return      результат проверки
 			 */
-			const bool isANumber(const wstring & word) const noexcept;
+			const bool isANumber(const std::wstring & word) const noexcept;
 			/**
 			 * isAllowed Метод проверки соответствия слова словарю
 			 * @param  word слово для проверки
 			 * @return      результат проверки
 			 */
-			const bool isAllowed(const wstring & word) const noexcept;
+			const bool isAllowed(const std::wstring & word) const noexcept;
 			/**
 			 * isSpecial Метод определения спец-символа
 			 * @param letter буква для проверки
@@ -469,7 +473,7 @@ namespace anyks {
 			 * @param  word слово для проверки и исправления
 			 * @return      результат проверки
 			 */
-			const bool rest(wstring & word) const noexcept;
+			const bool rest(std::wstring & word) const noexcept;
 			/**
 			 * check Метод проверки соответствии буквы
 			 * @param  letter буква для проверки
@@ -481,31 +485,31 @@ namespace anyks {
 			 * @param  word слово для проверки
 			 * @return      результат работы метода
 			 */
-			const bool checkHome2(const wstring & word) const noexcept;
+			const bool checkHome2(const std::wstring & word) const noexcept;
 			/**
 			 * checkLatian Метод проверки наличия латинских символов в строке
 			 * @param str строка для проверки
 			 * @return    результат проверки
 			 */
-			const bool checkLatian(const wstring & str) const noexcept;
+			const bool checkLatian(const std::wstring & str) const noexcept;
 			/**
 			 * checkHyphen Метод проверки наличия дефиса в строке
 			 * @param str строка для проверки
 			 * @return    результат проверки
 			 */
-			const bool checkHyphen(const wstring & str) const noexcept;
+			const bool checkHyphen(const std::wstring & str) const noexcept;
 			/**
 			 * checkSimilars Метод проверки на симиляции букв с другими языками
 			 * @param  str строка для проверки
 			 * @return     результат проверки
 			 */
-			const bool checkSimilars(const wstring & str) const noexcept;
+			const bool checkSimilars(const std::wstring & str) const noexcept;
 		public:
 			/**
 			 * getzones Метод извлечения списка пользовательских зон интернета
 			 * @return список доменных зон
 			 */
-			const std::set <wstring> & getzones() const noexcept;
+			const std::set <std::wstring> & getzones() const noexcept;
 			/**
 			 * getAllowed Метод извлечения списка разрешённых символов
 			 * @return список разрешённых символов
@@ -515,19 +519,19 @@ namespace anyks {
 			 * getSubstitutes Метод извлечения букв для исправления слов из смешанных алфавитов
 			 * @param return список букв разных алфавитов соответствующих друг-другу
 			 */
-			const std::map <string, string> & getSubstitutes() const noexcept;
+			const std::map <std::string, std::string> & getSubstitutes() const noexcept;
 			/**
 			 * urls Метод извлечения координат url адресов в строке
 			 * @param text текст для извлечения url адресов
 			 * @return     список координат с url адресами
 			 */
-			const std::map <size_t, size_t> urls(const wstring & text) const noexcept;
+			const std::map <size_t, size_t> urls(const std::wstring & text) const noexcept;
 			/**
 			 * checkHypLat Метод поиска дефиса и латинского символа
 			 * @param str строка для проверки
 			 * @return    результат проверки
 			 */
-			const pair <bool, bool> checkHypLat(const wstring & str) const noexcept;
+			const std::pair <bool, bool> checkHypLat(const std::wstring & str) const noexcept;
 		public:
 			/**
 			 * clear Метод очистки собранных данных
@@ -543,49 +547,49 @@ namespace anyks {
 			 * @param flag     флаг типа логирования
 			 * @param filename адрес файла для вывода
 			 */
-			void log(const string & format, log_t flag, const char * filename, ...) const noexcept;
+			void log(const std::string & format, log_t flag, const char * filename, ...) const noexcept;
 			/**
 			 * split Метод разделения строк на составляющие
 			 * @param str   строка для поиска
 			 * @param delim разделитель
 			 * @param v     результирующий вектор
 			 */
-			void split(const word_t & str, const word_t & delim, list <word_t> & v) const noexcept;
+			void split(const word_t & str, const word_t & delim, std::list <word_t> & v) const noexcept;
 			/**
 			 * split Метод разделения строк на составляющие
 			 * @param str   строка для поиска
 			 * @param delim разделитель
 			 * @param v     результирующий вектор
 			 */
-			void split(const word_t & str, const word_t & delim, vector <word_t> & v) const noexcept;
+			void split(const word_t & str, const word_t & delim, std::vector <word_t> & v) const noexcept;
 			/**
 			 * split Метод разделения строк на составляющие
 			 * @param str   строка для поиска
 			 * @param delim разделитель
 			 * @param v     результирующий вектор
 			 */
-			void split(const wstring & str, const wstring & delim, list <wstring> & v) const noexcept;
+			void split(const std::wstring & str, const std::wstring & delim, std::list <wstring> & v) const noexcept;
 			/**
 			 * split Метод разделения строк на составляющие
 			 * @param str   строка для поиска
 			 * @param delim разделитель
 			 * @param v     результирующий вектор
 			 */
-			void split(const wstring & str, const wstring & delim, vector <wstring> & v) const noexcept;
+			void split(const wstring & str, const std::wstring & delim, std::vector <wstring> & v) const noexcept;
 			/**
 			 * split Метод разделения строк на составляющие
 			 * @param str   строка для поиска
 			 * @param delim разделитель
 			 * @param v     результирующий вектор
 			 */
-			void split(const string & str, const string & delim, list <wstring> & v) const noexcept;
+			void split(const std::string & str, const std::string & delim, std::list <wstring> & v) const noexcept;
 			/**
 			 * split Метод разделения строк на составляющие
 			 * @param str   строка для поиска
 			 * @param delim разделитель
 			 * @param v     результирующий вектор
 			 */
-			void split(const string & str, const string & delim, vector <wstring> & v) const noexcept;
+			void split(const std::string & str, const std::string & delim, std::vector <wstring> & v) const noexcept;
 			/**
 			 * add Метод добавления буквы в алфавит
 			 * @param letter буква для добавления
@@ -595,37 +599,37 @@ namespace anyks {
 			 * set Метод добавления алфавита в словарь
 			 * @param alphabet алфавит символов для текущего языка
 			 */
-			void set(const string & alphabet = "") noexcept;
+			void set(const std::string & alphabet = "") noexcept;
 			/**
 			 * setzone Метод установки пользовательской зоны
 			 * @param zone пользовательская зона
 			 */
-			void setzone(const string & zone) noexcept;
+			void setzone(const std::string & zone) noexcept;
 			/**
 			 * setzone Метод установки пользовательской зоны
 			 * @param zone пользовательская зона
 			 */
-			void setzone(const wstring & zone) noexcept;
+			void setzone(const std::wstring & zone) noexcept;
 			/**
 			 * setzones Метод установки списка пользовательских зон
 			 * @param zones список доменных зон интернета
 			 */
-			void setzones(const std::set <string> & zones) noexcept;
+			void setzones(const std::set <std::string> & zones) noexcept;
 			/**
 			 * setzones Метод установки списка пользовательских зон
 			 * @param zones список доменных зон интернета
 			 */
-			void setzones(const std::set <wstring> & zones) noexcept;
+			void setzones(const std::set <std::wstring> & zones) noexcept;
 			/**
 			 * setlocale Метод установки локали
 			 * @param locale локализация приложения
 			 */
-			void setlocale(const string & locale = "en_US.UTF-8") noexcept;
+			void setlocale(const std::string & locale = "en_US.UTF-8") noexcept;
 			/**
 			 * setSubstitutes Метод установки букв для исправления слов из смешанных алфавитов
 			 * @param letters список букв разных алфавитов соответствующих друг-другу
 			 */
-			void setSubstitutes(const std::map <string, string> & letters) noexcept;
+			void setSubstitutes(const std::map <std::string, std::string> & letters) noexcept;
 		public:
 			/**
 			 * Alphabet Конструктор
@@ -635,26 +639,28 @@ namespace anyks {
 			 * Alphabet Конструктор
 			 * @param locale локализация приложения
 			 */
-			Alphabet(const string & locale) noexcept;
+			Alphabet(const std::string & locale) noexcept;
 			/**
 			 * Alphabet Конструктор
 			 * @param alphabet алфавит символов для текущего языка
 			 * @param locale   локализация приложения
 			 */
-			Alphabet(const string & alphabet, const string & locale) noexcept;
-	} alphabet_t;
+			Alphabet(const string & alphabet, const std::string & locale) noexcept;
+	} ;
+
+    using alphabet_t = Alphabet;
 	/**
 	 * Оператор чтения из потока
 	 * @param is   поток для чтения
 	 * @param word слово куда нужно считать данные из потока
 	 */
-	istream & operator >> (istream & is, wstring & word) noexcept;
+	std::istream & operator >> (std::istream & is, std::wstring & word) noexcept;
 	/**
 	 * Оператор вывода в поток из слова
 	 * @param os   поток куда нужно вывести данные
 	 * @param word слово из которого нужно вывести данные
 	 */
-	ostream & operator << (ostream & os, const wstring & word) noexcept;
+	std::ostream & operator << (std::ostream & os, const std::wstring & word) noexcept;
 };
 
 #endif // __ANYKS_ALPHABET__

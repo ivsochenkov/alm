@@ -69,7 +69,7 @@ using json = nlohmann::json;
 		endtoken       // Финальное значение токена
 	};
 	// Тип данных пары целых значений
-	typedef pair <size_t, size_t> pair_t;
+	typedef std::pair <size_t, size_t> pair_t;
 	/**
 	 * Tokenizer Класс работы с токенизацией
 	 */
@@ -103,14 +103,16 @@ using json = nlohmann::json;
 				collect // Флаг разрешения сборку суффиксов цифровых аббревиатур
 			};
 			// Тип функции внешнего токенизатора
-			typedef function <void (const wstring &, function <const bool (const wstring &, const vector <string> &, const bool, const bool)>)> tokenz_t;
+			typedef std::function <void (const wstring &
+                , std::function <const bool (const std::wstring &, const vector <string> &, const bool, const bool)>)
+                > tokenz_t;
 		private:
 			// Объект идентификатора
 			idw_t wrdId;
 			// Флаги параметров
-			bitset <4> options;
+			std::bitset <4> options;
 			// Списки суффиксов цифровых и буквенных аббревиатур
-			mutable set <size_t> abbrs, suffix;
+			mutable std::set <size_t> abbrs, suffix;
 		private:
 			// Внешняя функция токенизатора
 			tokenz_t extFn;
@@ -132,7 +134,7 @@ using json = nlohmann::json;
 			 * @param text    текст для сборки контекста
 			 * @param context контекст типов токенов
 			 */
-			void restore(const wstring & first, const wstring & second, wstring & text, stack <type_t> & context) const noexcept;
+			void restore(const wstring & first, const wstring & second, wstring & text, std::stack <type_t> & context) const noexcept;
 		public:
 			/**
 			 * addAbbr Метод добавления аббревиатуры
@@ -153,7 +155,7 @@ using json = nlohmann::json;
 			 * setAbbrs Метод установки списка аббревиатур
 			 * @param abbrs список аббревиатур
 			 */
-			void setAbbrs(const set <size_t> & abbrs) noexcept;
+			void setAbbrs(const std::set <size_t> & abbrs) noexcept;
 		public:
 			/**
 			 * setLogfile Метод установки файла для вывода логов
@@ -185,7 +187,7 @@ using json = nlohmann::json;
 			 * setSuffixes Метод установки списка суффиксов цифровых аббревиатур
 			 * @param suffix список суффиксов цифровых аббревиатур
 			 */
-			void setSuffixes(const set <size_t> & suffix) const noexcept;
+			void setSuffixes(const std::set <size_t> & suffix) const noexcept;
 			/**
 			 * addSuffix Метод извлечения суффикса из цифровой аббревиатуры
 			 * @param word слово для извлечения суффикса аббревиатуры
@@ -197,12 +199,12 @@ using json = nlohmann::json;
 			 * getAbbrs Метод извлечения списка аббревиатур
 			 * @return список аббревиатур
 			 */
-			const set <size_t> & getAbbrs() const noexcept;
+			const std::set <size_t> & getAbbrs() const noexcept;
 			/**
 			 * getSuffixes Метод извлечения списка суффиксов цифровых аббревиатур
 			 * @return список цифровых аббревиатур
 			 */
-			const set <size_t> & getSuffixes() const noexcept;
+			const std::set <size_t> & getSuffixes() const noexcept;
 		public:
 			/**
 			 * fti Метод удаления дробной части числа
@@ -272,7 +274,7 @@ using json = nlohmann::json;
 			 * @param  seq последовательность для получения идентификатора
 			 * @return     идентификатор последовательности
 			 */
-			const size_t ids(const vector <size_t> & seq) const noexcept;
+			const size_t ids(const std::vector <size_t> & seq) const noexcept;
 		public:
 			/**
 			 * readline Метод извлечения строки из текста
@@ -280,19 +282,19 @@ using json = nlohmann::json;
 			 * @param  str строка для извлечения текста
 			 * @return     файловый поток с текущий позиции
 			 */
-			istream & readline(istream & is, string & str) const noexcept;
+			std::istream & readline(std::istream & is, std::string & str) const noexcept;
 			/**
 			 * restore Метод восстановления текста из контекста
 			 * @param context токенизированный контекст
 			 * @return        результирующий текст
 			 */
-			const string restore(const vector <string> & context) const noexcept;
+			const string restore(const std::vector <string> & context) const noexcept;
 			/**
 			 * restore Метод восстановления текста из контекста
 			 * @param context токенизированный контекст
 			 * @return        результирующий текст
 			 */
-			const wstring restore(const vector <wstring> & context) const noexcept;
+			const wstring restore(const std::vector <wstring> & context) const noexcept;
 		public:
 			/**
 			 * clear Метод очистки собранных данных
@@ -313,39 +315,42 @@ using json = nlohmann::json;
 			 * @param text     текст для преобразования в формате json
 			 * @param callback функция обратного вызова, на каждой итерации
 			 */
-			void jsonToText(const string & text, function <void (const string &)> callback) const noexcept;
+			void jsonToText(const string & text, std::function <void (const string &)> callback) const noexcept;
 			/**
 			 * textToJson Метод преобразования текста в json
 			 * @param text     текст для преобразования
 			 * @param callback функция обратного вызова, на каждой итерации
 			 */
-			void textToJson(const string & text, function <void (const string &)> callback) const noexcept;
+			void textToJson(const string & text, std::function <void (const string &)> callback) const noexcept;
 		public:
 			/**
 			 * writeSuffix Метод записи данных в файл суффиксов цифровых аббревиатур
 			 * @param filename адрес файла для записи
 			 * @param status   функция вывода статуса
 			 */
-			void writeSuffix(const string & filename, function <void (const u_short)> status = nullptr) noexcept;
+			void writeSuffix(const string & filename, std::function <void (const u_short)> status = nullptr) noexcept;
 			/**
 			 * readSuffix Метод чтения данных из файла суффиксов цифровых аббревиатур
 			 * @param filename адрес файла для чтения
 			 * @param status   функция вывода статуса
 			 */
-			void readSuffix(const string & filename, function <void (const string &, const u_short)> status = nullptr) noexcept;
+			void readSuffix(const string & filename, std::function <void (const std::string &, const u_short)> status = nullptr) noexcept;
 		public:
 			/**
 			 * run Метод разбивки текста на токены
 			 * @param text     входной текст для обработки
 			 * @param callback функция обратного вызова, на каждой итерации
 			 */
-			void run(const string & text, function <const bool (const wstring &, const vector <string> &, const bool, const bool)> callback) const noexcept;
+			void run(const std::string & text, std::function <
+                const bool (const std::wstring &, const std::vector <std::string> &, const bool, const bool)
+                > callback) const noexcept;
 			/**
 			 * run Метод разбивки текста на токены
 			 * @param text     входной текст для обработки
 			 * @param callback функция обратного вызова, на каждой итерации
 			 */
-			void run(const wstring & text, function <const bool (const wstring &, const vector <string> &, const bool, const bool)> callback) const noexcept;
+			void run(const std::wstring & text, std::function <
+                const bool (const std::wstring &, const std::vector <std::string> &, const bool, const bool)> callback) const noexcept;
 		public:
 			/**
 			 * Tokenizer Конструктор
