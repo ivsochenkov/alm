@@ -41,14 +41,14 @@ namespace anyks {
 			string destination = "";
 		private:
 			// Общий размер считанных данных
-			atomic <double> allSize{0};
+			std::atomic <double> allSize{0};
 			// Текущий статус прогресс-бара
-			atomic <u_short> status{0};
+			std::atomic <u_short> status{0};
 			// Прошлый статус прогресс-бара
-			atomic <u_short> rate{101};
+			std::atomic <u_short> rate{101};
 		private:
 			// Мютекс для блокировки потока
-			mutex locker;
+			std::mutex locker;
 			// Тип режима отладки
 			u_short debug = 0;
 			// Общий размер n-граммы
@@ -64,9 +64,9 @@ namespace anyks {
 			// Размер сегмента в байтах
 			uintmax_t segmentSize = 0;
 			// Количество потоков для работы
-			size_t threads = thread::hardware_concurrency();
+			size_t threads = std::thread::hardware_concurrency();
 			// Функция прогресс бара
-			function <void (const wstring &, const u_short)> progressFn = nullptr;
+			std::function <void (const wstring &, const u_short)> progressFn = nullptr;
 		private:
 			// Создаем тредпул
 			tpool_t * tpool = nullptr;

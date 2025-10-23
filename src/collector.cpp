@@ -156,7 +156,7 @@ void anyks::Collector::initPython(){
  * createDir Метод создания каталога для сохранения результата
  * @return адрес созданного каталога
  */
-const string & anyks::Collector::createDir() const noexcept {
+const std::string & anyks::Collector::createDir() const noexcept {
 	// Название каталога для собранных файлов
 	static const string dirName = "";
 	// Если разрешено сохранять промежуточные результаты
@@ -215,9 +215,9 @@ const long anyks::Collector::getSize(const string & str) const noexcept {
 	// Размер буфера в байтах
 	long size = -1;
 	// Результат работы регулярного выражения
-	smatch match;
+	std::smatch match;
 	// Устанавливаем правило регулярного выражения
-	regex e("([\\d\\.\\,]+)(b|kb|Mb|Gb)", regex::ECMAScript);
+	std::regex e("([\\d\\.\\,]+)(b|kb|Mb|Gb)", std::regex::ECMAScript);
 	// Выполняем поиск скорости
 	regex_search(str, match, e);
 	// Если данные найдены
@@ -323,13 +323,13 @@ void anyks::Collector::train(const string & filename, const size_t idd) noexcept
 			// Если отладка включена, выводим индикатор загрузки
 			if(this->debug > 0){
 				// Общий полученный размер данных
-				this->allSize.store(this->allSize + 1, memory_order_relaxed);
+				this->allSize.store(this->allSize + 1, std::memory_order_relaxed);
 				// Подсчитываем статус выполнения
 				this->status = u_short(this->allSize / double(this->dataSize) * 100.0);
 				// Если процентное соотношение изменилось
 				if(this->rate != this->status){
 					// Запоминаем текущее процентное соотношение
-					this->rate.store(this->status, memory_order_relaxed);
+					this->rate.store(this->status, std::memory_order_relaxed);
 					// Блокируем поток
 					this->locker.lock();
 					// Если внешний прогресс-бар отключен
@@ -407,13 +407,13 @@ void anyks::Collector::train(const vector <string> & texts, const size_t idd) no
 					// Если отладка включена, выводим индикатор загрузки
 					if(this->debug > 0){
 						// Общий полученный размер данных
-						this->allSize.store(this->allSize + text.size(), memory_order_relaxed);
+						this->allSize.store(this->allSize + text.size(), std::memory_order_relaxed);
 						// Подсчитываем статус выполнения
 						this->status = u_short(this->allSize / double(this->dataSize) * 100.0);
 						// Если процентное соотношение изменилось
 						if(this->rate != this->status){
 							// Запоминаем текущее процентное соотношение
-							this->rate.store(this->status, memory_order_relaxed);
+							this->rate.store(this->status, std::memory_order_relaxed);
 							// Блокируем поток
 							this->locker.lock();
 							// Если внешний прогресс-бар отключен
@@ -530,7 +530,7 @@ void anyks::Collector::setDest(const string & destination) noexcept {
  */
 void anyks::Collector::setThreads(const size_t threads) noexcept {
 	// Устанавливаем новое количество потоков
-	this->threads = (threads > 0 ? threads : thread::hardware_concurrency());
+	this->threads = (threads > 0 ? threads : std::thread::hardware_concurrency());
 }
 /**
  * setAlphabet Метод установки алфавита

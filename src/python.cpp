@@ -173,7 +173,7 @@ const size_t anyks::Python::add(const string & script, const u_short args) noexc
 										// Запоминаем сколько всего было передано аргументов
 										script.count = args;
 										// Добавляем в список очередной скрипт
-										this->scripts.emplace(result, move(script));
+										this->scripts.emplace(result, std::move(script));
 									// Если функция запуска не найдена
 									} else {
 										// Очищаем функцию запуска скрипта
@@ -222,7 +222,7 @@ const size_t anyks::Python::add(const string & script, const u_short args) noexc
  * @param  arr  массив аргументов для передачи в скрипт
  * @return      результат выполнения скрипта
  */
-const wstring anyks::Python::run(const size_t sid, const vector <string> & args, const vector <string> & arr) const noexcept {
+const std::wstring anyks::Python::run(const size_t sid, const vector <string> & args, const vector <string> & arr) const noexcept {
 	// Результат работы функции
 	wstring result = L"";
 // Если работа идет не изнутри Python

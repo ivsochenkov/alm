@@ -148,7 +148,7 @@ set(ALM_APP_NAME ${PROJECT_NAME}_bin)
 # Делаем либу
 add_library(${ALM_LIB_NAME} STATIC ${SOURCE_FILES})
 
-target_link_libraries(${ALM_LIB_NAME}  nlohmann_json::nlohmann_json)
+target_link_libraries(${ALM_LIB_NAME}  nlohmann_json::nlohmann_json ${Python_LIBRARIES})
 
 # Если установлен флаг ENABLE_CONSOLE_APP собираем консольное приложение
 if (ENABLE_CONSOLE_APP)

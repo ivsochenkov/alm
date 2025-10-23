@@ -22,12 +22,12 @@ void split(const std::wstring & str, const std::wstring & delim, T & v) noexcept
 	 * @param text текст для удаления пробелов
 	 * @return     результат работы функции
 	 */
-	suto trimFn = [](const std::wstring & text) noexcept {
+	auto trimFn = [](const std::wstring & text) noexcept {
 		// Получаем временный текст
-		wstring tmp = text;
+		std::wstring tmp = text;
 		// Выполняем удаление пробелов по краям
-		tmp.erase(tmp.begin(), find_if_not(tmp.begin(), tmp.end(), [](wchar_t c){ return iswspace(c); }));
-		tmp.erase(find_if_not(tmp.rbegin(), tmp.rend(), [](wchar_t c){ return iswspace(c); }).base(), tmp.end());
+		tmp.erase(tmp.begin(), find_if_not(tmp.begin(), tmp.end(), [](wchar_t c){ return std::iswspace(c); }));
+		tmp.erase(std::find_if_not(tmp.rbegin(), tmp.rend(), [](wchar_t c){ return std::iswspace(c); }).base(), tmp.end());
 		// Выводим результат
 		return tmp;
 	};
@@ -37,11 +37,12 @@ void split(const std::wstring & str, const std::wstring & delim, T & v) noexcept
 	size_t i = 0, j = str.find(delim);
 	const size_t len = delim.length();
 	// Выполняем разбиение строк
-	while(j != wstring::npos){
+	while(j != std::wstring::npos){
 		v.push_back(trimFn(str.substr(i, j - i)));
 		i = ++j + (len - 1);
 		j = str.find(delim, j);
-		if(j == wstring::npos) v.push_back(trimFn(str.substr(i, str.length())));
+		if(j == std::wstring::npos) 
+            v.push_back(trimFn(str.substr(i, str.length())));
 	}
 	// Если слово передано а вектор пустой, тогда создаем вектори из 1-го элемента
 	if(!str.empty() && v.empty()) v.push_back(trimFn(str));
@@ -82,7 +83,7 @@ const std::set <wchar_t>::const_reverse_iterator anyks::Alphabet::crend() const 
  * get Метод получения алфавита языка
  * @return алфавит языка
  */
-const string anyks::Alphabet::get() const noexcept {
+const std::string anyks::Alphabet::get() const noexcept {
 	// Выводим результат
 	return this->convert(this->alphabet);
 }
@@ -90,7 +91,7 @@ const string anyks::Alphabet::get() const noexcept {
  * get Метод получения алфавита языка
  * @return алфавит языка
  */
-const wstring & anyks::Alphabet::wget() const noexcept {
+const std::wstring & anyks::Alphabet::wget() const noexcept {
 	// Выводим результат
 	return this->alphabet;
 }
@@ -99,7 +100,7 @@ const wstring & anyks::Alphabet::wget() const noexcept {
  * @param text текст для удаления пробелов
  * @return     результат работы функции
  */
-const string anyks::Alphabet::trim(const string & text) const noexcept {
+const std::string anyks::Alphabet::trim(const string & text) const noexcept {
 	// Получаем временный текст
 	string tmp = text;
 	// Выполняем удаление пробелов по краям
@@ -113,7 +114,7 @@ const string anyks::Alphabet::trim(const string & text) const noexcept {
  * @param str строка для перевода
  * @return    строка в нижнем регистре
  */
-const string anyks::Alphabet::toLower(const string & str) const noexcept {
+const std::string anyks::Alphabet::toLower(const string & str) const noexcept {
 	// Результат работы функции
 	string result = str;
 	// Если строка передана
@@ -136,7 +137,7 @@ const string anyks::Alphabet::toLower(const string & str) const noexcept {
  * @param str строка для перевода
  * @return    строка в верхнем регистре
  */
-const string anyks::Alphabet::toUpper(const string & str) const noexcept {
+const std::string anyks::Alphabet::toUpper(const string & str) const noexcept {
 	// Результат работы функции
 	string result = str;
 	// Если строка передана
@@ -159,7 +160,7 @@ const string anyks::Alphabet::toUpper(const string & str) const noexcept {
  * @param  str строка utf-8 для конвертирования
  * @return     обычная строка
  */
-const string anyks::Alphabet::convert(const wstring & str) const noexcept {
+const std::string anyks::Alphabet::convert(const std::wstring & str) const noexcept {
 	// Результат работы функции
 	string result = "";
 	// Если строка передана
@@ -173,9 +174,9 @@ const string anyks::Alphabet::convert(const wstring & str) const noexcept {
 // Если нужно использовать стандартную библиотеку
 #else
 		// Устанавливаем тип для конвертера UTF-8
-		using convert_type = codecvt_utf8 <wchar_t, 0x10ffff, little_endian>;
+		using convert_type = std::codecvt_utf8 <wchar_t, 0x10ffff, std::little_endian>;
 		// Объявляем конвертер
-		wstring_convert <convert_type, wchar_t> conv;
+		std::wstring_convert <convert_type, wchar_t> conv;
 		// wstring_convert <codecvt_utf8 <wchar_t>> conv;
 		// Выполняем конвертирование в utf-8 строку
 		result = conv.to_bytes(str);
@@ -190,7 +191,7 @@ const string anyks::Alphabet::convert(const wstring & str) const noexcept {
  * @param args   передаваемые аргументы
  * @return       сформированная строка
  */
-const string anyks::Alphabet::format(const char * format, ...) const noexcept {
+const std::string anyks::Alphabet::format(const char * format, ...) const noexcept {
 	// Результат работы функции
 	string result = "";
 	// Если формат передан
@@ -288,7 +289,7 @@ const wchar_t anyks::Alphabet::toUpper(const wchar_t letter) const noexcept {
  * @param text текст для удаления пробелов
  * @return     результат работы функции
  */
-const wstring anyks::Alphabet::trim(const wstring & text) const noexcept {
+const std::wstring anyks::Alphabet::trim(const std::wstring & text) const noexcept {
 	// Получаем временный текст
 	wstring tmp = text;
 	// Выполняем удаление пробелов по краям
@@ -302,7 +303,7 @@ const wstring anyks::Alphabet::trim(const wstring & text) const noexcept {
  * @param  str строка для конвертирования
  * @return     строка в utf-8
  */
-const wstring anyks::Alphabet::convert(const string & str) const noexcept {
+const std::wstring anyks::Alphabet::convert(const std::string & str) const noexcept {
 	// Результат работы функции
 	wstring result = L"";
 	// Если строка передана
@@ -317,7 +318,7 @@ const wstring anyks::Alphabet::convert(const string & str) const noexcept {
 #else
 		// Объявляем конвертер
 		// wstring_convert <codecvt_utf8 <wchar_t>> conv;
-		wstring_convert <codecvt_utf8_utf16 <wchar_t, 0x10ffff, little_endian>> conv;
+		std::wstring_convert <std::codecvt_utf8_utf16 <wchar_t, 0x10ffff, std::little_endian>> conv;
 		// Выполняем конвертирование в utf-8 строку
 		result = conv.from_bytes(str);
 #endif
@@ -330,7 +331,7 @@ const wstring anyks::Alphabet::convert(const string & str) const noexcept {
  * @param str строка для перевода
  * @return    строка в нижнем регистре
  */
-const wstring anyks::Alphabet::toLower(const wstring & str) const noexcept {
+const std::wstring anyks::Alphabet::toLower(const std::wstring & str) const noexcept {
 	// Результат работы функции
 	wstring result = L"";
 	// Если строка передана
@@ -346,7 +347,7 @@ const wstring anyks::Alphabet::toLower(const wstring & str) const noexcept {
  * @param str строка для перевода
  * @return    строка в верхнем регистре
  */
-const wstring anyks::Alphabet::toUpper(const wstring & str) const noexcept {
+const std::wstring anyks::Alphabet::toUpper(const std::wstring & str) const noexcept {
 	// Результат работы функции
 	wstring result = L"";
 	// Если строка передана
@@ -362,7 +363,7 @@ const wstring anyks::Alphabet::toUpper(const wstring & str) const noexcept {
  * @param  number арабское число от 1 до 4999
  * @return        римское число
  */
-const wstring anyks::Alphabet::arabic2Roman(const u_int number) const noexcept {
+const std::wstring anyks::Alphabet::arabic2Roman(const u_int number) const noexcept {
 	// Результат работы функции
 	wstring result = L"";
 	// Если число передано верное
@@ -392,7 +393,7 @@ const wstring anyks::Alphabet::arabic2Roman(const u_int number) const noexcept {
  * @param  word арабское число от 1 до 4999
  * @return      римское число
  */
-const wstring anyks::Alphabet::arabic2Roman(const wstring & word) const noexcept {
+const std::wstring anyks::Alphabet::arabic2Roman(const std::wstring & word) const noexcept {
 	// Результат работы функции
 	wstring result = L"";
 	// Если слово передано
@@ -410,7 +411,7 @@ const wstring anyks::Alphabet::arabic2Roman(const wstring & word) const noexcept
  * @param word слово для очистки
  * @return     текст без запрещенных символов
  */
-const wstring anyks::Alphabet::delPunctInWord(const wstring & word) const noexcept {
+const std::wstring anyks::Alphabet::delPunctInWord(const std::wstring & word) const noexcept {
 	// Результат работы функции
 	wstring result = L"";
 	// Если строка передана
@@ -431,7 +432,7 @@ const wstring anyks::Alphabet::delPunctInWord(const wstring & word) const noexce
  * @param word слово для очистки
  * @return     текст без запрещенных символов
  */
-const wstring anyks::Alphabet::delBrokenInWord(const wstring & word) const noexcept {
+const std::wstring anyks::Alphabet::delBrokenInWord(const std::wstring & word) const noexcept {
 	// Результат работы функции
 	wstring result = L"";
 	// Если строка передана
@@ -458,7 +459,7 @@ const wstring anyks::Alphabet::delBrokenInWord(const wstring & word) const noexc
  * @param word слово в котором нужно удалить дефис
  * @return     слово без дефиса
  */
-const wstring anyks::Alphabet::delHyphenInWord(const wstring & word) const noexcept {
+const std::wstring anyks::Alphabet::delHyphenInWord(const std::wstring & word) const noexcept {
 	// Результат работы функции
 	wstring result = L"";
 	// Если слово передано
@@ -485,7 +486,7 @@ const wstring anyks::Alphabet::delHyphenInWord(const wstring & word) const noexc
  * @param  alt  слово на которое нужно произвести замену
  * @return      результирующий текст
  */
-const wstring anyks::Alphabet::replace(const wstring & text, const wstring & word, const wstring & alt) const noexcept {
+const std::wstring anyks::Alphabet::replace(const std::wstring & text, const std::wstring & word, const wstring & alt) const noexcept {
 	// Результат работы функции
 	wstring result = move(text);
 	// Если текст передан и искомое слово не равно слову для замены
@@ -1194,11 +1195,11 @@ const bool anyks::Alphabet::rest(wstring & word) const noexcept {
 	// Если слово передано
 	if(!word.empty() && (word.length() > 1)){
 		// Список остальных символов
-		multimap <wchar_t, u_short> other;
+		std::multimap <wchar_t, u_short> other;
 		// Список латинских букв
-		multimap <wchar_t, u_short> latian;
+		std::multimap <wchar_t, u_short> latian;
 		// Список нормального алфавита
-		multimap <wchar_t, u_short> normal;
+		std::multimap <wchar_t, u_short> normal;
 		/**
 		 * setFn Метод установки полученной буквы
 		 * @param letter буква для установки
@@ -1420,7 +1421,7 @@ const bool anyks::Alphabet::checkSimilars(const wstring & str) const noexcept {
  * getzones Метод извлечения списка пользовательских зон интернета
  * @return список доменных зон
  */
-const std::set <wstring> & anyks::Alphabet::getzones() const noexcept {
+const std::set <std::wstring> & anyks::Alphabet::getzones() const noexcept {
 	// Выводим список доменных зон интернета
 	return this->uri.getZones();
 }
@@ -1436,7 +1437,7 @@ const std::set <wchar_t> & anyks::Alphabet::getAllowed() const noexcept {
  * getSubstitutes Метод извлечения букв для исправления слов из смешанных алфавитов
  * @param return список букв разных алфавитов соответствующих друг-другу
  */
-const std::map <string, string> & anyks::Alphabet::getSubstitutes() const noexcept {
+const std::map <std::string, std::string> & anyks::Alphabet::getSubstitutes() const noexcept {
 	// Выводим результат
 	const static std::map <string, string> result;
 	// Если список букв передан
@@ -1458,9 +1459,9 @@ const std::map <string, string> & anyks::Alphabet::getSubstitutes() const noexce
  * @param text текст для извлечения url адресов
  * @return     список координат с url адресами
  */
-const std::map <size_t, size_t> anyks::Alphabet::urls(const wstring & text) const noexcept {
+const std::map <size_t, size_t> anyks::Alphabet::urls(const std::wstring & text) const noexcept {
 	// Результат работы функции
-	map <size_t, size_t> result;
+	std::map <size_t, size_t> result;
 	// Если текст передан
 	if(!text.empty()){
 		// Позиция найденного uri адреса
@@ -1498,9 +1499,9 @@ const std::map <size_t, size_t> anyks::Alphabet::urls(const wstring & text) cons
  * @param str строка для проверки
  * @return    результат проверки
  */
-const pair <bool, bool> anyks::Alphabet::checkHypLat(const wstring & str) const noexcept {
+const std::pair <bool, bool> anyks::Alphabet::checkHypLat(const std::wstring & str) const noexcept {
 	// Результат работы функции
-	pair <bool, bool> result = {false, false};
+	std::pair <bool, bool> result = {false, false};
 	// Если строка передана
 	if(!str.empty()){
 		// Длина слова
@@ -1510,7 +1511,8 @@ const pair <bool, bool> anyks::Alphabet::checkHypLat(const wstring & str) const 
 			// Значение текущей буквы
 			wchar_t letter = 0;
 			// Переходим по всем буквам слова
-			for(size_t i = 0, j = (length - 1); j > ((length / 2) - 1); i++, j--){
+			for(size_t i = 0, j = (length - 1); j > ((length / 2) - 1); i++, j--)
+            {
 				// Получаем значение текущей буквы
 				letter = str.at(i);
 				// Проверяем является ли слово латинским
@@ -1595,7 +1597,7 @@ void anyks::Alphabet::log(const string & format, log_t flag, const char * filena
 			// Формируем файловый поток
 			ostream * file = (filename == nullptr ? nullptr : new ofstream(filename, ios::app));
 			// Формируем выходной поток
-			ostream & out = (filename != nullptr ? * file : cout);
+			ostream & out = (filename != nullptr ? * file : std::cout);
 			// Определяем тип сообщения
 			switch((u_short) flag){
 				// Выводим сообщение так-как оно есть
@@ -1831,13 +1833,14 @@ anyks::Alphabet::Alphabet(const string & alphabet, const string & locale) noexce
  * @param is   поток для чтения
  * @param word слово куда нужно считать данные из потока
  */
-istream & anyks::operator >> (istream & is, wstring & word) noexcept {
+std::istream & anyks::operator >> (std::istream & is, std::wstring & word) noexcept {
 	// Получаем строку
 	string str = "";
 	// Считываем в строку значение
 	is >> str;
 	// Устанавливаем значение
-	if(!str.empty()) word.assign(alphabet_t().convert(str));
+	if(!str.empty()) 
+        word.assign(alphabet_t().convert(str));
 	// Выводим результат
 	return is;
 }
@@ -1846,7 +1849,7 @@ istream & anyks::operator >> (istream & is, wstring & word) noexcept {
  * @param os   поток куда нужно вывести данные
  * @param word слово из которого нужно вывести данные
  */
-ostream & anyks::operator << (ostream & os, const wstring & word) noexcept {
+std::ostream & anyks::operator << (std::ostream & os, const std::wstring & word) noexcept {
 	// Записываем в поток
 	os << alphabet_t().convert(word);
 	// Выводим результат

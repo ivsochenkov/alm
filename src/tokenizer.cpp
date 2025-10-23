@@ -28,7 +28,7 @@ const bool anyks::Tokenizer::isOption(const options_t option) const noexcept {
  * @param text    текст для сборки контекста
  * @param context контекст типов токенов
  */
-void anyks::Tokenizer::restore(const wstring & first, const wstring & second, wstring & text, stack <type_t> & context) const noexcept {
+void anyks::Tokenizer::restore(const std::wstring & first, const std::wstring & second, std::wstring & text, std::stack <type_t> & context) const noexcept {
 	// Если слово передано
 	if(!first.empty()){
 		/**
@@ -276,9 +276,9 @@ void anyks::Tokenizer::addAbbr(const wstring & word) noexcept {
  * setAbbrs Метод установки списка аббревиатур
  * @param abbrs список аббревиатур
  */
-void anyks::Tokenizer::setAbbrs(const set <size_t> & abbrs) noexcept {
+void anyks::Tokenizer::setAbbrs(const std::set <std::size_t> & abbrs) noexcept {
 	// Если список аббревиатур передан
-	if(!abbrs.empty()) this->abbrs = move(abbrs);
+	if(!abbrs.empty()) this->abbrs = std::move(abbrs);
 }
 /**
  * setLogfile Метод установки файла для вывода логов
@@ -326,7 +326,7 @@ void anyks::Tokenizer::addSuffix(const size_t idw) const noexcept {
  * setSuffixes Метод установки списка суффиксов цифровых аббревиатур
  * @param suffix список суффиксов цифровых аббревиатур
  */
-void anyks::Tokenizer::setSuffixes(const set <size_t> & suffix) const noexcept {
+void anyks::Tokenizer::setSuffixes(const std::set <std::size_t> & suffix) const noexcept {
 	// Если список аббревиатур передан
 	if(!suffix.empty()) this->suffix = suffix;
 }
@@ -335,7 +335,7 @@ void anyks::Tokenizer::setSuffixes(const set <size_t> & suffix) const noexcept {
  * @param word слово для извлечения суффикса аббревиатуры
  * @param idw  идентификатор обрабатываемого слова
  */
-void anyks::Tokenizer::addSuffix(const wstring & word, const size_t idw) const noexcept {
+void anyks::Tokenizer::addSuffix(const std::wstring & word, const size_t idw) const noexcept {
 	// Если слово передано и оно является аббревиатурой
 	if(!word.empty() && (word.back() != L'-')){
 		// Если проверка пройедна
@@ -367,7 +367,7 @@ void anyks::Tokenizer::addSuffix(const wstring & word, const size_t idw) const n
  * getAbbrs Метод извлечения списка аббревиатур
  * @return список аббревиатур
  */
-const set <size_t> & anyks::Tokenizer::getAbbrs() const noexcept {
+const std::set <std::size_t> & anyks::Tokenizer::getAbbrs() const noexcept {
 	// Выводим список аббревиатур
 	return this->abbrs;
 }
@@ -375,7 +375,7 @@ const set <size_t> & anyks::Tokenizer::getAbbrs() const noexcept {
  * getSuffixes Метод извлечения списка суффиксов цифровых аббревиатур
  * @return список цифровых аббревиатур
  */
-const set <size_t> & anyks::Tokenizer::getSuffixes() const noexcept {
+const std::set <std::size_t> & anyks::Tokenizer::getSuffixes() const noexcept {
 	// Выводим список суффиксов цифровых аббревиатур
 	return this->suffix;
 }
@@ -820,13 +820,13 @@ const size_t anyks::Tokenizer::ids(const vector <size_t> & seq) const noexcept {
  * @param  str строка для извлечения текста
  * @return     файловый поток с текущий позиции
  */
-istream & anyks::Tokenizer::readline(istream & is, string & str) const noexcept {
+std::istream & anyks::Tokenizer::readline(std::istream & is, string & str) const noexcept {
 	// Очищаем строку
 	str.clear();
 	// Создаем сторожа файлового потока
-	istream::sentry se(is, true);
+	std::istream::sentry se(is, true);
 	// Создаем буфер чтения данных
-	streambuf * sb = is.rdbuf();
+	std::streambuf * sb = is.rdbuf();
 	// Выполняем перебор всех входящих данных
 	while(true){
 		// Считываем символ из строки
@@ -843,7 +843,7 @@ istream & anyks::Tokenizer::readline(istream & is, string & str) const noexcept 
 				return is;
 			}
 			// Если это символ завершения файла
-			case streambuf::traits_type::eof(): {
+			case std::streambuf::traits_type::eof(): {
 				// Если это конец, файла устанавливаем символ конца строки
 				if(str.empty()) is.setstate(ios::eofbit);
 				// Выводим позицию файлового потока
@@ -859,7 +859,7 @@ istream & anyks::Tokenizer::readline(istream & is, string & str) const noexcept 
  * @param context токенизированный контекст
  * @return        результирующий текст
  */
-const string anyks::Tokenizer::restore(const vector <string> & context) const noexcept {
+const std::string anyks::Tokenizer::restore(const std::vector <string> & context) const noexcept {
 	// Результат работы функции
 	string result = "";
 	// Если контекст передан
@@ -867,7 +867,7 @@ const string anyks::Tokenizer::restore(const vector <string> & context) const no
 		// Собранный текст
 		wstring text = L"";
 		// Стек типов собранного контекста
-		stack <type_t> types;
+		std::stack <type_t> types;
 		// Получаем количество слов в контексте
 		const size_t count = context.size();
 		// Переходим по всем токенам
@@ -888,13 +888,13 @@ const string anyks::Tokenizer::restore(const vector <string> & context) const no
  * @param context токенизированный контекст
  * @return        результирующий текст
  */
-const wstring anyks::Tokenizer::restore(const vector <wstring> & context) const noexcept {
+const std::wstring anyks::Tokenizer::restore(const std::vector <std::wstring> & context) const noexcept {
 	// Результат работы функции
-	wstring result = L"";
+	std::wstring result = L"";
 	// Если контекст передан
 	if(!context.empty() && (this->alphabet != nullptr)){
 		// Стек типов собранного контекста
-		stack <type_t> types;
+		std::stack <type_t> types;
 		// Получаем количество слов в контексте
 		const size_t count = context.size();
 		// Переходим по всем токенам
@@ -968,7 +968,7 @@ void anyks::Tokenizer::jsonToText(const string & text, function <void (const str
 				}
 			}
 		// Если возникает ошибка, ничего не делаем
-		} catch(const exception & e) {}
+		} catch(const std::exception & e) {}
 	}
 }
 /**
@@ -980,9 +980,9 @@ void anyks::Tokenizer::textToJson(const string & text, function <void (const str
 	// Если текст передан, и текст не больше 100Mb в одну строку
 	if(!text.empty() && (text.size() <= MAX_STRING_BYTES) && (this->alphabet != nullptr)){
 		// Формируем результат
-		vector <string> tokens;
+		std::vector <string> tokens;
 		// Результирующий объект
-		vector <vector <string>> result;
+		std::vector <vector <string>> result;
 		// Выполняем разбивку на токенизацию
 		this->run(text, [&result, &tokens, this](const wstring & word, const vector <string> & context, const bool reset, const bool end) noexcept {
 			// Если это сброс контекста
@@ -1181,11 +1181,11 @@ void anyks::Tokenizer::run(const wstring & text, function <const bool (const wst
 				currency // Символ мировой валюты
 			};
 			// Полученное слово
-			wstring word = L"";
+			std::wstring word = L"";
 			// Собранный контекст
-			vector <string> context;
+			std::vector <std::string> context;
 			// Стек открытых скобок
-			stack <wchar_t> brackets;
+			std::stack <wchar_t> brackets;
 			// Тип следующего символа
 			type_t type = type_t::null;
 			// Текущая буква и следующий символ

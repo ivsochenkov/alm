@@ -80,17 +80,17 @@ namespace anyks {
 			} stateAES;
 		private:
 			// Файловый поток для чтения
-			ifstream ifs;
+			std::ifstream ifs;
 			// Файловый поток для записи
-			ofstream ofs;
+			std::ofstream ofs;
 			// Список модулей для каждой буквы алфавита
-			vector <size_t> xs;
+			std::vector <size_t> xs;
 			// Соль и пароль для шифрования
-			string salt, password;
+			std::string salt, password;
 			// Путь, название и расширение файла
-			string path, name, ext;
+			std::string path, name, ext;
 			// Список заголовков записей
-			map <size_t, size_t> keys;
+			std::map <size_t, size_t> keys;
 		private:
 			// Ключ шифрования
 			mutable AES_KEY aesKey;
@@ -121,7 +121,9 @@ namespace anyks {
 			 * @return       результат операции (количество записанных байт)
 			 */
 			template <typename Value>
-			static const uintmax_t setval(const size_t idw, uintmax_t & rawpos, map <size_t, size_t> & keys, ofstream & file, const Value value) noexcept {
+			static const std::uintmax_t setval(const size_t idw, uintmax_t & rawpos
+                , std::map <size_t, size_t> & keys, std::ofstream & file, const Value value) noexcept 
+                {
 				// Результат работы функции
 				uintmax_t result = 0;
 				// Если ключ передан
@@ -155,7 +157,9 @@ namespace anyks {
 			 * @return       результат операции (количество записанных байт)
 			 */
 			template <class Container>
-			static const uintmax_t setdat(const size_t idw, uintmax_t & rawpos, map <size_t, size_t> & keys, ofstream & file, const Container & value, const string & md5 = "") noexcept {
+			static const uintmax_t setdat(const size_t idw, std::uintmax_t & rawpos
+                , std::map <size_t, size_t> & keys
+                , std::ofstream & file, const Container & value, const string & md5 = "") noexcept {
 				// Результат работы функции
 				uintmax_t result = 0;
 				// Если ключ передан
@@ -198,7 +202,7 @@ namespace anyks {
 			 * @return       результат операции (количество записанных байт)
 			 */
 			template <class Container>
-			static const uintmax_t setvals(const size_t idw, uintmax_t & rawpos, map <size_t, size_t> & keys, ofstream & file, const Container & value) noexcept {
+			static const uintmax_t setvals(const size_t idw, uintmax_t & rawpos, std::map <size_t, size_t> & keys, std::ofstream & file, const Container & value) noexcept {
 				// Результат работы функции
 				uintmax_t result = 0;
 				// Если ключ передан
@@ -447,7 +451,7 @@ namespace anyks {
 									// Увеличиваем количество прочитанных байт
 									result += (length + sizeof(length));
 								// Если происходит ошибка то игнорируем её
-								} catch(const bad_alloc &) {
+								} catch(const std::bad_alloc &) {
 									// Выходим из приложения
 									exit(EXIT_FAILURE);
 								}
@@ -571,7 +575,7 @@ namespace anyks {
 					// Заполняем строку данными md5
 					for(u_short i = 0; i < 16; i++) sprintf(&mdString[i * 2], "%02x", (u_int) digest[i]);
 					// Выводим результат
-					result = move(mdString);
+					result = std::move(mdString);
 				}
 				// Выводим результат
 				return result;
@@ -643,7 +647,7 @@ namespace anyks {
 					// Сообщаем что всё удачно
 					return true;
 				// Если происходит ошибка то игнорируем её
-				} catch(const bad_alloc &) {
+				} catch(const std::bad_alloc &) {
 					// Выходим из приложения
 					exit(EXIT_FAILURE);
 				}
@@ -737,7 +741,7 @@ namespace anyks {
 							// Очищаем буфер
 							delete [] output;
 						// Если происходит ошибка то игнорируем её
-						} catch(const bad_alloc &) {
+						} catch(const std::bad_alloc &) {
 							// Выходим из приложения
 							exit(EXIT_FAILURE);
 						}
@@ -790,7 +794,7 @@ namespace anyks {
 							// Очищаем буфер
 							delete [] output;
 						// Если происходит ошибка то игнорируем её
-						} catch(const bad_alloc &) {
+						} catch(const std::bad_alloc &) {
 							// Выходим из приложения
 							exit(EXIT_FAILURE);
 						}

@@ -121,23 +121,23 @@ namespace anyks {
 			// Параметры алгоритма сглаживания
 			params_t params;
 			// Флаги параметров
-			bitset <10> options;
+			std::bitset <10> options;
 			// Список плохих слов
-			set <size_t> badwords;
+			std::set <size_t> badwords;
 			// Список хороших слов
-			set <size_t> goodwords;
+			std::set <size_t> goodwords;
 			// Мютекс блокировки потока
-			recursive_mutex locker;
+			std::recursive_mutex locker;
 			// Список токенов приводимых к <unk>
-			set <token_t> tokenUnknown;
+			std::set <token_t> tokenUnknown;
 			// Список запрещённых токенов
-			set <token_t> tokenDisable;
+			std::set <token_t> tokenDisable;
 			// Список пользовательских токенов
-			map <size_t, utoken_t> utokens;
+			std::map <size_t, utoken_t> utokens;
 			// Словарь всех слов в системе
-			mutable map <size_t, word_t> vocab;
+			mutable std::map <size_t, word_t> vocab;
 			// Список скриптов python
-			map <u_short, pair <string, size_t>> scripts;
+			std::map <u_short, pair <string, size_t>> scripts;
 		private:
 			// Объект arpa модуля
 			arpa_t * arpa = nullptr;
@@ -214,22 +214,22 @@ namespace anyks {
 			 * getBadwords Метод извлечения чёрного списка
 			 * @return чёрный список слов
 			 */
-			const set <size_t> & getBadwords() const noexcept;
+			const std::set <size_t> & getBadwords() const noexcept;
 			/**
 			 * getGoodwords Метод извлечения белого списка
 			 * @return белый список слов
 			 */
-			const set <size_t> & getGoodwords() const noexcept;
+			const std::set <size_t> & getGoodwords() const noexcept;
 			/**
 			 * getTokensUnknown Метод извлечения списка токенов приводимых к <unk>
 			 * @return список токенов
 			 */
-			const set <token_t> & getTokensUnknown() const noexcept;
+			const std::set <token_t> & getTokensUnknown() const noexcept;
 			/**
 			 * getTokensDisable Метод извлечения списка запрещённых токенов
 			 * @return список токенов
 			 */
-			const set <token_t> & getTokensDisable() const noexcept;
+			const std::set <token_t> & getTokensDisable() const noexcept;
 			/**
 			 * getStatistic Метод извлечения общей статистики
 			 * @return общее количество документов и слов в корпусах при обучении
@@ -240,19 +240,19 @@ namespace anyks {
 			 * getUserTokens Метод извлечения списка пользовательских токенов
 			 * @return список пользовательских токенов
 			 */
-			const vector <string> & getUserTokens() const noexcept;
+			const std::vector <string> & getUserTokens() const noexcept;
 			/**
 			 * getUserTokenWord Метод получения пользовательского токена по его идентификатору
 			 * @param idw идентификатор пользовательского токена
 			 * @return    пользовательский токен соответствующий идентификатору
 			 */
-			const string getUserTokenWord(const size_t idw) const noexcept;
+			const std::string getUserTokenWord(const size_t idw) const noexcept;
 			/**
 			 * getUserTokenId Метод получения идентификатора пользовательского токена
 			 * @param name слово для которого нужно получить идентификатор
 			 * @return     идентификатор пользовательского токена соответствующий слову
 			 */
-			const size_t getUserTokenId(const string & name) const noexcept;
+			const std::size_t getUserTokenId(const string & name) const noexcept;
 		public:
 			/**
 			 * clear Метод очистки
@@ -375,38 +375,38 @@ namespace anyks {
 			 * setTokensUnknown Метод установки списка токенов приводимых к <unk>
 			 * @param tokens список токенов для установки
 			 */
-			void setTokensUnknown(const set <token_t> & tokens) noexcept;
+			void setTokensUnknown(const std::set <token_t> & tokens) noexcept;
 			/**
 			 * setTokensDisable Метод установки списка запрещённых токенов
 			 * @param tokens список токенов для установки
 			 */
-			void setTokensDisable(const set <token_t> & tokens) noexcept;
+			void setTokensDisable(const std::set <token_t> & tokens) noexcept;
 			/**
 			 * setStatistic Метод установки общей статистики
 			 * @param ad общее количество документов при обучении
 			 * @param cw общее количество слов при обучении
 			 */
-			void setStatistic(const size_t ad, const size_t cw) noexcept;
+			void setStatistic(const std::size_t ad, const std::size_t cw) noexcept;
 			/**
 			 * setBadwords Метод установки списка идентификаторов плохих слов в список
 			 * @param badwords список идентификаторов плохих слов
 			 */
-			void setBadwords(const set <size_t> & badwords) noexcept;
+			void setBadwords(const std::set <size_t> & badwords) noexcept;
 			/**
 			 * setBadwords Метод установки списка плохих слов в список
 			 * @param badwords список плохих слов
 			 */
-			void setBadwords(const vector <string> & badwords) noexcept;
+			void setBadwords(const std::vector <string> & badwords) noexcept;
 			/**
 			 * setGoodwords Метод установки списка идентификаторов хороших слов в список
 			 * @param goodwords список идентификаторов хороших слов
 			 */
-			void setGoodwords(const set <size_t> & goodwords) noexcept;
+			void setGoodwords(const std::set <size_t> & goodwords) noexcept;
 			/**
 			 * setGoodwords Метод установки списка хороших слов в список
 			 * @param goodwords список хороших слов
 			 */
-			void setGoodwords(const vector <string> & goodwords) noexcept;
+			void setGoodwords(const std::vector <string> & goodwords) noexcept;
 			/**
 			 * addText Метод добавления текста для расчёта
 			 * @param text текст который нужно добавить
@@ -426,7 +426,7 @@ namespace anyks {
 			 * @param idw  идентификатор слова, если нужно
 			 * @param idd  идентификатор документа
 			 */
-			void addWord(const wstring & word, const size_t idw = 0, const size_t idd = 0) noexcept;
+			void addWord(const std::wstring & word, const size_t idw = 0, const size_t idd = 0) noexcept;
 		public:
 			/**
 			 * setWordPreprocessingMethod Метод установки функции препроцессинга слова
@@ -438,7 +438,8 @@ namespace anyks {
 			 * @param name слово - обозначение токена
 			 * @param fn   внешняя функция обрабатывающая пользовательский токен
 			 */
-			void setUserTokenMethod(const string & name, function <bool (const string &, const string &)> fn) noexcept;
+			void setUserTokenMethod(const std::string & name
+                , std::function <bool (const std::string &, const std::string &)> fn) noexcept;
 			/**
 			 * init Метод инициализации языковой модели
 			 * @param algorithm алгоритм расчёта языковой модели

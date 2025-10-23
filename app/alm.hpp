@@ -51,6 +51,8 @@
 #include <map>
 #include <unordered_map>
 #include <cmath>
+#include <bitset>
+#include <stdexcept>
 
 namespace anyks 
 {
@@ -78,7 +80,15 @@ namespace anyks
     using std::min;
     using std::isfinite;
     using std::make_pair;
+
+    using std::istream;
+    using std::ostream;
+    using std::fstream;
+    using std::ifstream;
+    using std::ofstream;
     
+    using std::bitset;
+    using std::bad_alloc;
 
 }
 

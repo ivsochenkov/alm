@@ -285,7 +285,7 @@ const anyks::Toolkit::params_t & anyks::Toolkit::getParams() const noexcept {
  * getUnknown Метод извлечения неизвестного слова
  * @return установленное неизвестное слово
  */
-const string & anyks::Toolkit::getUnknown() const noexcept {
+const std::string & anyks::Toolkit::getUnknown() const noexcept {
 	// Результат работы функции
 	static const string result = "";
 	// Если неизвестное слово установлено
@@ -302,7 +302,7 @@ const string & anyks::Toolkit::getUnknown() const noexcept {
  * getWordScript Метод извлечения скрипта обработки слов
  * @return адрес скрипта python обработки слов
  */
-const string & anyks::Toolkit::getWordScript() const noexcept {
+const std::string & anyks::Toolkit::getWordScript() const noexcept {
 	// Результат работы функции
 	static const string result = "";
 	// Если скрипты установлены
@@ -319,7 +319,7 @@ const string & anyks::Toolkit::getWordScript() const noexcept {
  * getUserTokenScript Метод извлечения скрипта обработки пользовательских токенов
  * @return адрес скрипта python обработки пользовательских токенов
  */
-const string & anyks::Toolkit::getUserTokenScript() const noexcept {
+const std::string & anyks::Toolkit::getUserTokenScript() const noexcept {
 	// Результат работы функции
 	static const string result = "";
 	// Если скрипты установлены
@@ -336,7 +336,7 @@ const string & anyks::Toolkit::getUserTokenScript() const noexcept {
  * getBadwords Метод извлечения чёрного списка
  * @return чёрный список слов
  */
-const set <size_t> & anyks::Toolkit::getBadwords() const noexcept {
+const std::set <size_t> & anyks::Toolkit::getBadwords() const noexcept {
 	// Выводим результат
 	return this->badwords;
 }
@@ -344,7 +344,7 @@ const set <size_t> & anyks::Toolkit::getBadwords() const noexcept {
  * getGoodwords Метод извлечения белого списка
  * @return белый список слов
  */
-const set <size_t> & anyks::Toolkit::getGoodwords() const noexcept {
+const std::set <size_t> & anyks::Toolkit::getGoodwords() const noexcept {
 	// Выводим результат
 	return this->goodwords;
 }
@@ -352,7 +352,7 @@ const set <size_t> & anyks::Toolkit::getGoodwords() const noexcept {
  * getTokensUnknown Метод извлечения списка токенов приводимых к <unk>
  * @return список токенов
  */
-const set <anyks::token_t> & anyks::Toolkit::getTokensUnknown() const noexcept {
+const std::set <anyks::token_t> & anyks::Toolkit::getTokensUnknown() const noexcept {
 	// Выводим список токенов
 	return this->tokenUnknown;
 }
@@ -360,7 +360,7 @@ const set <anyks::token_t> & anyks::Toolkit::getTokensUnknown() const noexcept {
  * getTokensDisable Метод извлечения списка запрещённых токенов
  * @return список токенов
  */
-const set <anyks::token_t> & anyks::Toolkit::getTokensDisable() const noexcept {
+const std::set <anyks::token_t> & anyks::Toolkit::getTokensDisable() const noexcept {
 	// Выводим список токенов
 	return this->tokenDisable;
 }
@@ -368,7 +368,7 @@ const set <anyks::token_t> & anyks::Toolkit::getTokensDisable() const noexcept {
  * getStatistic Метод извлечения общей статистики
  * @return общее количество документов и слов в корпусах при обучении
  */
-const pair <size_t, size_t> anyks::Toolkit::getStatistic() const noexcept {
+const std::pair <size_t, size_t> anyks::Toolkit::getStatistic() const noexcept {
 	// Выводим результат
 	return make_pair(this->info.ad, this->info.cw);
 }
@@ -376,9 +376,9 @@ const pair <size_t, size_t> anyks::Toolkit::getStatistic() const noexcept {
  * getUserTokens Метод извлечения списка пользовательских токенов
  * @return список пользовательских токенов
  */
-const vector <string> & anyks::Toolkit::getUserTokens() const noexcept {
+const std::vector <std::string> & anyks::Toolkit::getUserTokens() const noexcept {
 	// Результат работы функции
-	static const vector <string> result;
+	static const std::vector <std::string> result;
 	// Если пользовательские токены есть
 	if(!this->utokens.empty()){
 		// Переходим по всем пользовательским токенам
@@ -395,7 +395,7 @@ const vector <string> & anyks::Toolkit::getUserTokens() const noexcept {
  * @param idw идентификатор пользовательского токена
  * @return    пользовательский токен соответствующий идентификатору
  */
-const string anyks::Toolkit::getUserTokenWord(const size_t idw) const noexcept {
+const std::string anyks::Toolkit::getUserTokenWord(const size_t idw) const noexcept {
 	// Результат работы функции
 	string result = "";
 	// Если идентификатор передан
@@ -652,7 +652,7 @@ void anyks::Toolkit::setUserToken(const string & name) noexcept {
 				// Добавляем в пользовательский токен наши параметры
 				userToken.name = move(word);
 				// Добавляем в список токенов, наш токен
-				this->utokens.emplace(userToken.idw, move(userToken));
+				this->utokens.emplace(userToken.idw, std::move(userToken));
 			}
 		}
 	}
@@ -789,7 +789,7 @@ void anyks::Toolkit::setTokenizer(const tokenizer_t * tokenizer) noexcept {
  * setTokensUnknown Метод установки списка токенов приводимых к <unk>
  * @param tokens список токенов для установки
  */
-void anyks::Toolkit::setTokensUnknown(const set <token_t> & tokens) noexcept {
+void anyks::Toolkit::setTokensUnknown(const std::set <token_t> & tokens) noexcept {
 	// Если список получен, устанавливаем его
 	if(!tokens.empty()) this->tokenUnknown = move(tokens);
 }
@@ -797,9 +797,9 @@ void anyks::Toolkit::setTokensUnknown(const set <token_t> & tokens) noexcept {
  * setTokensDisable Метод установки списка запрещённых токенов
  * @param tokens список токенов для установки
  */
-void anyks::Toolkit::setTokensDisable(const set <token_t> & tokens) noexcept {
+void anyks::Toolkit::setTokensDisable(const std::set <token_t> & tokens) noexcept {
 	// Если список получен, устанавливаем его
-	if(!tokens.empty()) this->tokenDisable = move(tokens);
+	if(!tokens.empty()) this->tokenDisable = std::move(tokens);
 }
 /**
  * setStatistic Метод установки общей статистики
@@ -816,7 +816,7 @@ void anyks::Toolkit::setStatistic(const size_t ad, const size_t cw) noexcept {
  * setBadwords Метод установки списка идентификаторов плохих слов в список
  * @param badwords список идентификаторов плохих слов
  */
-void anyks::Toolkit::setBadwords(const set <size_t> & badwords) noexcept {
+void anyks::Toolkit::setBadwords(const std::set <size_t> & badwords) noexcept {
 	// Если список не пустой, устанавливаем список
 	if(!badwords.empty()) this->badwords = move(badwords);
 }
@@ -837,9 +837,9 @@ void anyks::Toolkit::setBadwords(const vector <string> & badwords) noexcept {
  * setGoodwords Метод установки списка идентификаторов хороших слов в список
  * @param goodwords список идентификаторов хороших слов
  */
-void anyks::Toolkit::setGoodwords(const set <size_t> & goodwords) noexcept {
+void anyks::Toolkit::setGoodwords(const std::set <size_t> & goodwords) noexcept {
 	// Если список не пустой, устанавливаем список
-	if(!goodwords.empty()) this->goodwords = move(goodwords);
+	if(!goodwords.empty()) this->goodwords = std::move(goodwords);
 }
 /**
  * setGoodwords Метод установки списка хороших слов в список
@@ -1328,7 +1328,7 @@ void anyks::Toolkit::modify(const string & filename, modify_t flag, function <vo
 		// Список полученных слов последовательности
 		vector <wstring> words;
 		// Список добавленных слов в словарь
-		map <size_t, size_t> added;
+		std::map <size_t, size_t> added;
 		// Количество обработанных данных
 		size_t index = 0, pos = 0;
 		// Текущий и предыдущий статус

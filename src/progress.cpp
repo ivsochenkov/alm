@@ -13,7 +13,7 @@
  * @param seconds количество секунд из которых нужно сформировать дату
  * @return        строка с датой и временем
  */
-const string anyks::Progress::date(const time_t seconds) const noexcept {
+const std::string anyks::Progress::date(const std::time_t seconds) const noexcept {
 	// Создаем буфер для хранения даты
 	char date[80];
 	// Заполняем его нулями
@@ -191,9 +191,9 @@ void anyks::Progress::title(const string & start, const string & finish) noexcep
  * @param sec время для расчёта в секундах
  * @return    значение оставшегося времени
  */
-const pair <time_t, string> anyks::Progress::dimension(const time_t sec) const noexcept {
+const std::pair <time_t, std::string> anyks::Progress::dimension(const std::time_t sec) const noexcept {
 	// Диапазон единичных значений
-	set <time_t> dipaz = {
+	std::set <std::time_t> dipaz = {
 		1, 21, 31, 41, 51, 61, 71, 81, 91, 101, 121, 131, 141,
 		151, 161, 171, 181, 191, 201, 221, 231, 241, 251, 161,
 		271, 281, 291, 301, 321, 331, 341, 351, 361, 371, 381, 391

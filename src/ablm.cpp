@@ -382,7 +382,7 @@ const bool anyks::AbLM::readAlm(function <void (const u_short)> status) noexcept
 		 */
 		{
 			// Список извлекаемых токенов
-			set <token_t> tokens;
+			std::set <token_t> tokens;
 			// Извлекаем список токенов приводимых к <unk>
 			this->aspl->getValues("tokensUnknown", tokens);
 			// Если список токенов получен, устанавливаем его
@@ -559,7 +559,7 @@ const bool anyks::AbLM::readAlm(function <void (const u_short)> status) noexcept
 		 */
 		{
 			// Список идентификаторов слов
-			set <size_t> words;
+			std::set <size_t> words;
 			// Выполняем извлечение чёрный список слов
 			this->aspl->getValues("badwords", words);
 			// Если список слов получен
@@ -587,7 +587,7 @@ const bool anyks::AbLM::readAlm(function <void (const u_short)> status) noexcept
 			// Устанавливаем опции модуля
 			if(options > 0){
 				// Флаги параметров
-				bitset <10> opt = options;
+				std::bitset <10> opt = options;
 				// Устанавливаем все возможные опции языковой модели
 				if(opt.test((u_short) toolkit_t::options_t::debug))      this->alm->setOption(alm_t::options_t::debug);
 				if(opt.test((u_short) toolkit_t::options_t::onlyGood))   this->alm->setOption(alm_t::options_t::onlyGood);
@@ -796,7 +796,7 @@ const bool anyks::AbLM::readToolkit(function <void (const u_short)> status) noex
 		 */
 		{
 			// Список извлекаемых токенов
-			set <token_t> tokens;
+			std::set <token_t> tokens;
 			// Извлекаем список токенов приводимых к <unk>
 			this->aspl->getValues("tokensUnknown", tokens);
 			// Если список токенов получен, устанавливаем его
@@ -971,7 +971,7 @@ const bool anyks::AbLM::readToolkit(function <void (const u_short)> status) noex
 		 */
 		{
 			// Список идентификаторов слов
-			set <size_t> words;
+			std::set <size_t> words;
 			// Выполняем извлечение чёрный список слов
 			this->aspl->getValues("badwords", words);
 			// Если список слов получен
@@ -1124,7 +1124,7 @@ void anyks::AbLM::init(){
 			// Выполняем инициализацию объекта бинарного контейнера
 			this->aspl = new aspl_t(this->filename, this->meta.password);
 		// Если происходит ошибка то игнорируем её
-		} catch(const bad_alloc &) {
+		} catch(const std::bad_alloc &) {
 			// Выходим из приложения
 			exit(EXIT_FAILURE);
 		}

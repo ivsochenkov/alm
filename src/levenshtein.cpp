@@ -98,7 +98,7 @@ const size_t anyks::LEV::mulct(const std::wstring & pattern, const std::wstring 
  * @param  text    исходный текст
  * @return         дистанция
  */
-const size_t anyks::LEV::damerau(const string & pattern, const std::string & text) const noexcept {
+const size_t anyks::LEV::damerau(const std::string & pattern, const std::string & text) const noexcept {
 	// Результат работы функции
 	size_t result = 0;
 	// Если шаблон для сравнения и исходный текст переданы
@@ -300,7 +300,7 @@ const double anyks::LEV::tanimoto(const std::wstring & first, const std::wstring
  */
 const double anyks::LEV::weighted(const std::string & first, const std::string & second, const weighter_t * weighter) const noexcept {
 	// Объявляем конвертер
-	std::wstring_convert <codecvt_utf8 <wchar_t>> conv;
+	std::wstring_convert <std::codecvt_utf8 <wchar_t>> conv;
 	// Конвертируем строки
 	const std::wstring & ftxt = conv.from_bytes(first);
 	const std::wstring & stxt = conv.from_bytes(second);
@@ -427,7 +427,7 @@ const int anyks::LEV::needlemanWunsch(const std::string & first, const std::stri
 	// Если слова переданы
 	if(!first.empty() && !second.empty()){
 		// Объявляем конвертер
-		std::wstring_convert <codecvt_utf8 <wchar_t>> conv;
+		std::wstring_convert <std::codecvt_utf8 <wchar_t>> conv;
 		// Конвертируем строки
 		const std::wstring & txt1 = conv.from_bytes(first);
 		const std::wstring & txt2 = conv.from_bytes(second);
